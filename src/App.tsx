@@ -3,6 +3,8 @@ import './index.css'
 import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
 import Home from './Home';
+import { Route, Routes } from "react-router-dom"
+import NavBar from './NavBar';
 
 
 
@@ -33,14 +35,19 @@ function App() {
 
   return (
     <div className="App">
+      <header>
+        <NavBar />
+      </header>
+        <Routes>
+          <Route>
+            <Home />
+          </Route>
+        </Routes>
       <input type='file' onChange={(e) => setImageUpload(e.target.files[0])}/>
       <button onClick={uploadImage}>upload</button>
       {imageList.map((url) => {
         return <img src={url} alt='Oops!'/>
       })}
-      <div>
-        <Home />
-      </div>
     </div>
   );
 }
