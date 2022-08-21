@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect} from "react"
 import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
-import { ImageListContext, ImageUploadContext } from './App'
+import { ImageListContext, ImageUploadContext } from './Context'
 import Post from "./Post"
 import { TrueButtonContext } from './Context'
 

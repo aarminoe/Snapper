@@ -1,58 +1,48 @@
 
 import './index.css'
-import Home from './Home';
+import React, { useState, ReactNode} from 'react'
+import { ImageListContext, ImageUploadContext, LoggedInContext } from './Context'
 import { Route, Routes } from "react-router-dom"
+import Home from './Home';
 import NavBar from './NavBar';
 import Header from './Header';
-import { storage } from './firebase'
-import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
-import React, { useContext, useState, useEffect, ReactNode, createContext} from 'react'
-
-
-
-interface Props {
-    children?: ReactNode
-}
-
-export const ImageListContext = React.createContext(null)
-export const ImageUploadContext = React.createContext(null)    
-
-export function useImageList() {
-    return useContext(ImageListContext)
-}
-
-export function useImageUpload() {
-    return useContext(ImageUploadContext)
-}
+import Login from './Login'
 
 
 function App(){
 
   const [imageUpload, setImageUpload] = useState<any>({name: ''})
   const [imageList, setImageList] = useState<string[]>([])    
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   return (
     
-    <div className="App">
-      <header>
-        <Header />
-        <NavBar />
-      </header>
-      <div>
-        <Routes>
-            <Route path='/' element={
-              <ImageListContext.Provider value={{imageList, setImageList}}>
-                <ImageUploadContext.Provider value={{imageUpload, setImageUpload}}>
-                  <Home />
-                    
-                </ImageUploadContext.Provider>       
-              </ImageListContext.Provider>
-          }
-            />
-        </Routes>
+    <LoggedInContext.Provider value={{isLoggedIn, setIsLoggedIn}}>
+      <div className="App">
+        {isLoggedIn? 
+        <div>
+          <header>
+            <Header />
+            <NavBar />
+          </header>
+          <div>
+            <Routes>
+                <Route path='/' element={
+                  <ImageListContext.Provider value={{imageList, setImageList}}>
+                    <ImageUploadContext.Provider value={{imageUpload, setImageUpload}}>
+                      <Home />
+                        
+                    </ImageUploadContext.Provider>       
+                  </ImageListContext.Provider>
+              }
+                />
+            </Routes>
+          </div>
+        </div> :
+        <Login />
+        }
       </div>
-      
-    </div>
+    </LoggedInContext.Provider>
   );
 }
 
