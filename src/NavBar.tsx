@@ -4,7 +4,11 @@ import { NavLink } from "react-router-dom"
 
 function NavBar() {
     return(
-        <div>Nav</div>
+        <div>
+            <NavLink
+            to='/'
+            >Home</NavLink>
+        </div>
     )
 }
 
