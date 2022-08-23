@@ -1,12 +1,13 @@
 
 import './index.css'
-import React, { useState, ReactNode} from 'react'
+import React, { useState, useEffect, ReactNode} from 'react'
 import { ImageListContext, ImageUploadContext, LoggedInContext } from './Context'
 import { Route, Routes } from "react-router-dom"
 import Home from './Home';
 import NavBar from './NavBar';
 import Header from './Header';
-import Login from './Login'
+import Signup from './Signup';
+
 
 
 function App(){
@@ -14,6 +15,12 @@ function App(){
   const [imageUpload, setImageUpload] = useState<any>({name: ''})
   const [imageList, setImageList] = useState<string[]>([])    
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    fetch('/users')
+    .then(resp => resp.json())
+    .then(data => console.log(data))
+  }, [])
 
   return (
     
@@ -39,7 +46,7 @@ function App(){
             </Routes>
           </div>
         </div> :
-        <Login />
+        <Signup />
         }
       </div>
     </LoggedInContext.Provider>

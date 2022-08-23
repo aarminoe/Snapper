@@ -9,14 +9,12 @@ function Login() {
 
     const [user, setUser] = useState('')
     const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
+
 
 
     function handleLogin(e) {
         e.preventDefault()
-        console.log(user)
-        console.log(password)
-        console.log(confirmPassword)
+
         setIsLoggedIn(true)
     }
 
@@ -29,10 +27,7 @@ function Login() {
                 Password:
                 <input onChange={(e) => setPassword(e.target.value)}></input>
             </h1>
-            <h1>
-                Confirm Password:
-                <input onChange={(e) => setConfirmPassword(e.target.value)}></input>
-            </h1>
+
             <button>Log In</button>
         </form>
     )
