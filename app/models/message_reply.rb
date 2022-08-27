@@ -1,0 +1,2 @@
+class MessageReply < ApplicationRecord
+end

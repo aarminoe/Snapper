@@ -12,7 +12,7 @@ function Signup() {
     const [confirmNewPassword, setConfirmNewPassword] = useState<string>('')
     
 
-    function handleSignUp(e) {
+    function handleSignUp(e:any) {
         e.preventDefault()
         console.log('eh')
         fetch('/users', {

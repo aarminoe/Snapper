@@ -1,0 +1,2 @@
+class MessageRepliesController < ApplicationController
+end
