@@ -7,6 +7,7 @@ import Home from './Home';
 import NavBar from './NavBar';
 import Header from './Header';
 import Signup from './Signup';
+import UserProfile from './UserProfile';
 
 
 
@@ -54,8 +55,10 @@ function App(){
                         
                     </ImageUploadContext.Provider>       
                   </ImageListContext.Provider>
-              }
-                />
+                }/>
+                <Route path='/my-profile' element={
+                  <UserProfile />
+                }/>
             </Routes>
           </div>
         </div> :

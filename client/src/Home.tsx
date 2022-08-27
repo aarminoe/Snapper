@@ -17,12 +17,13 @@ function Home() {
     const imageListRef = ref(storage, 'images/')
 
     function uploadImage() {
+        console.log(imageUpload)
         if (imageUpload === null) return
         const imageRef = ref(storage, `images/${imageUpload.name}`)
         uploadBytes(imageRef, imageUpload)
         .then((snap) => {
             getDownloadURL(snap.ref).then((url) => {
-                setImageList((prev:string[]) => [...prev, url])
+                setImageList((prev:any) => [...prev, url])
             })   
         })
       }
@@ -38,7 +39,7 @@ function Home() {
     }, [])
 
     const images = imageList.map((url:string) => {
-        console.log(url)
+        
         return <img src={url} alt='Oops!'/>
     })
 

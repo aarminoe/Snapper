@@ -1,18 +1,18 @@
 import { useContext, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { LoggedInContext } from './Context'
+import { LoggedInUserContext } from './Context'
 
 
 function Login() {
 
-    const {isLoggedIn, setIsLoggedIn} = useContext(LoggedInContext)
+    const {isLoggedIn, setIsLoggedIn} = useContext(LoggedInUserContext)
 
     const [user, setUser] = useState('')
     const [password, setPassword] = useState('')
 
 
 
-    function handleLogin(e) {
+    function handleLogin(e:any) {
         e.preventDefault()
 
         setIsLoggedIn(true)

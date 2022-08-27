@@ -1,50 +1,50 @@
-import { storage } from './firebase'
-import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
-import React, { useContext, useState, useEffect, ReactNode, createContext} from 'react'
+// import { storage } from './firebase'
+// import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
+// import React, { useContext, useState, useEffect, ReactNode, createContext} from 'react'
 
 
-interface Props {
-    children?: ReactNode
-}
+// interface Props {
+//     children?: ReactNode
+// }
 
-const ImageListContext = React.createContext({})
-const ImageUploadContext = React.createContext({})    
+// const ImageListContext = React.createContext({})
+// const ImageUploadContext = React.createContext({})    
 
-export function useImageList() {
-    return useContext(ImageListContext)
-}
+// export function useImageList() {
+//     return useContext(ImageListContext)
+// }
 
-export function useImageUpload() {
-    return useContext(ImageUploadContext)
-}
-export function ImageUploadProvider ({ children, ...props }: Props) {
-    const [imageUpload, setImageUpload] = useState<any>({name: ''})
-    const [imageList, setImageList] = useState<string[]>([])    
+// export function useImageUpload() {
+//     return useContext(ImageUploadContext)
+// }
+// export function ImageUploadProvider ({ children, ...props }: Props) {
+//     const [imageUpload, setImageUpload] = useState<any>({name: ''})
+//     const [imageList, setImageList] = useState<string[]>([])    
 
-    const imageListRef = ref(storage, 'images/')
+//     const imageListRef = ref(storage, 'images/')
 
     function uploadImage() {
-        console.log('hi')
-        if (imageUpload === null) return
-        const imageRef = ref(storage, `images/${imageUpload.name}`)
-        uploadBytes(imageRef, imageUpload)
-        .then((snap) => {
-            getDownloadURL(snap.ref).then((url) => {
-                setImageList((prev) => [...prev, url])
-            })
+//         console.log('hi')
+//         if (imageUpload === null) return
+//         const imageRef = ref(storage, `images/${imageUpload.name}`)
+//         uploadBytes(imageRef, imageUpload)
+//         .then((snap) => {
+//             getDownloadURL(snap.ref).then((url) => {
+//                 setImageList((prev) => [...prev, url])
+//             })
             
-        })
-      }
+//         })
+//       }
       
-      useEffect(() => {
-        listAll(imageListRef)
-        .then((resp) => resp.items.forEach((item) => {
-          getDownloadURL(item)
-          .then((url) => {
-            setImageList((prev) => [...prev, url])
-          })
-        }))
-      }, [])
+//       useEffect(() => {
+//         listAll(imageListRef)
+//         .then((resp) => resp.items.forEach((item) => {
+//           getDownloadURL(item)
+//           .then((url) => {
+//             setImageList((prev) => [...prev, url])
+//           })
+//         }))
+//       }, [])
 
 
     return (
@@ -58,6 +58,6 @@ export function ImageUploadProvider ({ children, ...props }: Props) {
         //         })}     
         //     </ImageUploadContext.Provider>       
         // </ImageListContext.Provider>
-        <div>hgi</div>
+        <div>hi</div>
     )
 }
