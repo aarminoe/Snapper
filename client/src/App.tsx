@@ -1,7 +1,7 @@
 
 import './index.css'
 import React, { useState, useEffect, ReactNode} from 'react'
-import { ImageListContext, ImageUploadContext, LoggedInContext } from './Context'
+import { ImageListContext, ImageUploadContext, LoggedInUserContext } from './Context'
 import { Route, Routes } from "react-router-dom"
 import Home from './Home';
 import NavBar from './NavBar';
@@ -12,9 +12,11 @@ import Signup from './Signup';
 
 function App(){
 
+
   const [imageUpload, setImageUpload] = useState<any>({name: ''})
   const [imageList, setImageList] = useState<string[]>([])    
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [loggedInUser, setLoggedInUser] = useState(null)
+  const [userList, setUserList] = useState([])
 
   useEffect(() => {
     fetch('/users')
@@ -22,11 +24,22 @@ function App(){
     .then(data => console.log(data))
   }, [])
 
+  useEffect(() => {
+    fetch('/me')
+    .then(res => {
+      if(res.ok){
+        res.json().then(user => setLoggedInUser(user))
+      }
+    })
+  }, [])
+
+  console.log(loggedInUser)
+
   return (
     
-    <LoggedInContext.Provider value={{isLoggedIn, setIsLoggedIn}}>
+    <LoggedInUserContext.Provider value={{loggedInUser, setLoggedInUser}}>
       <div className="App">
-        {isLoggedIn? 
+        {loggedInUser? 
         <div>
           <header>
             <Header />
@@ -49,7 +62,7 @@ function App(){
         <Signup />
         }
       </div>
-    </LoggedInContext.Provider>
+    </LoggedInUserContext.Provider>
   );
 }
 

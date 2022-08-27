@@ -1,13 +1,16 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import Login from './Login'
+import { LoggedInUserContext } from "./Context"
 
 
 function Signup() {
 
+    const {loggedInUser, setLoggedInUser} = useContext(LoggedInUserContext)
+
     const [newUser, setNewUser] = useState<string>('')
     const [newPassword, setNewPassword] = useState<string>('')
     const [confirmNewPassword, setConfirmNewPassword] = useState<string>('')
-    const [loggedInUser, setLoggedInUser] = useState(null)
+    
 
     function handleSignUp(e) {
         e.preventDefault()
@@ -25,8 +28,13 @@ function Signup() {
                 bio: 'test'
             })
         })
-        .then(resp => resp.json())
-        .then(data => console.log(data))
+        .then((r) => {
+            if (r.ok) {
+              r.json().then((data) => setLoggedInUser(data))
+            } else {
+              r.json().then((err) => console.log(err.errors))
+            }
+        })
     }
 
     return(
