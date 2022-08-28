@@ -61,11 +61,19 @@ function App(){
                 }/>
                 <Route path={`/${loggedInUser.username}`} element={
                   <UserProfile 
-                  />
-                }/>
-                <Route
-                  path={`/${loggedInUser.username}/followers`}
+                  />}>
+                  <Route element={<UserProfile/>}/>
+                  <Route
+                  path={`followers`}
                   element={<Followers />}/>
+                  <Route
+                  path={`messages`}
+                  element={<Messages />}/>
+                  <Route
+                  path={`notfications`}
+                  element={<Notifications />}/>
+                </Route>
+
                 <Route path={`/${loggedInUser.username}/notfications`}
                   element={<Notifications />}/>
                 <Route path={`/${loggedInUser.username}/messages`}

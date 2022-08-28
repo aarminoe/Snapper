@@ -1,8 +1,9 @@
-import ProfileNav from "./ProfileNav"
-import { Route, Routes } from "react-router-dom"
+// import ProfileNav from "./ProfileNav"
+import { Route, Routes, NavLink, Outlet } from "react-router-dom"
 import Followers from "./Followers"
 import { LoggedInUserContext } from "./Context"
 import { useContext } from "react"
+import { Link } from "react-router-dom"
 
 
 function UserProfile() {
@@ -10,9 +11,17 @@ function UserProfile() {
     const {loggedInUser} = useContext(LoggedInUserContext)
     return(
         <div>
-            <header><ProfileNav/></header>
-            <div>
-            </div>
+            <Link 
+            to={`followers`}
+            >Followers
+            </Link>
+            <Link
+            to={`notfications`}
+            >Notifications</Link>
+            <Link
+            to={`messages`}
+            >Messages</Link>
+            <Outlet />
         </div>
     )
 }

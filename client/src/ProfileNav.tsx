@@ -1,12 +1,12 @@
-import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
-import { LoggedInUserContext } from "./Context";
+// import React, { useContext } from "react";
+// import { NavLink, Outlet } from "react-router-dom";
+// import { LoggedInUserContext } from "./Context";
 
 function ProfileNav() {
-    const {loggedInUser} = useContext(LoggedInUserContext)
+    // const {loggedInUser} = useContext(LoggedInUserContext)
     return(
         <div>
-            <NavLink 
+            {/* <NavLink 
             to={`/${loggedInUser.username}/followers`}
             >Followers
             </NavLink>
@@ -16,8 +16,9 @@ function ProfileNav() {
             <NavLink
             to={`/${loggedInUser.username}/messages`}
             >Messages</NavLink>
+            <Outlet /> */}
         </div>
     )
 }
 
-export default ProfileNav
+// export default ProfileNav
