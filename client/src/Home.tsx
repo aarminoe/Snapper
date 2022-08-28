@@ -3,7 +3,7 @@ import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
 import { ImageListContext, ImageUploadContext } from './Context'
 import Post from "./Post"
-import { TrueButtonContext } from './Context'
+
 
 
 
@@ -12,7 +12,7 @@ function Home() {
     const {imageUpload, setImageUpload} = useContext(ImageUploadContext)
     const {imageList, setImageList} = useContext(ImageListContext)
  
-    const [isButton, setIsButton] = useState(false)
+
 
     const imageListRef = ref(storage, 'images/')
 
@@ -38,20 +38,17 @@ function Home() {
         }))
     }, [])
 
-    const images = imageList.map((url:string) => {
-        
-        return <img src={url} alt='Oops!'/>
-    })
-
     return(
-        <TrueButtonContext.Provider value={{isButton, setIsButton}}>
+        <div>
             Home
                 <input type='file' onChange={(e) => setImageUpload(e.target.files[0])}/>
                 <button onClick={uploadImage}>upload</button>
-            {imageList.map((url:string) => {
-            return <Post url={url} />
-            })}      
-        </TrueButtonContext.Provider>
+            <div>       
+                {imageList.map((url:string) => {
+                return <Post url={url} />
+                })}    
+            </div>      
+        </div>
         
     )
 }

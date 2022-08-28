@@ -5,3 +5,8 @@ html {
 body {
   margin: 0;
 }
+
+.post-pic {
+  width: 400px;
+  height: 400px;
+}

@@ -8,7 +8,10 @@ import NavBar from './NavBar';
 import Header from './Header';
 import Signup from './Signup';
 import UserProfile from './UserProfile';
-
+import Search from './Search';
+import Followers from './Followers';
+import Messages from './Messages';
+import Notifications from './Notifications';
 
 
 function App(){
@@ -56,9 +59,21 @@ function App(){
                     </ImageUploadContext.Provider>       
                   </ImageListContext.Provider>
                 }/>
-                <Route path='/my-profile' element={
-                  <UserProfile />
+                <Route path={`/${loggedInUser.username}`} element={
+                  <UserProfile 
+                  />
                 }/>
+                <Route
+                  path={`/${loggedInUser.username}/followers`}
+                  element={<Followers />}/>
+                <Route path={`/${loggedInUser.username}/notfications`}
+                  element={<Notifications />}/>
+                <Route path={`/${loggedInUser.username}/messages`}
+                  element={<Messages />}/>
+                <Route path='/search' element={
+                  <Search />
+                }/>
+                  
             </Routes>
           </div>
         </div> :

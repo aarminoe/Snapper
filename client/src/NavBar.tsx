@@ -12,8 +12,11 @@ function NavBar() {
             to='/'
             >Home</NavLink>
             <NavLink 
-            to='/my-profile'
+            to={`/${loggedInUser.username}`}
             >{loggedInUser.username}</NavLink>
+            <NavLink
+            to='/search'
+            >Search</NavLink>
         </div>
     )
 }
