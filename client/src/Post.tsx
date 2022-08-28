@@ -6,7 +6,7 @@ function Post({url}:{url:string}) {
 
 
     return(
-        <div>
+        <div className="col">
             <img className="post-pic" src={url} alt='oops'/>
             <button>here</button>
         </div>

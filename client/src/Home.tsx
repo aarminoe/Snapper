@@ -43,7 +43,7 @@ function Home() {
             Home
                 <input type='file' onChange={(e) => setImageUpload(e.target.files[0])}/>
                 <button onClick={uploadImage}>upload</button>
-            <div>       
+            <div className="row">       
                 {imageList.map((url:string) => {
                 return <Post url={url} />
                 })}    

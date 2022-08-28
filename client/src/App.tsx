@@ -42,7 +42,7 @@ function App(){
   return (
     
     <LoggedInUserContext.Provider value={{loggedInUser, setLoggedInUser}}>
-      <div className="App">
+      <div className="container-fluid">
         {loggedInUser? 
         <div>
           <header>
