@@ -30,9 +30,9 @@ function Signup() {
         })
         .then((r) => {
             if (r.ok) {
-              r.json().then((data) => setLoggedInUser(data))
+                r.json().then((data) => setLoggedInUser(data))
             } else {
-              r.json().then((err) => console.log(err.errors))
+            r.json().then((err) => console.log(err.errors))
             }
         })
     }

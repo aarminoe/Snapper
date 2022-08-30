@@ -12,10 +12,14 @@ import Search from './Search';
 import Followers from './Followers';
 import Messages from './Messages';
 import Notifications from './Notifications';
+import { storage } from './firebase'
+import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
+import Login from './Login';
 
 
 function App(){
 
+  const imageListRef = ref(storage, 'images/')
 
   const [imageUpload, setImageUpload] = useState<any>({name: ''})
   const [imageList, setImageList] = useState<string[]>([])    
@@ -36,6 +40,16 @@ function App(){
       }
     })
   }, [])
+
+  useEffect(() => {
+        listAll(imageListRef)
+        .then((resp) => resp.items.forEach((item) => {
+          getDownloadURL(item)
+          .then((url) => {
+            setImageList((prev:string[]) => [...prev, url])
+          })
+        }))
+    }, [])
 
   console.log(loggedInUser)
 

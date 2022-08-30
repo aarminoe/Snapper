@@ -5,7 +5,7 @@ import { LoggedInUserContext } from './Context'
 
 function Login() {
 
-    const {isLoggedIn, setIsLoggedIn} = useContext(LoggedInUserContext)
+    const {loggedInUser, setLoggedInUser} = useContext(LoggedInUserContext)
 
     const [user, setUser] = useState('')
     const [password, setPassword] = useState('')
@@ -14,8 +14,23 @@ function Login() {
 
     function handleLogin(e:any) {
         e.preventDefault()
-
-        setIsLoggedIn(true)
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: user,
+                password: password
+            })
+        })
+        .then((r) => {
+            if (r.ok) {
+              r.json().then((data) => setLoggedInUser(data))
+            } else {
+              r.json().then((err) => console.log(err.errors))
+            }
+        })
     }
 
     return(

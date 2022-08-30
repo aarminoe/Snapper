@@ -26,17 +26,8 @@ function Home() {
                 setImageList((prev:any) => [...prev, url])
             })   
         })
-      }
+    }
       
-    useEffect(() => {
-        listAll(imageListRef)
-        .then((resp) => resp.items.forEach((item) => {
-          getDownloadURL(item)
-          .then((url) => {
-            setImageList((prev:string[]) => [...prev, url])
-          })
-        }))
-    }, [])
 
     return(
         <div>
