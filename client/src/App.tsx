@@ -44,7 +44,7 @@ function App(){
   useEffect(() => {      
         listAll(imageListRef)
         .then((resp) => resp.items.forEach((item) => {
-          console.log(item)
+          console.log(resp.items)
           getDownloadURL(item)  
           .then((url) => {
             setImageList((prev:string[]) => [...prev, url])
@@ -100,7 +100,7 @@ function App(){
             </Routes>
           </div>
         </div> :
-        <Signup />
+        <Login />
         }
       </div>
     </LoggedInUserContext.Provider>

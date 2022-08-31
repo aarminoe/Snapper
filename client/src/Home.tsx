@@ -3,7 +3,7 @@ import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
 import { ImageListContext, ImageUploadContext } from './Context'
 import Post from "./Post"
-
+import { LoggedInUserContext } from "./Context"
 
 
 
@@ -11,6 +11,7 @@ function Home() {
 
     const {imageUpload, setImageUpload} = useContext(ImageUploadContext)
     const {imageList, setImageList} = useContext(ImageListContext)
+    const {loggedInUser} = useContext(LoggedInUserContext)
  
 
     function uploadImage() {
@@ -20,9 +21,23 @@ function Home() {
         uploadBytes(imageRef, imageUpload)
         .then((snap) => {
             getDownloadURL(snap.ref).then((url) => {
+                fetch(`/users/${loggedInUser.id}/posts`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title: 'test',
+                        image_url: url,
+                        user_id: loggedInUser.id
+                    })     
+                })
+                .then(resp => resp.json())
+                .then(data => console.log(data))
                 setImageList((prev:any) => [...prev, url])
             })   
         })
+
     }
       
 
