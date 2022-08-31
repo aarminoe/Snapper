@@ -3,21 +3,26 @@ import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
 import { ImageListContext, ImageUploadContext } from './Context'
 import Post from "./Post"
-import { LoggedInUserContext } from "./Context"
+import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from "./Context"
 
 
 
 function Home() {
 
+   
+
     const {imageUpload, setImageUpload} = useContext(ImageUploadContext)
     const {imageList, setImageList} = useContext(ImageListContext)
-    const {loggedInUser} = useContext(LoggedInUserContext)
+    const {loggedInUser, setLoggedInUser} = useContext(LoggedInUserContext)
+    const {loggedInUserPosts, setLoggedInUserPosts} = useContext(LoggedInUserPostsContext)
+    const {posts, setPosts} = useContext(PostsContext)
+    
  
-
+    console.log(posts)
     function uploadImage() {
         console.log(imageUpload)
         if (imageUpload === null) return
-        const imageRef = ref(storage, `images/${imageUpload.name}`)
+        const imageRef = ref(storage, `images/${imageUpload.name + loggedInUser.username}`)
         uploadBytes(imageRef, imageUpload)
         .then((snap) => {
             getDownloadURL(snap.ref).then((url) => {
@@ -33,8 +38,15 @@ function Home() {
                     })     
                 })
                 .then(resp => resp.json())
-                .then(data => console.log(data))
-                setImageList((prev:any) => [...prev, url])
+                .then(data => {
+                    const updatedList = [...imageList, data.image_url]
+                    setImageList(updatedList)
+                    const updatedPosts = [...posts.reverse(), data]
+                    setPosts(updatedPosts.reverse())
+                    console.log(updatedPosts)
+                })
+
+                setLoggedInUser(loggedInUser)
             })   
         })
 
@@ -47,8 +59,8 @@ function Home() {
                 <input type='file' onChange={(e) => setImageUpload(e.target.files[0])}/>
                 <button onClick={uploadImage}>upload</button>
             <div className="row">       
-                {imageList.map((url:string) => {
-                return <Post url={url} />
+                {posts.map((post:any) => {
+                return <Post url={post.image_url} />
                 })}    
             </div>      
         </div>

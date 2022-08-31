@@ -1,7 +1,7 @@
 
 import './index.css'
 import React, { useState, useEffect, ReactNode} from 'react'
-import { ImageListContext, ImageUploadContext, LoggedInUserContext } from './Context'
+import { ImageListContext, ImageUploadContext, LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from './Context'
 import { Route, Routes } from "react-router-dom"
 import Home from './Home';
 import NavBar from './NavBar';
@@ -25,6 +25,8 @@ function App(){
   const [imageList, setImageList] = useState<string[]>([])    
   const [loggedInUser, setLoggedInUser] = useState(null)
   const [userList, setUserList] = useState([])
+  const [loggedInUserPosts, setLoggedInUserPosts] = useState([])
+  const [posts, setPosts] = useState([])
 
   useEffect(() => {
     fetch('/users')
@@ -50,13 +52,22 @@ function App(){
             setImageList((prev:string[]) => [...prev, url])
           })
         }))
-    }, [])
+  }, [])
+
+  useEffect(() => {
+    fetch('/posts')
+    .then(res => res.json())
+    .then(posts => setPosts(posts.reverse()))
+ 
+  }, [])
+
 
   console.log(loggedInUser)
 
   return (
     
     <LoggedInUserContext.Provider value={{loggedInUser, setLoggedInUser}}>
+      <PostsContext.Provider value={{posts, setPosts}}>
       <div className="container-fluid">
         {loggedInUser? 
         <div>
@@ -64,45 +75,50 @@ function App(){
             <Header />
             <NavBar />
           </header>
-          <div>
+          <ImageListContext.Provider value={{imageList, setImageList}}>
             <Routes>
                 <Route path='/' element={
-                  <ImageListContext.Provider value={{imageList, setImageList}}>
                     <ImageUploadContext.Provider value={{imageUpload, setImageUpload}}>
-                      <Home />
-                        
+                      <LoggedInUserPostsContext.Provider value={{loggedInUserPosts, setLoggedInUserPosts}}>
+                        <Home />
+                      </LoggedInUserPostsContext.Provider> 
                     </ImageUploadContext.Provider>       
-                  </ImageListContext.Provider>
+                  
                 }/>
                 <Route path={`/${loggedInUser.username}`} element={
+                  <LoggedInUserPostsContext.Provider value={{loggedInUserPosts, setLoggedInUserPosts}}>
                   <UserProfile 
-                  />}>
-                  <Route element={<UserProfile/>}/>
-                  <Route
-                  path={`followers`}
-                  element={<Followers />}/>
-                  <Route
-                  path={`messages`}
-                  element={<Messages />}/>
-                  <Route
-                  path={`notfications`}
-                  element={<Notifications />}/>
+                  />
+                  </LoggedInUserPostsContext.Provider>}>
+                    <Route element={<UserProfile/>}/>
+                    <Route
+                    path={`followers`}
+                    element={<Followers />}/>
+                    <Route
+                    path={`messages`}
+                    element={<Messages />}/>
+                    <Route
+                    path={`notfications`}
+                    element={<Notifications />}/>
+                  
                 </Route>
 
                 <Route path={`/${loggedInUser.username}/notfications`}
                   element={<Notifications />}/>
                 <Route path={`/${loggedInUser.username}/messages`}
                   element={<Messages />}/>
+                  
                 <Route path='/search' element={
                   <Search />
                 }/>
                   
             </Routes>
-          </div>
+          </ImageListContext.Provider>
         </div> :
         <Login />
         }
       </div>
+      </PostsContext.Provider>
     </LoggedInUserContext.Provider>
   );
 }
