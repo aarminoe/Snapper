@@ -11,7 +11,7 @@ function Post({url}:{url:string}) {
     const {loggedInUser} = useContext(LoggedInUserContext)
     const imageListRef = ref(storage, 'images/')
     const imageRef = ref(storage, url)
-  
+    console.log(url)
     function handleDeletePost() {
         loggedInUser.posts.forEach((post:any) => {
             if (post.image_url === url) {
@@ -40,7 +40,7 @@ function Post({url}:{url:string}) {
     return(
         <div className="col">
             <img className="post-pic" src={url} alt='oops'/>
-            <button onClick={handleDeletePost}>Delete!</button>
+            <button >Delete!</button>
         </div>
     )
 }
