@@ -13,9 +13,6 @@ function Home() {
     const {imageList, setImageList} = useContext(ImageListContext)
  
 
-
-    const imageListRef = ref(storage, 'images/')
-
     function uploadImage() {
         console.log(imageUpload)
         if (imageUpload === null) return

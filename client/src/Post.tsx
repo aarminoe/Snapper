@@ -11,7 +11,19 @@ function Post({url}:{url:string}) {
     const imageRef = ref(storage, url)
   
     function handleDeletePost() {
-        deleteObject(imageRef)
+        console.log(imageRef)
+        console.log(imageList)
+        listAll(imageListRef)
+        .then((resp) => resp.items.forEach((item) => {
+          console.log(item)
+          getDownloadURL(item)  
+          .then((url) => {
+            setImageList((prev:string[]) => prev.filter((img) => {
+                return img !== url
+            }))
+          })
+        }))
+        .then(() => deleteObject(imageRef))
     }
 
     return(
