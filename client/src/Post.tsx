@@ -5,7 +5,7 @@ import { ImageListContext } from "./Context"
 import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from "./Context"
 
 
-function Post({url}:{url:string}) {
+function Post({post, url}:any) {
 
     const {setImageList, imageList} = useContext(ImageListContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
@@ -17,7 +17,7 @@ function Post({url}:{url:string}) {
     console.log(url)
     function handleDeletePost() {
         console.log('h')
-        console.log(url)
+        console.log(post, 'post')
         posts.forEach((post:any) => {
             if (post.image_url === url && post.user_id === loggedInUser.id) {
                 listAll(imageListRef)
@@ -49,9 +49,10 @@ function Post({url}:{url:string}) {
     }
 
     return(
-        <div >
+        <div className="card">
             <img className="post-pic" src={url} alt='oops'/>
-            <button onClick={handleDeletePost}>Delete!</button>
+            <p>{post.title}</p>
+            <button onClick={handleDeletePost} className='btn btn-primary'>Delete!</button>
         </div>
     )
 }

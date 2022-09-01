@@ -115,7 +115,13 @@ function App(){
             </Routes>
           </ImageListContext.Provider>
         </div> :
-        <Login />
+        <div>
+          <Login />
+          or
+          <Signup />
+        </div>
+        
+        
         }
       </div>
       </PostsContext.Provider>

@@ -1,6 +1,13 @@
 class User < ApplicationRecord
 
-    has_many :posts
+    has_many :posts, dependent: :destroy
+    has_many :post_likes, through: :posts, dependent: :destroy
+    has_many :comments, through: :posts, dependent: :destroy
+    has_many :comment_replies, through: :comments, dependent: :destroy
+    has_many :followers
+    has_many :user_conversations
+    has_many :conversations, through: :user_conversations
+    
 
     has_secure_password
 

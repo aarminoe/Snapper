@@ -60,7 +60,7 @@ function Home() {
                 <button onClick={uploadImage}>upload</button>
             <div className="row">       
                 {posts.map((post:any) => {
-                return <Post url={post.image_url} />
+                return <Post post={post} url={post.image_url}/>
                 })}    
             </div>      
         </div>
