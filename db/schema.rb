@@ -41,6 +41,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_27_132811) do
   create_table "followers", force: :cascade do |t|
     t.string "who_followed"
     t.string "who_followed_avatar_url"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
