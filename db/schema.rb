@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema[7.0].define(version: 2022_08_27_132811) do
   create_table "comment_replies", force: :cascade do |t|
-    t.string "comment"
+    t.string "reply"
     t.string "who_commented"
     t.string "who_commented_avatar_url"
     t.integer "comment_id"
