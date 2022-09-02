@@ -1,11 +1,21 @@
-
+import { useContext } from "react"
+import { LoggedInUserContext } from "./Context"
 
 
 function Followers() {
-    console.log('here')
+
+    const {loggedInUser} = useContext(LoggedInUserContext)
+
     return(
         <div>
-            Followers here
+            {loggedInUser.followers.map((follower:any) => {
+                return(
+                    <div>
+                        Follower here
+                        {follower.who_followed}
+                    </div>
+                )
+            })}
         </div>
     )
 }

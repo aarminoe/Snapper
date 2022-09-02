@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
     def show
         current_user = User.find(session[:user_id])
-        render json: current_user, include: ['posts', 'followers', 'posts.comments', 'post.post_likes', 'posts.comments.comment_replies']
+        render json: current_user, include: ['posts', 'followers', 'posts.comments', 'post.post_likes', 'posts.comments.comment_replies','conversations']
     end
 
     def create 

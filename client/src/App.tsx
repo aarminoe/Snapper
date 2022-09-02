@@ -1,7 +1,7 @@
 
 import './index.css'
 import React, { useState, useEffect, ReactNode} from 'react'
-import { ImageListContext, ImageUploadContext, LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from './Context'
+import { ConversationsContext, ImageListContext, ImageUploadContext, LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from './Context'
 import { Route, Routes } from "react-router-dom"
 import Home from './Home';
 import NavBar from './NavBar';
@@ -27,6 +27,7 @@ function App(){
   const [userList, setUserList] = useState([])
   const [loggedInUserPosts, setLoggedInUserPosts] = useState([])
   const [posts, setPosts] = useState([])
+  const [conversations, setConversations] = useState(null)
 
   useEffect(() => {
     fetch('/users')
@@ -41,6 +42,7 @@ function App(){
         res.json().then(user => setLoggedInUser(user))
       }
     })
+    .then()
   }, [])
 
   useEffect(() => {      
@@ -61,8 +63,14 @@ function App(){
  
   }, [])
 
+  useEffect(() => {
+    fetch('/conversations')
+    .then(res => res.json())
+    .then(conversations => {
+      console.log(conversations)
+      setConversations(conversations.reverse())})
+  }, [])
 
-  console.log(loggedInUser)
 
   return (
     
@@ -87,8 +95,9 @@ function App(){
                 }/>
                 <Route path={`/${loggedInUser.username}`} element={
                   <LoggedInUserPostsContext.Provider value={{loggedInUserPosts, setLoggedInUserPosts}}>
-                  <UserProfile 
-                  />
+                    <ConversationsContext.Provider value={{conversations, setConversations}}>
+                      <UserProfile />
+                    </ConversationsContext.Provider>
                   </LoggedInUserPostsContext.Provider>}>
                     <Route element={<UserProfile/>}/>
                     <Route

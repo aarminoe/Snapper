@@ -4,7 +4,7 @@ import CommentReply from "./CommentReply"
 
 function Comment({comment}:any) {
 
-    console.log(comment.comment_replies)
+
     return(
         <div>
             Comment

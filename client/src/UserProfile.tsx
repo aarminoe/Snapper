@@ -9,12 +9,15 @@ import UserPosts from "./UserPosts"
 import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL, getStorage, deleteObject } from 'firebase/storage'
 import Post from "./Post"
+import { ConversationsContext } from "./Context"
 
 function UserProfile() {
 
     const {loggedInUserPosts, setLoggedInUserPosts} = useContext(LoggedInUserPostsContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {posts, setPosts} = useContext(PostsContext)
+    const {conversations, setConversations} = useContext(ConversationsContext)
+    
 
     useEffect(() => {
         const getUser = async() => {fetch(`/users/${loggedInUser.id}/posts`)
@@ -23,7 +26,7 @@ function UserProfile() {
         getUser()
     }, [])
 
-    console.log(loggedInUserPosts)
+    console.log(loggedInUser)
 
     
     console.log('wow')
@@ -37,6 +40,7 @@ function UserProfile() {
             to={`notfications`}
             >Notifications</Link>
             <Link
+
             to={`messages`}
             >Messages</Link>
             <Outlet />
