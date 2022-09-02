@@ -1,12 +1,15 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL, getStorage, deleteObject } from 'firebase/storage'
 import { ImageListContext } from "./Context"
-import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from "./Context"
+import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext, CommentsContext } from "./Context"
 import Comment from "./Comment"
 
 
 function Post({post, url}:any) {
+
+    const [newComment,setNewComment] = useState('')
+    const [comments, setComments] = useState(post.comments)
 
     const {setImageList, imageList} = useContext(ImageListContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
@@ -49,6 +52,27 @@ function Post({post, url}:any) {
         
     }
 
+    function handleNewComment(e:any){
+        e.preventDefault()
+        fetch(`/users/${loggedInUser.id}/posts/${post.id}/comments`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                comment: newComment,
+                who_commented: loggedInUser.username,
+                who_commented_avatar_url: loggedInUser.image_url,
+                post_id: post.id
+            })
+        })
+        .then(resp => resp.json())
+        .then(comment => {
+            const updatedComments = [...comments.reverse(), comment]
+            setComments(updatedComments.reverse())
+        })
+    }
+
     return(
         <div className="card">
             <img className="post-pic" src={url} alt='oops'/>
@@ -57,7 +81,15 @@ function Post({post, url}:any) {
                 {post.title}
                 </h1>
                 <p>
-                    {post.comments.map((comment:any) => {
+                    Add Comment
+                    <form onSubmit={handleNewComment}>
+                        <input type='text' onChange={(e) => setNewComment(e.target.value)}></input>
+                        <button>Add</button>
+                    </form>
+                    
+                </p>
+                <p>
+                    {comments.map((comment:any) => {
                         return <Comment comment={comment}/>
                     })}
                 </p>
