@@ -11,3 +11,7 @@ Comment.create(comment: 'hi', who_commented: 'test2', who_commented_avatar_url: 
 CommentReply.create(reply: 'bye', who_commented: 'test', who_commented_avatar_url: 'no', comment_id: 1)
 Follower.create(who_followed: 'me', who_followed_avatar_url: 'no', user_id: 1)
 PostLike.create(post_id:1)
+Conversation.create(sender:'anotherme')
+UserConversation.create(user_id: 1, conversation_id: 1)
+Message.create(message: 'testing', conversation_id: 1)
+MessageReply.create(reply: 'tested', message_id:1)

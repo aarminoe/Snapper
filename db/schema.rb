@@ -47,9 +47,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_27_132811) do
   end
 
   create_table "message_replies", force: :cascade do |t|
-    t.string "message"
-    t.string "who_messaged"
-    t.string "who_messaged_avatar_url"
+    t.string "reply"
+    t.string "who_replied"
+    t.string "who_replied_avatar_url"
     t.integer "message_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
