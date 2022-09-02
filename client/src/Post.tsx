@@ -3,6 +3,7 @@ import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL, getStorage, deleteObject } from 'firebase/storage'
 import { ImageListContext } from "./Context"
 import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from "./Context"
+import Comment from "./Comment"
 
 
 function Post({post, url}:any) {
@@ -14,10 +15,10 @@ function Post({post, url}:any) {
     const imageListRef = ref(storage, 'images/')
     const imageRef = ref(storage, url)
     
-    console.log(url)
+    console.log(post)
     function handleDeletePost() {
         console.log('h')
-        console.log(post, 'post')
+        console.log(url, 'post')
         posts.forEach((post:any) => {
             if (post.image_url === url && post.user_id === loggedInUser.id) {
                 listAll(imageListRef)
@@ -51,7 +52,16 @@ function Post({post, url}:any) {
     return(
         <div className="card">
             <img className="post-pic" src={url} alt='oops'/>
-            <p>{post.title}</p>
+            <div>
+                <h1>
+                {post.title}
+                </h1>
+                <p>
+                    {post.comments.map((comment:any) => {
+                        return <Comment comment={comment}/>
+                    })}
+                </p>
+            </div>
             <button onClick={handleDeletePost} className='btn btn-primary'>Delete!</button>
         </div>
     )

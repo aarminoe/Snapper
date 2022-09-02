@@ -43,9 +43,8 @@ function UserProfile() {
             <div>
                 {posts.map((post:any) => {
                     if (post.user_id === loggedInUser.id) {
-                        return <Post url={post.image_url}/>
-                    }
-                    
+                        return <Post url={post.image_url} post={post}/>
+                    }         
                 })}
             </div>
         </div>
