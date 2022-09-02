@@ -2,9 +2,11 @@
 
 
 function  CommentReply({reply}:any){
+
+    console.log(reply)
     return(
         <div>
-            CommentReply
+            {reply.reply}
         </div>
     )
 }
