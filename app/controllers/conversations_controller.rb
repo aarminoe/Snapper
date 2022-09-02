@@ -3,7 +3,7 @@ class ConversationsController < ApplicationController
 
     def index
         conversations = Conversation.all
-        render json: conversations, include: ['users','messages.message_replies']
+        render json: conversations, include: ['users','messages.message_replies', 'messages']
     end
 
 end
