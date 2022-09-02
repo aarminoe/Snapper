@@ -5,7 +5,7 @@ import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from "./C
 import { useContext, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { ImageListContext } from "./Context"
-import UserPosts from "./UserPosts"
+
 import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL, getStorage, deleteObject } from 'firebase/storage'
 import Post from "./Post"

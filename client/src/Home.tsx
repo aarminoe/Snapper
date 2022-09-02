@@ -9,7 +9,7 @@ import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from "./C
 
 function Home() {
 
-   
+    const [title, setTitle] = useState('')
 
     const {imageUpload, setImageUpload} = useContext(ImageUploadContext)
     const {imageList, setImageList} = useContext(ImageListContext)
@@ -32,7 +32,7 @@ function Home() {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        title: 'test',
+                        title: title,
                         image_url: url,
                         user_id: loggedInUser.id
                     })     
@@ -45,19 +45,27 @@ function Home() {
                     setPosts(updatedPosts.reverse())
                     console.log(updatedPosts)
                 })
-
-                setLoggedInUser(loggedInUser)
             })   
         })
 
+    }
+
+    function handleSubmit(e:any){
+        e.preventDefault()
     }
       
 
     return(
         <div>
             Home
-                <input type='file' onChange={(e) => setImageUpload(e.target.files[0])}/>
-                <button onClick={uploadImage}>upload</button>
+                <form onSubmit={handleSubmit}>
+                    <input type='file' onChange={(e) => setImageUpload(e.target.files[0])}/>
+                    <button onClick={uploadImage}>upload</button>
+                    <p>
+                        Set Description
+                        <input type='text' onChange={(e) => setTitle(e.target.value)}></input>
+                    </p>
+                </form>
             <div className="row">       
                 {posts.map((post:any) => {
                 return <Post post={post} url={post.image_url}/>
