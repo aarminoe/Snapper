@@ -1,7 +1,7 @@
 
 import './index.css'
 import React, { useState, useEffect, ReactNode} from 'react'
-import { ConversationsContext, ImageListContext, ImageUploadContext, LoggedInUserContext, LoggedInUserPostsContext, PostsContext, UserListContext } from './Context'
+import { ConversationsContext, ImageListContext, ImageUploadContext, LoggedInUserContext, LoggedInUserPostsContext, PostsContext, UserListContext, SearchedUserContext, ClickedUserContext } from './Context'
 import { Route, Routes } from "react-router-dom"
 import Home from './Home';
 import NavBar from './NavBar';
@@ -15,6 +15,7 @@ import Notifications from './Notifications';
 import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
 import Login from './Login';
+import OtherUserProfile from './OtherUserProfile';
 
 
 function App(){
@@ -28,6 +29,8 @@ function App(){
   const [loggedInUserPosts, setLoggedInUserPosts] = useState([])
   const [posts, setPosts] = useState([])
   const [conversations, setConversations] = useState(null)
+  const [searchText, setSearchText] = useState('')
+  const [clickedUser, setClickedUser] = useState(null)
 
   useEffect(() => {
     fetch('/users')
@@ -77,6 +80,8 @@ function App(){
     <LoggedInUserContext.Provider value={{loggedInUser, setLoggedInUser}}>
       <PostsContext.Provider value={{posts, setPosts}}>
         <UserListContext.Provider value={{userList, setUserList}}>
+          <SearchedUserContext.Provider value={{searchText, setSearchText}}>
+            <ClickedUserContext.Provider value={{clickedUser, setClickedUser}}>
       <div className="container-fluid">
         {loggedInUser? 
         <div>
@@ -100,16 +105,16 @@ function App(){
                       <UserProfile />
                     </ConversationsContext.Provider>
                   </LoggedInUserPostsContext.Provider>}>
-                    <Route element={<UserProfile/>}/>
-                    <Route
-                    path={`followers`}
-                    element={<Followers />}/>
-                    <Route
-                    path={`messages`}
-                    element={<Messages />}/>
-                    <Route
-                    path={`notfications`}
-                    element={<Notifications />}/>
+                      <Route element={<UserProfile/>}/>
+                      <Route
+                      path={`followers`}
+                      element={<Followers />}/>
+                      <Route
+                      path={`messages`}
+                      element={<Messages />}/>
+                      <Route
+                      path={`notfications`}
+                      element={<Notifications />}/>
                   
                 </Route>
 
@@ -120,9 +125,15 @@ function App(){
                   
                 <Route path='/search' element={
                   <Search />
-                }/>
+                }>
+                  
+                </Route>
+                <Route
+                  path={`/other_user`}
+                  element={<OtherUserProfile/>}/>
                   
             </Routes>
+            
           </ImageListContext.Provider>
         </div> :
         <div>
@@ -134,6 +145,8 @@ function App(){
         
         }
       </div>
+            </ClickedUserContext.Provider>
+          </SearchedUserContext.Provider>
         </UserListContext.Provider>
       </PostsContext.Provider>
     </LoggedInUserContext.Provider>

@@ -1,12 +1,14 @@
 import React, { useContext, useState } from "react"
-import { UserListContext } from "./Context"
+import { UserListContext, SearchedUserContext, ClickedUserContext } from "./Context"
+import { Link } from "react-router-dom"
+import { click } from "@testing-library/user-event/dist/click"
 
 
 function Search() {
 
-    const [searchText, setSearchText] = useState('')
-
+    const {searchText, setSearchText} = useContext(SearchedUserContext)
     const {userList} = useContext(UserListContext)
+    const {setClickedUser} = useContext(ClickedUserContext)
 
     return(
         <div>
@@ -16,9 +18,10 @@ function Search() {
             {userList.map((user:any) => {
                 if (user.username.toLowerCase().includes(searchText.toLowerCase())) {
                     return(
-                        <div>
+                        <Link to={`/other_user`} onClick={() => setClickedUser(user)}>
+                            <p>{user.image_url}</p>
                             {user.username}
-                        </div>
+                        </Link>
                     )
                 }
             })}

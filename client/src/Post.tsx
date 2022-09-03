@@ -13,7 +13,6 @@ function Post({post, url}:any) {
 
     const {setImageList, imageList} = useContext(ImageListContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
-    const {setLoggedInUserPosts} = useContext(LoggedInUserPostsContext)
     const {posts, setPosts} = useContext(PostsContext)
     const imageListRef = ref(storage, 'images/')
     const imageRef = ref(storage, url)

@@ -1,3 +1,4 @@
+import { create } from "domain";
 import { createContext } from "react";
 
 export const ImageListContext = createContext(null)
@@ -8,3 +9,5 @@ export const PostsContext = createContext(null)
 export const ConversationsContext = createContext(null)
 export const CommentsContext = createContext(null)
 export const UserListContext = createContext(null)
+export const SearchedUserContext = createContext(null)
+export const ClickedUserContext = createContext(null)
