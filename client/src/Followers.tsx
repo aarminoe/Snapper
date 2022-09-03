@@ -8,6 +8,7 @@ function Followers() {
 
     return(
         <div>
+            follower
             {loggedInUser.followers.map((follower:any) => {
                 return(
                     <div>

@@ -1,7 +1,7 @@
 
 import './index.css'
 import React, { useState, useEffect, ReactNode} from 'react'
-import { ConversationsContext, ImageListContext, ImageUploadContext, LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from './Context'
+import { ConversationsContext, ImageListContext, ImageUploadContext, LoggedInUserContext, LoggedInUserPostsContext, PostsContext, UserListContext } from './Context'
 import { Route, Routes } from "react-router-dom"
 import Home from './Home';
 import NavBar from './NavBar';
@@ -32,7 +32,7 @@ function App(){
   useEffect(() => {
     fetch('/users')
     .then(resp => resp.json())
-    .then(data => console.log(data))
+    .then(data => setUserList(data))
   }, [])
 
   useEffect(() => {
@@ -76,6 +76,7 @@ function App(){
     
     <LoggedInUserContext.Provider value={{loggedInUser, setLoggedInUser}}>
       <PostsContext.Provider value={{posts, setPosts}}>
+        <UserListContext.Provider value={{userList, setUserList}}>
       <div className="container-fluid">
         {loggedInUser? 
         <div>
@@ -133,6 +134,7 @@ function App(){
         
         }
       </div>
+        </UserListContext.Provider>
       </PostsContext.Provider>
     </LoggedInUserContext.Provider>
   );

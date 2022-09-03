@@ -9,7 +9,7 @@ import Comment from "./Comment"
 function Post({post, url}:any) {
 
     const [newComment,setNewComment] = useState('')
-    const [comments, setComments] = useState(post.comments)
+    const [comments, setComments] = useState(post.comments.reverse())
 
     const {setImageList, imageList} = useContext(ImageListContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
