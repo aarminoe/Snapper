@@ -1,22 +1,23 @@
 import React, { useContext, useState } from "react"
-import { PostsContext, ClickedUserContext, LoggedInUserContext } from "./Context"
+import { PostsContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers } from "./Context"
 import Post from "./Post"
 
 
 function OtherUserProfile() {
 
-    const [seeFollowers, setSeeFollowers] = useState(false)
-
+    
     const {posts} = useContext(PostsContext)
     const {clickedUser} = useContext(ClickedUserContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
+    
+    const [seeFollowers, setSeeFollowers] = useState(false)
+    const [usersFollowers, setUsersFollowers] = useState(clickedUser.followers)
 
     function handleSeeFollowers() {
         setSeeFollowers((seeFollowers) => !seeFollowers)
     }
 
     function handleFollowUser() {
-        console.log(clickedUser)
         if (clickedUser.username !== loggedInUser.username) {
             let hasFollowed = false
             for (let i=0;i<clickedUser.followers.length;i++) {
@@ -25,7 +26,7 @@ function OtherUserProfile() {
                     hasFollowed = true
                     console.log('already followed')
                 }
-                else if (hasFollowed = false && i === clickedUser.followers.length()) {
+                else if (hasFollowed === false && i === clickedUser.followers.length -1) {
                     console.log('not followed yet!')
                     fetch(`/users/${clickedUser.id}/followers`, {
                         method: 'POST',
@@ -39,7 +40,10 @@ function OtherUserProfile() {
                         })
                     })
                     .then(res => res.json())
-                    .then(follower => console.log(follower))
+                    .then(follower => {
+                        const updatedList = [...usersFollowers, follower]
+                        setUsersFollowers(updatedList)
+                    })
                 }
             }    
         }
@@ -55,7 +59,7 @@ function OtherUserProfile() {
                     <button onClick={handleFollowUser}>Follow!</button>
                 </div>
             </div>
-            {seeFollowers ? <p>{clickedUser.followers.map((follower:any) => {
+            {seeFollowers ? <p>{usersFollowers.map((follower:any) => {
                 return(
                     <div>
                         follower
@@ -66,7 +70,11 @@ function OtherUserProfile() {
             <div>
                 {posts.map((post:any) => {
                     if (post.user_id === clickedUser.id) {
-                        return <Post url={post.image_url} post={post}/>
+                        return (
+                        <ClickedUserFollowers.Provider value={{usersFollowers, setUsersFollowers}}>
+                            <Post url={post.image_url} post={post}/>
+                        </ClickedUserFollowers.Provider>
+                        )
                     }         
                 })}
             </div>
