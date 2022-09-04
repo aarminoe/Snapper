@@ -130,8 +130,8 @@ function App(){
                 </Route>
                 <Route
                   path={`/other_user`}
-                  element={<OtherUserProfile/>}/>
-                  
+                  element={
+                      <OtherUserProfile/>}/>      
             </Routes>
             
           </ImageListContext.Provider>

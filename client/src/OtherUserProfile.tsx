@@ -1,6 +1,6 @@
 import { click } from "@testing-library/user-event/dist/click"
 import React, { useContext, useState } from "react"
-import { PostsContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers } from "./Context"
+import { PostsContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers, ConversationsContext } from "./Context"
 import Post from "./Post"
 
 
@@ -54,45 +54,14 @@ function OtherUserProfile() {
 
     function sendMessage(e:any) {
         e.preventDefault()
-        fetch(`/conversations`, {
-            method:'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                sender: loggedInUser.username, 
-                sender_avatar_url: loggedInUser.image_url,
-                receiver: clickedUser.username,
-                receiver_avatar_url: clickedUser.image_url
-            })
-        })
-        .then(res => res.json())
-        .then(conversation => {
-            fetch(`/user_conversations`, {
-                method:'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    user_id: clickedUser.id,
-                    conversation_id: conversation.id
-                })
-            })
-            .then(res => res.json())
-            .then(data => console.log(data))
-            fetch(`/user_conversations`, {
-                method:'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    user_id: loggedInUser.id,
-                    conversation_id: conversation.id
-                })
-            })
-            .then(res => res.json())
-            .then(data => { 
-                fetch(`/conversations/${conversation.id}/messages`, {
+        console.log(loggedInUser.conversations)
+        let hasConversation = false
+        for (let i=0;i<loggedInUser.conversations.length;i++) {
+            console.log(loggedInUser.conversations[i])
+            if (loggedInUser.conversations[i].receiver === clickedUser.username) {
+                console.log('has conversation')
+                hasConversation = true
+                fetch(`/conversations/${loggedInUser.conversation[i].id}/messages`, {
                     method:'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -101,14 +70,70 @@ function OtherUserProfile() {
                         message: newMessageText,
                         who_messaged: loggedInUser.username,
                         who_messaged_avatar_url: loggedInUser.image_url,
+                        conversation_id: loggedInUser.conversation[i].id
+                    })
+                })
+                .then(res => res.json())
+                .then(data => console.log(data))
+            }
+        }
+        if (hasConversation !== true) {
+            console.log('does not have convo')
+            fetch(`/conversations`, {
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    sender: loggedInUser.username, 
+                    sender_avatar_url: loggedInUser.image_url,
+                    receiver: clickedUser.username,
+                    receiver_avatar_url: clickedUser.image_url
+                })
+            })
+            .then(res => res.json())
+            .then(conversation => {
+                fetch(`/user_conversations`, {
+                    method:'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: clickedUser.id,
                         conversation_id: conversation.id
                     })
                 })
                 .then(res => res.json())
                 .then(data => console.log(data))
+                fetch(`/user_conversations`, {
+                    method:'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: loggedInUser.id,
+                        conversation_id: conversation.id
+                    })
+                })
+                .then(res => res.json())
+                .then(data => { 
+                    fetch(`/conversations/${conversation.id}/messages`, {
+                        method:'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message: newMessageText,
+                            who_messaged: loggedInUser.username,
+                            who_messaged_avatar_url: loggedInUser.image_url,
+                            conversation_id: conversation.id
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => console.log(data))
+                })             
             })
-            
-        })
+        }
     }
 
     return(

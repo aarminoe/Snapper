@@ -9,6 +9,7 @@ function Search() {
     const {searchText, setSearchText} = useContext(SearchedUserContext)
     const {userList} = useContext(UserListContext)
     const {setClickedUser} = useContext(ClickedUserContext)
+    const {loggedInUser} = useContext(LoggedInUserContext)
 
     return(
         <div>
@@ -16,7 +17,7 @@ function Search() {
                 <input type='text' onChange={(e) => setSearchText(e.target.value)}></input>
             </form>
             {userList.map((user:any) => {
-                if (user.username.toLowerCase().includes(searchText.toLowerCase())) {
+                if (user.username.toLowerCase().includes(searchText.toLowerCase()) && user.username !== loggedInUser.username) {
                     return(
                         <div>
                             <Link to={`/other_user`} onClick={() => setClickedUser(user)}>
