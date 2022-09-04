@@ -91,11 +91,25 @@ function OtherUserProfile() {
                 })
             })
             .then(res => res.json())
-            .then(data => console.log(data))
+            .then(data => { 
+                fetch(`/conversations/${conversation.id}/messages`, {
+                    method:'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: newMessageText,
+                        who_messaged: loggedInUser.username,
+                        who_messaged_avatar_url: loggedInUser.image_url,
+                        conversation_id: conversation.id
+                    })
+                })
+                .then(res => res.json())
+                .then(data => console.log(data))
+            })
+            
         })
     }
-
-
 
     return(
         <div>
