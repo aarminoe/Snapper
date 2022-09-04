@@ -2,8 +2,20 @@ import React, { useContext } from "react"
 
 
 function Header() {
+    function handleLogOut() {
+        fetch('/logout', {
+            method: 'DELETE',
+        })
+        .then(() => window.location.reload())
+    }
+
     return(
-        <div>Header</div>
+        <div>
+            Header
+            <p>
+                <button onClick={handleLogOut}>Log Out!</button>
+            </p>
+        </div>
     )
 }
 
