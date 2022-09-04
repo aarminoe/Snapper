@@ -51,7 +51,6 @@ function App(){
   useEffect(() => {      
         listAll(imageListRef)
         .then((resp) => resp.items.forEach((item) => {
-          console.log(resp.items)
           getDownloadURL(item)  
           .then((url) => {
             setImageList((prev:string[]) => [...prev, url])
@@ -70,7 +69,6 @@ function App(){
     fetch('/conversations')
     .then(res => res.json())
     .then(conversations => {
-      console.log(conversations)
       setConversations(conversations.reverse())})
   }, [])
 

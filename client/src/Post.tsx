@@ -10,7 +10,7 @@ function Post({post, url}:any) {
 
     const [newComment,setNewComment] = useState('')
     const [comments, setComments] = useState(post.comments.reverse())
-
+    console.log(post)
     const {setImageList, imageList} = useContext(ImageListContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {posts, setPosts} = useContext(PostsContext)
@@ -71,6 +71,7 @@ function Post({post, url}:any) {
             setComments(updatedComments.reverse())
         })
     }
+    console.log(post)
 
     return(
         <div className="card">
@@ -79,6 +80,8 @@ function Post({post, url}:any) {
                 <h1>
                 {post.title}
                 </h1>
+                <img src={post.user.avatar_url} alt='oops!'></img>
+                <h2>{post.user.username}</h2>
                 <p>
                     Add Comment
                     <form onSubmit={handleNewComment}>
@@ -89,7 +92,7 @@ function Post({post, url}:any) {
                 </p>
                 <p>
                     {comments.map((comment:any) => {
-                        return <Comment comment={comment}/>
+                        return <Comment comment={comment} post={post}/>
                     })}
                 </p>
             </div>

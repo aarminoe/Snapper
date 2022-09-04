@@ -37,6 +37,8 @@ function Comment({comment}:any) {
     return(
         <div>
             Comment
+            <img src={comment.who_commented_avatar_url} alt='oops!'></img>
+            <h3>{comment.who_commented}</h3>
             {comment.comment}
             <button onClick={() => setSeeReplyComment((seeReplyComment) => !seeReplyComment)}>reply</button>
             {seeReplyComment ? 

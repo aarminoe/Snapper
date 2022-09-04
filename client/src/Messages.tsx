@@ -1,14 +1,19 @@
 import { useContext } from "react"
 import { LoggedInUserContext } from "./Context"
 import { ConversationsContext } from "./Context"
-import React, {useState} from "react"
+import React, {useState, useEffect } from "react"
 
 function Messages() {
 
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {conversations, setConversations} = useContext(ConversationsContext)
 
-    console.log(conversations)
+
+    // useEffect(() => {
+    //     fetch(`/users/${loggedInUser.id}/conversations`)
+    //     .then(res => res.json())
+    //     .then(data => console.log(data))
+    // }, [])
 
     return(
         <div>
@@ -16,9 +21,17 @@ function Messages() {
             <div>
                 {loggedInUser.conversations.map((conversation:any) => {
                     return(
-                        <div>
+                        <div className="card">
                             <p>
-                                {conversation.receiver}
+                                {conversation.sender === loggedInUser.username ? 
+                                <p>
+                                    {conversation.receiver} 
+                                </p>
+                                : 
+                                <p>
+                                    {conversation.sender}
+                                </p>
+                                }
                             </p>
                             <p>{conversation.messages.map((message:any) => {
                                 return(

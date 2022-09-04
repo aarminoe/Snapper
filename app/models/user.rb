@@ -7,6 +7,7 @@ class User < ApplicationRecord
     has_many :followers
     has_many :user_conversations
     has_many :conversations, through: :user_conversations
+    has_many :messages, through: :conversations
     
 
     has_secure_password

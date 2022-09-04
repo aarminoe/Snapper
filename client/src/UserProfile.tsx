@@ -26,10 +26,6 @@ function UserProfile() {
         getUser()
     }, [])
 
-    console.log(loggedInUser)
-
-    
-    console.log('wow')
     return(
         <div>
             <Link 
