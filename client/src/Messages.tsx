@@ -17,17 +17,13 @@ function Messages() {
                 {loggedInUser.conversations.map((conversation:any) => {
                     return(
                         <div>
-                            {conversation.sender}
+                            <p>
+                                {conversation.receiver}
+                            </p>
                             <p>{conversation.messages.map((message:any) => {
                                 return(
                                     <p>
-                                        {message.message_replies.map((reply:any) => {
-                                            return(
-                                                <p>
-                                                    {reply.reply}
-                                                </p>
-                                            )
-                                        })}
+                                        {message.message}
                                     </p>
                                 )
                             })}</p>

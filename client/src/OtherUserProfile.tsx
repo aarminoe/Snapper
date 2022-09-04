@@ -61,7 +61,7 @@ function OtherUserProfile() {
             if (loggedInUser.conversations[i].receiver === clickedUser.username) {
                 console.log('has conversation')
                 hasConversation = true
-                fetch(`/conversations/${loggedInUser.conversation[i].id}/messages`, {
+                fetch(`/conversations/${loggedInUser.conversations[i].id}/messages`, {
                     method:'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -70,7 +70,7 @@ function OtherUserProfile() {
                         message: newMessageText,
                         who_messaged: loggedInUser.username,
                         who_messaged_avatar_url: loggedInUser.image_url,
-                        conversation_id: loggedInUser.conversation[i].id
+                        conversation_id: loggedInUser.conversations[i].id
                     })
                 })
                 .then(res => res.json())
