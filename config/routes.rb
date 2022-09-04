@@ -9,6 +9,8 @@ Rails.application.routes.draw do
       resources :message_replies
     end
   end
+  
+  resources :user_conversations
 
   resources :users do
     resources :posts do

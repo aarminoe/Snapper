@@ -1,3 +1,4 @@
+import { click } from "@testing-library/user-event/dist/click"
 import React, { useContext, useState } from "react"
 import { PostsContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers } from "./Context"
 import Post from "./Post"
@@ -12,6 +13,8 @@ function OtherUserProfile() {
     
     const [seeFollowers, setSeeFollowers] = useState(false)
     const [usersFollowers, setUsersFollowers] = useState(clickedUser.followers)
+    const [newMessageText, setNewMessageText] = useState('')
+    const [newMessageClick, setNewMessageClick] = useState(false)
 
     function handleSeeFollowers() {
         setSeeFollowers((seeFollowers) => !seeFollowers)
@@ -49,10 +52,59 @@ function OtherUserProfile() {
         }
     }
 
+    function sendMessage(e:any) {
+        e.preventDefault()
+        fetch(`/conversations`, {
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                sender: loggedInUser.username, 
+                sender_avatar_url: loggedInUser.image_url,
+                receiver: clickedUser.username,
+                receiver_avatar_url: clickedUser.image_url
+            })
+        })
+        .then(res => res.json())
+        .then(conversation => {
+            fetch(`/user_conversations`, {
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    user_id: clickedUser.id,
+                    conversation_id: conversation.id
+                })
+            })
+            .then(res => res.json())
+            .then(data => console.log(data))
+            fetch(`/user_conversations`, {
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    user_id: loggedInUser.id,
+                    conversation_id: conversation.id
+                })
+            })
+            .then(res => res.json())
+            .then(data => console.log(data))
+        })
+    }
+
+
 
     return(
         <div>
             {clickedUser.username}
+            <button onClick={() => {setNewMessageClick((newMessageClick) => !newMessageClick)}}>Message!</button>
+            {newMessageClick ? <form onSubmit={sendMessage}>
+                <input type='text' onChange={(e) => setNewMessageText(e.target.value)}/>
+                <button>Send</button>
+            </form>: null}
             <div>
                 <button onClick={handleSeeFollowers}>See Followers</button>
                 <div>
