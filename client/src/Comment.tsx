@@ -1,6 +1,6 @@
 import CommentReply from "./CommentReply"
 import React, { useContext, useState } from "react"
-import { LoggedInUserContext } from "./Context"
+import { LoggedInUserContext, CommentsContext } from "./Context"
 
 
 function Comment({comment}:any) {
@@ -10,7 +10,7 @@ function Comment({comment}:any) {
     const [commentReplies, setCommentReplies] = useState(comment.comment_replies)
 
     const {loggedInUser} = useContext(LoggedInUserContext)
-    console.log(comment)
+    const {comments, setComments} = useContext(CommentsContext)
 
     function handleCommentReply(e:any) {
         e.preventDefault()
@@ -34,9 +34,22 @@ function Comment({comment}:any) {
         })
     }
 
+    function handleDeleteComment() {
+        console.log(comments)
+        console.log(comment)
+        const updatedList = comments.filter((deletedComment:any) => {
+            return deletedComment !== comment
+        })
+        setComments(updatedList)
+        fetch(`/users/${loggedInUser.id}/posts/${comment.post_id}/comments/${comment.id}`, {
+            method: 'DELETE'
+        })
+    }
+
     return(
         <div>
             Comment
+            <button onClick={handleDeleteComment}>X</button>
             <img src={comment.who_commented_avatar_url} alt='oops!'></img>
             <h3>{comment.who_commented}</h3>
             {comment.comment}

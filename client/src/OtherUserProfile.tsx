@@ -16,6 +16,12 @@ function OtherUserProfile() {
     const [newMessageText, setNewMessageText] = useState('')
     const [newMessageClick, setNewMessageClick] = useState(false)
 
+    // window.onbeforeunload = (e) => {
+    //     console.log('no')
+    //     e.preventDefault()
+    //     return false
+    // }
+
     function handleSeeFollowers() {
         setSeeFollowers((seeFollowers) => !seeFollowers)
     }

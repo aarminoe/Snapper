@@ -40,7 +40,7 @@ function Login() {
             </h1>
             <h1>
                 Password:
-                <input onChange={(e) => setPassword(e.target.value)}></input>
+                <input type='password' onChange={(e) => setPassword(e.target.value)}></input>
             </h1>
 
             <button>Log In</button>

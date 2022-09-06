@@ -10,19 +10,21 @@ function Post({post, url}:any) {
 
     const [newComment,setNewComment] = useState('')
     const [comments, setComments] = useState(post.comments.reverse())
-    console.log(post)
     const {setImageList, imageList} = useContext(ImageListContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {posts, setPosts} = useContext(PostsContext)
     const imageListRef = ref(storage, 'images/')
     const imageRef = ref(storage, url)
-    
-    console.log(post)
+
     function handleDeletePost() {
         console.log('h')
         console.log(url, 'post')
+        console.log(posts)
         posts.forEach((post:any) => {
             if (post.image_url === url && post.user_id === loggedInUser.id) {
+                console.log(url)
+                console.log(post)
+                console.log('hi')
                 listAll(imageListRef)
                 .then((resp) => resp.items.forEach((item) => {
                     console.log(item)
@@ -47,9 +49,9 @@ function Post({post, url}:any) {
             ))
         
             }
-        })
-        
+        })  
     }
+
 
     function handleNewComment(e:any){
         e.preventDefault()
@@ -71,10 +73,13 @@ function Post({post, url}:any) {
             setComments(updatedComments.reverse())
         })
     }
-    console.log(post)
 
     return(
+        <CommentsContext.Provider value={{comments, setComments}}>
         <div className="card">
+            <p>
+                <button>X</button>
+            </p>
             <img className="post-pic" src={url} alt='oops'/>
             <div>
                 <h1>
@@ -98,6 +103,7 @@ function Post({post, url}:any) {
             </div>
             <button onClick={handleDeletePost} className='btn btn-primary'>Delete!</button>
         </div>
+        </CommentsContext.Provider>
     )
 }
 

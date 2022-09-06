@@ -45,11 +45,11 @@ function Signup() {
             </h1>
             <h1>
                 Password:
-                <input onChange={(e) => setNewPassword(e.target.value)}></input>
+                <input type='password' onChange={(e) => setNewPassword(e.target.value)}></input>
             </h1>
             <h1>
                 Confirm Password:
-                <input onChange={(e) => setConfirmNewPassword(e.target.value)}></input>
+                <input type='password' onChange={(e) => setConfirmNewPassword(e.target.value)}></input>
             </h1>
             <button>Sign Up!</button>
         </form>

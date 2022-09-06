@@ -11,6 +11,8 @@ function Search() {
     const {setClickedUser} = useContext(ClickedUserContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
 
+   
+
     return(
         <div>
             <form>
