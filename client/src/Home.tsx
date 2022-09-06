@@ -61,11 +61,11 @@ function Home() {
                 <form onSubmit={handleSubmit}>
                     <input type='file' onChange={(e) => setImageUpload(e.target.files[0])}/>
                     <button onClick={uploadImage}>upload</button>
+                </form>
                     <p>
                         Set Description
                         <input type='text' onChange={(e) => setTitle(e.target.value)}></input>
                     </p>
-                </form>
             <div className="row">       
                 {posts.map((post:any) => {
                 return <Post post={post} url={post.image_url}/>

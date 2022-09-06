@@ -1,19 +1,20 @@
 import CommentReply from "./CommentReply"
 import React, { useContext, useState } from "react"
-import { LoggedInUserContext, CommentsContext } from "./Context"
+import { LoggedInUserContext, CommentsContext, CommentRepliesContext } from "./Context"
 
 
 function Comment({comment}:any) {
 
     const [seeReplyComment, setSeeReplyComment] = useState(false)
     const [newReply, setNewReply] = useState('')
-    const [commentReplies, setCommentReplies] = useState(comment.comment_replies)
+    const [commentReplies, setCommentReplies] = useState([...comment.comment_replies.reverse()])
 
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {comments, setComments} = useContext(CommentsContext)
 
     function handleCommentReply(e:any) {
         e.preventDefault()
+
         fetch(`/users/${loggedInUser.id}/posts/${comment.post_id}/comments/${comment.id}/comment_replies`, {
             method: 'POST',
             headers: {
@@ -29,8 +30,8 @@ function Comment({comment}:any) {
         .then(resp => resp.json())
         .then(reply => {
             console.log(reply)
-            const updatedList = [...commentReplies, reply]
-            setCommentReplies(updatedList)
+            const updatedList = [...commentReplies.reverse(), reply]
+            setCommentReplies(updatedList.reverse())
         })
     }
 
@@ -47,7 +48,7 @@ function Comment({comment}:any) {
     }
 
     return(
-        <div>
+        <CommentRepliesContext.Provider value={{commentReplies, setCommentReplies}}>
             Comment
             <button onClick={handleDeleteComment}>X</button>
             <img src={comment.who_commented_avatar_url} alt='oops!'></img>
@@ -61,12 +62,12 @@ function Comment({comment}:any) {
                     <button>add</button>
                 </form>
                 {commentReplies.map((reply:any) => {
-                return <CommentReply reply={reply} />
+                return <CommentReply reply={reply} comment={comment}/>
             })}
             </div>
             : null}
             
-        </div>
+        </CommentRepliesContext.Provider>
     )
 }
 

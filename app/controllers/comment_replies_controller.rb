@@ -9,6 +9,16 @@ class CommentRepliesController < ApplicationController
         end
     end
 
+    def destroy
+        comment_reply = CommentReply.find_by(id:params[:id])
+        if comment_reply 
+            comment_reply.destroy
+            head :no_content
+        else 
+            render json: { error: 'Reply Not Found' }, status: :not_found
+        end
+    end
+        
     private
 
     def comment_reply_params 

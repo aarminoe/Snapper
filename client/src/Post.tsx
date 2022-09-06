@@ -9,7 +9,7 @@ import Comment from "./Comment"
 function Post({post, url}:any) {
 
     const [newComment,setNewComment] = useState('')
-    const [comments, setComments] = useState(post.comments.reverse())
+    const [comments, setComments] = useState([...post.comments.reverse()])
     const {setImageList, imageList} = useContext(ImageListContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {posts, setPosts} = useContext(PostsContext)
@@ -17,14 +17,8 @@ function Post({post, url}:any) {
     const imageRef = ref(storage, url)
 
     function handleDeletePost() {
-        console.log('h')
-        console.log(url, 'post')
-        console.log(posts)
         posts.forEach((post:any) => {
             if (post.image_url === url && post.user_id === loggedInUser.id) {
-                console.log(url)
-                console.log(post)
-                console.log('hi')
                 listAll(imageListRef)
                 .then((resp) => resp.items.forEach((item) => {
                     console.log(item)
@@ -44,10 +38,8 @@ function Post({post, url}:any) {
                         })
                     })
                     .then(() => deleteObject(imageRef))
-                }
-                
-            ))
-        
+                }            
+            ))   
             }
         })  
     }
