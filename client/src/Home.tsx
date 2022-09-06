@@ -19,7 +19,8 @@ function Home() {
     
  
     console.log(posts)
-    function uploadImage() {
+    function uploadImage(e:any) {
+        e.preventDefault()
         console.log(imageUpload)
         if (imageUpload === null) return
         const imageRef = ref(storage, `images/${imageUpload.name + loggedInUser.username}`)
@@ -49,16 +50,12 @@ function Home() {
         })
 
     }
-
-    function handleSubmit(e:any){
-        e.preventDefault()
-    }
       
 
     return(
         <div>
             Home
-                <form onSubmit={handleSubmit}>
+                <form>
                     <input type='file' onChange={(e) => setImageUpload(e.target.files[0])}/>
                     <button onClick={uploadImage}>upload</button>
                 </form>

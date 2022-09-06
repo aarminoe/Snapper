@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { CommentRepliesContext, LoggedInUserContext } from "./Context"
 
 
-function  CommentReply({reply, comment}:any){
+function  CommentReply({reply, comment, post}:any){
 
     const {commentReplies, setCommentReplies} = useContext(CommentRepliesContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
@@ -22,7 +22,7 @@ function  CommentReply({reply, comment}:any){
             <img src={reply.who_commented_avatar_url} alt='oops!'></img>
             <h3>{reply.who_commented}</h3>
             <div>
-                <button onClick={handleDeleteCommentReply}>X</button>
+                {reply.who_commented === loggedInUser.username || post.user_id === loggedInUser.id ? <button onClick={handleDeleteCommentReply}>X</button> : null}
                 {reply.reply}
             </div>
         </div>

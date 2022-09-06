@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react"
 import { LoggedInUserContext, CommentsContext, CommentRepliesContext } from "./Context"
 
 
-function Comment({comment}:any) {
+function Comment({comment, post}:any) {
 
     const [seeReplyComment, setSeeReplyComment] = useState(false)
     const [newReply, setNewReply] = useState('')
@@ -14,7 +14,6 @@ function Comment({comment}:any) {
 
     function handleCommentReply(e:any) {
         e.preventDefault()
-
         fetch(`/users/${loggedInUser.id}/posts/${comment.post_id}/comments/${comment.id}/comment_replies`, {
             method: 'POST',
             headers: {
@@ -47,10 +46,12 @@ function Comment({comment}:any) {
         })
     }
 
+    console.log(comment)
+
     return(
         <CommentRepliesContext.Provider value={{commentReplies, setCommentReplies}}>
             Comment
-            <button onClick={handleDeleteComment}>X</button>
+            {comment.who_commented === loggedInUser.username || post.user_id === loggedInUser.id ? <button onClick={handleDeleteComment}>X</button>: null}
             <img src={comment.who_commented_avatar_url} alt='oops!'></img>
             <h3>{comment.who_commented}</h3>
             {comment.comment}
@@ -59,10 +60,10 @@ function Comment({comment}:any) {
             <div>
                 <form onSubmit={handleCommentReply}>
                     <input type='text' onChange={(e) => setNewReply(e.target.value)}/> 
-                    <button>add</button>
+                    <button>reply</button>
                 </form>
                 {commentReplies.map((reply:any) => {
-                return <CommentReply reply={reply} comment={comment}/>
+                return <CommentReply reply={reply} comment={comment} post={post}/>
             })}
             </div>
             : null}

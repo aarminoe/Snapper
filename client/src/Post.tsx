@@ -70,7 +70,7 @@ function Post({post, url}:any) {
         <CommentsContext.Provider value={{comments, setComments}}>
         <div className="card">
             <p>
-                <button>X</button>
+                {post.user_id === loggedInUser.id ? <button onClick={handleDeletePost}>X</button> : null}           
             </p>
             <img className="post-pic" src={url} alt='oops'/>
             <div>
@@ -93,7 +93,6 @@ function Post({post, url}:any) {
                     })}
                 </p>
             </div>
-            <button onClick={handleDeletePost} className='btn btn-primary'>Delete!</button>
         </div>
         </CommentsContext.Provider>
     )
