@@ -15,27 +15,38 @@ function OtherUserProfile() {
     const [usersFollowers, setUsersFollowers] = useState(clickedUser.followers)
     const [newMessageText, setNewMessageText] = useState('')
     const [newMessageClick, setNewMessageClick] = useState(false)
+    const [following, setFollowing] = useState(false)
 
+    
     // window.onbeforeunload = (e) => {
     //     console.log('no')
     //     e.preventDefault()
     //     return false
     // }
 
+
     function handleSeeFollowers() {
         setSeeFollowers((seeFollowers) => !seeFollowers)
     }
 
     function handleFollowUser() {
+        setFollowing((following) => !following)
         if (clickedUser.username !== loggedInUser.username) {
             let hasFollowed = false
-            for (let i=0;i<clickedUser.followers.length;i++) {
-                console.log('hdsadsa')
-                if (clickedUser.followers[i].who_followed === loggedInUser.username) {
+            for (let i=0;i<usersFollowers.length;i++) {
+                if (usersFollowers[i].who_followed === loggedInUser.username) {
                     hasFollowed = true
                     console.log('already followed')
+                    const updatedList = usersFollowers.filter((follower:any) => {
+                        return follower !== usersFollowers[i]
+                    })
+                    setUsersFollowers(updatedList)
+                    fetch(`/users/${clickedUser.id}/followers/${usersFollowers[i].id}`, {
+                        method: 'DELETE'
+                    })
+                    break
                 }
-                else if (hasFollowed === false && i === clickedUser.followers.length -1) {
+                else if (hasFollowed === false && i === usersFollowers.length -1) {
                     console.log('not followed yet!')
                     fetch(`/users/${clickedUser.id}/followers`, {
                         method: 'POST',
@@ -153,7 +164,8 @@ function OtherUserProfile() {
             <div>
                 <button onClick={handleSeeFollowers}>See Followers</button>
                 <div>
-                    <button onClick={handleFollowUser}>Follow!</button>
+                    {following ? <button onClick={handleFollowUser}>Follow!</button> 
+                    : <button onClick={handleFollowUser}>Following!</button>}
                 </div>
             </div>
             {seeFollowers ? <p>{usersFollowers.map((follower:any) => {

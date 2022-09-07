@@ -9,6 +9,16 @@ class FollowersController < ApplicationController
         end
     end
 
+    def destroy
+        follower = Follower.find_by(id:params[:id])
+        if follower 
+            follower.destroy 
+            head :no_content
+        else
+            render json: { error: 'Follower Not Found' }, status: :not_found
+        end
+    end
+
     private
 
     def follower_params 
