@@ -33,10 +33,6 @@ function UserProfile() {
             >Followers
             </Link>
             <Link
-            to={`notfications`}
-            >Notifications</Link>
-            <Link
-
             to={`messages`}
             >Messages</Link>
             <Outlet />

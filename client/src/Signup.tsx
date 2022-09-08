@@ -14,7 +14,6 @@ function Signup() {
 
     function handleSignUp(e:any) {
         e.preventDefault()
-        console.log('eh')
         fetch('/users', {
             method: 'POST',
             headers: {

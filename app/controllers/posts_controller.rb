@@ -15,6 +15,16 @@ class PostsController < ApplicationController
         end
     end
 
+    def update
+        post = Post.find_by(id:params[:id])
+        if post 
+            post.update(post_params)
+            render json: post
+        else 
+            render json: { error: 'Post Not Found' }, status: :not_found
+        end
+    end
+
     def destroy 
         post = Post.find_by(id: params[:id])
         if post 

@@ -10,6 +10,8 @@ function Post({post, url}:any) {
 
     const [newComment,setNewComment] = useState('')
     const [comments, setComments] = useState([...post.comments.reverse()])
+    const [edit, setEdit] = useState(false)
+    const [editTitle, setEditTitle] = useState('')
     const {setImageList, imageList} = useContext(ImageListContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {posts, setPosts} = useContext(PostsContext)
@@ -36,12 +38,30 @@ function Post({post, url}:any) {
                         fetch(`/users/${loggedInUser.id}/posts/${post.id}`, {
                             method: 'DELETE'
                         })
+                        deleteObject(imageRef)
                     })
-                    .then(() => deleteObject(imageRef))
+                    
                 }            
             ))   
             }
         })  
+    }
+
+    function handleEditPost(e:any) {
+        e.preventDefault()
+        if (post.image_url === url && post.user_id === loggedInUser.id) {
+            fetch(`/users/${loggedInUser.id}/posts/${post.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: editTitle
+                })
+            })
+            .then(res => res.json())
+            .then(edittedPost => console.log(edittedPost))
+        }
     }
 
 
@@ -70,12 +90,21 @@ function Post({post, url}:any) {
         <CommentsContext.Provider value={{comments, setComments}}>
         <div className="card">
             <p>
-                {post.user_id === loggedInUser.id ? <button onClick={handleDeletePost}>X</button> : null}           
+                {post.user_id === loggedInUser.id ? 
+                <div>
+                    <button onClick={handleDeletePost}>X</button> 
+                    <button onClick={() => setEdit((edit) => !edit)}>Edit</button>
+                </div>
+                : null}           
             </p>
             <img className="post-pic" src={url} alt='oops'/>
             <div>
                 <h1>
                 {post.title}
+                {edit ? <form onSubmit={handleEditPost}>
+                    <input onChange={(e) => setEditTitle(e.target.value)}></input>
+                    <button>Change Title</button>
+                </form> : null} 
                 </h1>
                 <img src={post.user.avatar_url} alt='oops!'></img>
                 <h2>{post.user.username}</h2>

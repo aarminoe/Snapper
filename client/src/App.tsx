@@ -11,7 +11,6 @@ import UserProfile from './UserProfile';
 import Search from './Search';
 import Followers from './Followers';
 import Messages from './Messages';
-import Notifications from './Notifications';
 import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
 import Login from './Login';
@@ -109,15 +108,8 @@ function App(){
                       element={<Followers />}/>
                       <Route
                       path={`messages`}
-                      element={<Messages />}/>
-                      <Route
-                      path={`notfications`}
-                      element={<Notifications />}/>
-                  
+                      element={<Messages />}/>          
                 </Route>
-
-                <Route path={`/${loggedInUser.username}/notfications`}
-                  element={<Notifications />}/>
                 <Route path={`/${loggedInUser.username}/messages`}
                   element={<Messages />}/>
                   

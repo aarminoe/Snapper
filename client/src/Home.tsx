@@ -18,36 +18,41 @@ function Home() {
     const {posts, setPosts} = useContext(PostsContext)
     
  
-    console.log(posts)
+
     function uploadImage(e:any) {
         e.preventDefault()
         console.log(imageUpload)
-        if (imageUpload === null) return
-        const imageRef = ref(storage, `images/${imageUpload.name + loggedInUser.username}`)
-        uploadBytes(imageRef, imageUpload)
-        .then((snap) => {
-            getDownloadURL(snap.ref).then((url) => {
-                fetch(`/users/${loggedInUser.id}/posts`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        title: title,
-                        image_url: url,
-                        user_id: loggedInUser.id
-                    })     
-                })
-                .then(resp => resp.json())
-                .then(data => {
-                    const updatedList = [...imageList, data.image_url]
-                    setImageList(updatedList)
-                    const updatedPosts = [...posts.reverse(), data]
-                    setPosts(updatedPosts.reverse())
-                    console.log(updatedPosts)
-                })
-            })   
-        })
+        if (imageUpload.name !== '') {
+            console.log('Yes')
+            const imageRef = ref(storage, `images/${imageUpload.name + loggedInUser.username}`)
+            uploadBytes(imageRef, imageUpload)
+            .then((snap) => {
+                getDownloadURL(snap.ref).then((url) => {
+                    fetch(`/users/${loggedInUser.id}/posts`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            title: title,
+                            image_url: url,
+                            user_id: loggedInUser.id
+                        })     
+                    })
+                    .then(resp => resp.json())
+                    .then(data => {
+                        const updatedList = [...imageList, data.image_url]
+                        setImageList(updatedList)
+                        const updatedPosts = [...posts.reverse(), data]
+                        setPosts(updatedPosts.reverse())
+                        console.log(updatedPosts)
+                    })
+                })   
+            })
+        }
+        else {
+            console.log('NOOO')
+        }
 
     }
       
