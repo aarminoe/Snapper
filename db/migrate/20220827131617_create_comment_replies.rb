@@ -5,6 +5,7 @@ class CreateCommentReplies < ActiveRecord::Migration[7.0]
       t.string :who_commented
       t.string :who_commented_avatar_url
       t.integer :comment_id
+      t.boolean :edit
       t.timestamps
     end
   end

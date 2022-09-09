@@ -16,6 +16,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_27_132811) do
     t.string "who_commented"
     t.string "who_commented_avatar_url"
     t.integer "comment_id"
+    t.boolean "edit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -25,6 +26,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_27_132811) do
     t.string "who_commented"
     t.string "who_commented_avatar_url"
     t.integer "post_id"
+    t.boolean "edit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
