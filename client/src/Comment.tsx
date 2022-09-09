@@ -85,6 +85,10 @@ function Comment({comment, post}:any) {
             {comment.who_commented === loggedInUser.username || post.user_id === loggedInUser.id ? 
             <div>
                 <button onClick={handleDeleteComment}>X</button>
+            </div>
+            : null}
+            {comment.who_commented === loggedInUser.username ? 
+            <div>
                 <button onClick={() => setIsEdit((isEdit) => !isEdit)}>Edit</button>
             </div>
             : null}
