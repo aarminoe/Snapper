@@ -56,11 +56,25 @@ function Post({post, url}:any) {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    title: editTitle
+                    title: editTitle,
+                    edit: true
                 })
             })
             .then(res => res.json())
-            .then(edittedPost => console.log(edittedPost))
+            .then(edittedPost => {
+                const updatedList = posts.map((post:any) => {
+                    if (post.id === edittedPost.id) {
+                        return {
+                            ...post,
+                            title: edittedPost.title,
+                            edit: edittedPost.edit
+                        }
+                    } else {
+                        return post
+                    }
+                })
+                setPosts(updatedList)
+            })
         }
     }
 
@@ -85,6 +99,7 @@ function Post({post, url}:any) {
             setComments(updatedComments.reverse())
         })
     }
+    console.log(post)
 
     return(
         <CommentsContext.Provider value={{comments, setComments}}>
@@ -101,6 +116,7 @@ function Post({post, url}:any) {
             <div>
                 <h1>
                 {post.title}
+                {post.edit === true ? <p>Editted POST!</p> : null}
                 {edit ? <form onSubmit={handleEditPost}>
                     <input onChange={(e) => setEditTitle(e.target.value)}></input>
                     <button>Change Title</button>

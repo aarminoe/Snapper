@@ -36,7 +36,8 @@ function Home() {
                         body: JSON.stringify({
                             title: title,
                             image_url: url,
-                            user_id: loggedInUser.id
+                            user_id: loggedInUser.id,
+                            edit: false
                         })     
                     })
                     .then(resp => resp.json())
