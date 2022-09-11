@@ -34,6 +34,11 @@ function OtherUserProfile() {
         .then(follows => {
             if (follows.length !== 0) {
                 console.log(follows)
+                for (let i=0;i<follows.length;i++) {
+                    if (follows[i].followed === clickedUser.username) {
+                        setFollowing(true)
+                    }
+                }
             }
         })
     },[])
