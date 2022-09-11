@@ -114,8 +114,8 @@ function App(){
                       path={`messages`}
                       element={<Messages />}/>          
                 </Route>
-                <Route path={`/${loggedInUser.username}/messages`}
-                  element={<Messages />}/>
+                {/* <Route path={`/${loggedInUser.username}/messages`}
+                  element={<Messages />}/> */}
                   
                 <Route path='/search' element={
                   <Search />
