@@ -26,6 +26,8 @@ function UserProfile() {
         getUser()
     }, [])
 
+
+
     return(
         <div>
             <Link 
@@ -39,6 +41,7 @@ function UserProfile() {
             to={`messages`}
             >Messages</Link>
             <Outlet />
+            <img className='avatar' src={loggedInUser.avatar_url} />
             <div>
                 {posts.map((post:any) => {
                     if (post.user_id === loggedInUser.id) {
