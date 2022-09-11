@@ -11,6 +11,7 @@ import UserProfile from './UserProfile';
 import Search from './Search';
 import Followers from './Followers';
 import Messages from './Messages';
+import Following from './Following';
 import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
 import Login from './Login';
@@ -106,6 +107,9 @@ function App(){
                       <Route
                       path={`followers`}
                       element={<Followers />}/>
+                      <Route
+                      path={`following`}
+                      element={<Following />}/> 
                       <Route
                       path={`messages`}
                       element={<Messages />}/>          

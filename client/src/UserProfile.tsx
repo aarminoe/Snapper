@@ -33,6 +33,9 @@ function UserProfile() {
             >Followers
             </Link>
             <Link
+            to={`following`}
+            >Following</Link>
+            <Link
             to={`messages`}
             >Messages</Link>
             <Outlet />
