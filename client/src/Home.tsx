@@ -47,6 +47,7 @@ function Home() {
                         const updatedPosts = [...posts.reverse(), data]
                         setPosts(updatedPosts.reverse())
                         console.log(updatedPosts)
+                        setTitle('')
                     })
                 })   
             })
@@ -67,7 +68,7 @@ function Home() {
                 </form>
                     <p>
                         Set Description
-                        <input type='text' onChange={(e) => setTitle(e.target.value)}></input>
+                        <input type='text' value={title} onChange={(e) => setTitle(e.target.value)}></input>
                     </p>
             <div className="row">       
                 {posts.map((post:any) => {

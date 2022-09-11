@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import Login from './Login'
 import { LoggedInUserContext } from "./Context"
 
@@ -10,6 +10,9 @@ function Signup() {
     const [newUser, setNewUser] = useState<string>('')
     const [newPassword, setNewPassword] = useState<string>('')
     const [confirmNewPassword, setConfirmNewPassword] = useState<string>('')
+    const [errorsFound, setErrorsFound] = useState(false)
+    const [errors, setErrors] = useState(null)
+    
     
 
     function handleSignUp(e:any) {
@@ -29,9 +32,16 @@ function Signup() {
         })
         .then((r) => {
             if (r.ok) {
-                r.json().then((data) => setLoggedInUser(data))
+                r.json().then((data) => {
+                    setLoggedInUser(data)
+                    setErrorsFound(false)
+                })
             } else {
-            r.json().then((err) => console.log(err.errors))
+                r.json().then((err) => {
+                    setErrorsFound(true)
+                    setErrors(err.errors)
+                    console.log(err.errors)
+                })
             }
         })
     }
@@ -51,6 +61,9 @@ function Signup() {
                 <input type='password' onChange={(e) => setConfirmNewPassword(e.target.value)}></input>
             </h1>
             <button>Sign Up!</button>
+            {errorsFound ? errors.map((error:string) => {
+                return <p className="text-danger">{error}</p>
+            }): null}
         </form>
         </div>
     )

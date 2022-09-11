@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { UserListContext, SearchedUserContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers } from "./Context"
+import { UserListContext, SearchedUserContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers, LoggedInUserConversationsContext } from "./Context"
 import { Link } from "react-router-dom"
 import { click } from "@testing-library/user-event/dist/click"
 
@@ -11,9 +11,12 @@ function Search() {
     const {setClickedUser} = useContext(ClickedUserContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
 
+    
+
    
 
     return(
+        
         <div>
             <form>
                 <input type='text' onChange={(e) => setSearchText(e.target.value)}></input>
@@ -30,7 +33,7 @@ function Search() {
                     )
                 }
             })}
-        </div>
+        </div> 
     )
 }
 

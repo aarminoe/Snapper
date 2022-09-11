@@ -33,6 +33,7 @@ function Comment({comment, post}:any) {
             console.log(reply)
             const updatedList = [...commentReplies.reverse(), reply]
             setCommentReplies(updatedList.reverse())
+            setNewReply('')
         })
     }
 
@@ -106,7 +107,7 @@ function Comment({comment, post}:any) {
             {seeReplyComment ? 
             <div>
                 <form onSubmit={handleCommentReply}>
-                    <input type='text' onChange={(e) => setNewReply(e.target.value)}/> 
+                    <input type='text' value={newReply} onChange={(e) => setNewReply(e.target.value)}/> 
                     <button>reply</button>
                 </form>
                 {commentReplies.map((reply:any) => {

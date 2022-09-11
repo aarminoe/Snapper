@@ -1,12 +1,13 @@
 import { useContext } from "react"
 import { LoggedInUserContext } from "./Context"
-import { ConversationsContext } from "./Context"
+import { ConversationsContext, LoggedInUserConversationsContext } from "./Context"
 import React, {useState, useEffect } from "react"
 
 function Messages() {
 
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {conversations, setConversations} = useContext(ConversationsContext)
+    const [loggedInUserConversations, setLoggedInUserConversations] = useState(loggedInUser.conversations)
 
 
     // useEffect(() => {
@@ -16,10 +17,11 @@ function Messages() {
     // }, [])
 
     return(
+        <LoggedInUserConversationsContext.Provider value={{loggedInUserConversations, setLoggedInUserConversations}}>
         <div>
             messages
             <div>
-                {loggedInUser.conversations.map((conversation:any) => {
+                {loggedInUserConversations.map((conversation:any) => {
                     return(
                         <div className="card">
                             <p>
@@ -46,6 +48,7 @@ function Messages() {
 
             </div>
         </div>
+        </LoggedInUserConversationsContext.Provider>
     )
 }
 

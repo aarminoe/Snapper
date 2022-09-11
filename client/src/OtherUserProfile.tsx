@@ -1,6 +1,6 @@
 import { click } from "@testing-library/user-event/dist/click"
-import React, { useContext, useState } from "react"
-import { PostsContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers, ConversationsContext } from "./Context"
+import React, { useContext, useState, useEffect } from "react"
+import { PostsContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers, ConversationsContext, LoggedInUserConversationsContext } from "./Context"
 import Post from "./Post"
 
 
@@ -11,11 +11,15 @@ function OtherUserProfile() {
     const {clickedUser} = useContext(ClickedUserContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
     
+   
+    
     const [seeFollowers, setSeeFollowers] = useState(false)
     const [usersFollowers, setUsersFollowers] = useState(clickedUser.followers)
     const [newMessageText, setNewMessageText] = useState('')
     const [newMessageClick, setNewMessageClick] = useState(false)
     const [following, setFollowing] = useState(false)
+    const [loggedInUserConversations, setLoggedInUserConversations] = useState(loggedInUser.conversations)
+
 
     
     // window.onbeforeunload = (e) => {
@@ -24,6 +28,15 @@ function OtherUserProfile() {
     //     return false
     // }
 
+    useEffect(() => {
+        fetch(`/users/${loggedInUser.id}/follows`)
+        .then(res => res.json())
+        .then(follows => {
+            if (follows.length !== 0) {
+                console.log(follows)
+            }
+        })
+    },[])
 
     function handleSeeFollowers() {
         setSeeFollowers((seeFollowers) => !seeFollowers)
@@ -32,7 +45,41 @@ function OtherUserProfile() {
     function handleFollowUser() {
         setFollowing((following) => !following)
         if (clickedUser.username !== loggedInUser.username) {
+            console.log('here')
             let hasFollowed = false
+            console.log(usersFollowers.length)
+            if (usersFollowers.length === 0) {
+                console.log('not followed yet!')
+                    fetch(`/users/${clickedUser.id}/followers`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            who_followed: loggedInUser.username,
+                            who_followed_avatar_url: loggedInUser.image_url,
+                            user_id: clickedUser.id
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(follower => {
+                        const updatedList = [...usersFollowers, follower]
+                        setUsersFollowers(updatedList)
+                    })
+                    fetch(`/users/${loggedInUser.id}/follows`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            followed: clickedUser.username,
+                            followed_avatar_url: clickedUser.image_url,
+                            user_id: loggedInUser.id
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(follow => console.log(follow))
+            }
             for (let i=0;i<usersFollowers.length;i++) {
                 if (usersFollowers[i].who_followed === loggedInUser.username) {
                     hasFollowed = true
@@ -44,9 +91,12 @@ function OtherUserProfile() {
                     fetch(`/users/${clickedUser.id}/followers/${usersFollowers[i].id}`, {
                         method: 'DELETE'
                     })
+                    fetch(`/users/${clickedUser.id}/follows/${usersFollowers[i].id}`, {
+                        method: 'DELETE'
+                    })
                     break
                 }
-                else if (hasFollowed === false && i === usersFollowers.length -1) {
+                else if (hasFollowed === false && i === usersFollowers.length) {
                     console.log('not followed yet!')
                     fetch(`/users/${clickedUser.id}/followers`, {
                         method: 'POST',
@@ -64,6 +114,19 @@ function OtherUserProfile() {
                         const updatedList = [...usersFollowers, follower]
                         setUsersFollowers(updatedList)
                     })
+                    fetch(`/users/${loggedInUser.id}/follows`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            followed: clickedUser.username,
+                            followed_avatar_url: clickedUser.image_url,
+                            user_id: loggedInUser.id
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(follow => console.log(follow))
                 }
             }    
         }
@@ -91,7 +154,10 @@ function OtherUserProfile() {
                     })
                 })
                 .then(res => res.json())
-                .then(data => console.log(data))
+                .then(data => {
+                    console.log(data)
+                    setNewMessageText('')
+                })
             }
         }
         if (hasConversation !== true) {
@@ -110,6 +176,9 @@ function OtherUserProfile() {
             })
             .then(res => res.json())
             .then(conversation => {
+                const updatedList = [...loggedInUserConversations, conversation]
+                setLoggedInUserConversations(updatedList)
+                console.log(updatedList)
                 fetch(`/user_conversations`, {
                     method:'POST',
                     headers: {
@@ -147,25 +216,29 @@ function OtherUserProfile() {
                         })
                     })
                     .then(res => res.json())
-                    .then(data => console.log(data))
+                    .then(data => {
+                        console.log(data)
+                        setNewMessageText('')
+                    })
                 })             
             })
         }
     }
 
     return(
+        <LoggedInUserConversationsContext.Provider value={{loggedInUserConversations, setLoggedInUserConversations}}>
         <div>
             {clickedUser.username}
             <button onClick={() => {setNewMessageClick((newMessageClick) => !newMessageClick)}}>Message!</button>
             {newMessageClick ? <form onSubmit={sendMessage}>
-                <input type='text' onChange={(e) => setNewMessageText(e.target.value)}/>
+                <input type='text' value={newMessageText} onChange={(e) => setNewMessageText(e.target.value)}/>
                 <button>Send</button>
             </form>: null}
             <div>
                 <button onClick={handleSeeFollowers}>See Followers</button>
                 <div>
-                    {following ? <button onClick={handleFollowUser}>Follow!</button> 
-                    : <button onClick={handleFollowUser}>Following!</button>}
+                    {following ? <button onClick={handleFollowUser}>Following!</button> 
+                    : <button onClick={handleFollowUser}>Follow</button>}
                 </div>
             </div>
             {seeFollowers ? <p>{usersFollowers.map((follower:any) => {
@@ -188,6 +261,7 @@ function OtherUserProfile() {
                 })}
             </div>
         </div>
+        </LoggedInUserConversationsContext.Provider>
     )
 }
 

@@ -1,7 +1,7 @@
 
 import './index.css'
 import React, { useState, useEffect, ReactNode} from 'react'
-import { ConversationsContext, ImageListContext, ImageUploadContext, LoggedInUserContext, LoggedInUserPostsContext, PostsContext, UserListContext, SearchedUserContext, ClickedUserContext } from './Context'
+import { ConversationsContext, ImageListContext, ImageUploadContext, LoggedInUserContext, LoggedInUserPostsContext, PostsContext, UserListContext, SearchedUserContext, ClickedUserContext, LoggedInUserConversationsContext } from './Context'
 import { Route, Routes } from "react-router-dom"
 import Home from './Home';
 import NavBar from './NavBar';
@@ -30,6 +30,8 @@ function App(){
   const [conversations, setConversations] = useState(null)
   const [searchText, setSearchText] = useState('')
   const [clickedUser, setClickedUser] = useState(null)
+  
+  
 
   useEffect(() => {
     fetch('/users')
@@ -73,7 +75,6 @@ function App(){
 
 
   return (
-    
     <LoggedInUserContext.Provider value={{loggedInUser, setLoggedInUser}}>
       <PostsContext.Provider value={{posts, setPosts}}>
         <UserListContext.Provider value={{userList, setUserList}}>
@@ -94,7 +95,6 @@ function App(){
                         <Home />
                       </LoggedInUserPostsContext.Provider> 
                     </ImageUploadContext.Provider>       
-                  
                 }/>
                 <Route path={`/${loggedInUser.username}`} element={
                   <LoggedInUserPostsContext.Provider value={{loggedInUserPosts, setLoggedInUserPosts}}>
@@ -121,9 +121,8 @@ function App(){
                 <Route
                   path={`/other_user`}
                   element={
-                      <OtherUserProfile/>}/>      
-            </Routes>
-            
+                      <OtherUserProfile/>}/>    
+            </Routes> 
           </ImageListContext.Provider>
         </div> :
         <div>
@@ -131,8 +130,6 @@ function App(){
           or
           <Signup />
         </div>
-        
-        
         }
       </div>
             </ClickedUserContext.Provider>

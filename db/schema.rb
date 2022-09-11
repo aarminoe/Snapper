@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_27_132811) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_11_153235) do
   create_table "comment_replies", force: :cascade do |t|
     t.string "reply"
     t.string "who_commented"
@@ -43,6 +43,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_27_132811) do
   create_table "followers", force: :cascade do |t|
     t.string "who_followed"
     t.string "who_followed_avatar_url"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.string "followed"
+    t.string "followed_avatar_url"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

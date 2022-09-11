@@ -97,6 +97,7 @@ function Post({post, url}:any) {
         .then(comment => {
             const updatedComments = [...comments.reverse(), comment]
             setComments(updatedComments.reverse())
+            setNewComment('')
         })
     }
     console.log(post)
@@ -104,14 +105,14 @@ function Post({post, url}:any) {
     return(
         <CommentsContext.Provider value={{comments, setComments}}>
         <div className="card">
-            <p>
+            <div>
                 {post.user_id === loggedInUser.id ? 
                 <div>
                     <button onClick={handleDeletePost}>X</button> 
                     <button onClick={() => setEdit((edit) => !edit)}>Edit</button>
                 </div>
                 : null}           
-            </p>
+            </div>
             <img className="post-pic" src={url} alt='oops'/>
             <div>
                 <h1>
@@ -124,14 +125,14 @@ function Post({post, url}:any) {
                 </h1>
                 <img src={post.user.avatar_url} alt='oops!'></img>
                 <h2>{post.user.username}</h2>
-                <p>
+                <div>
                     Add Comment
                     <form onSubmit={handleNewComment}>
-                        <input type='text' onChange={(e) => setNewComment(e.target.value)}></input>
+                        <input type='text' value={newComment} onChange={(e) => setNewComment(e.target.value)}></input>
                         <button>Add</button>
                     </form>
                     
-                </p>
+                </div>
                 <p>
                     {comments.map((comment:any) => {
                         return <Comment comment={comment} post={post}/>

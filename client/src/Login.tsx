@@ -9,6 +9,7 @@ function Login() {
 
     const [user, setUser] = useState('')
     const [password, setPassword] = useState('')
+    const [userNotFound, setUserNotFound] = useState(false)
 
 
 
@@ -26,9 +27,15 @@ function Login() {
         })
         .then((r) => {
             if (r.ok) {
-              r.json().then((data) => setLoggedInUser(data))
+              r.json().then((data) => {
+                setUserNotFound(false)
+                setLoggedInUser(data)
+            })
             } else {
-              r.json().then((err) => console.log(err.errors))
+              r.json().then((err) => {
+                setUserNotFound(true)
+                console.log(err.errors)
+            })
             }
         })
     }
@@ -44,6 +51,7 @@ function Login() {
             </h1>
 
             <button>Log In</button>
+            {userNotFound ? <p className='text-danger'>User/Password Not Found</p> : null}
         </form>
     )
 }

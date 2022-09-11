@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     end
     resources :conversations
     resources :followers
+    resources :follows
   end
 
 end
