@@ -7,7 +7,7 @@ function Followers() {
     const {loggedInUser} = useContext(LoggedInUserContext)
 
     return(
-        <div>
+        <div className="user-tab">
             follower
             {loggedInUser.followers.map((follower:any) => {
                 return(

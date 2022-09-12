@@ -2,11 +2,58 @@ html {
   font-family: 'Courier New', Courier, monospace;
 }
 
-body {
-  margin: 0;
-}
+
 
 .post-pic {
   width: 400px;
   height: 400px;
 }
+
+.avatar {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+.logout {
+
+}
+
+
+body {
+  font-family: "Open Sans", Arial, sans-serif;
+  min-height: 100vh;
+  background-color: #fafafa;
+  color: #262626;
+  padding-bottom: 3rem; 
+}
+
+body > *  {
+  margin: auto;
+  width: 1200px;
+  display: block;
+  overflow: auto;
+}
+
+img {
+  display: block;
+}
+
+.container-fluid {
+  justify-content: center;
+}
+
+.nav-btn{
+  margin-left: 10px;
+  margin-right: 300px;
+}
+
+.navbar > *{
+  margin-left:125px;
+  margin-right:125px;
+}
+
+.navbar {
+  color: rgb(255, 255, 255);
+}
+

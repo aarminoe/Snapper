@@ -3,7 +3,7 @@ import { Route, Routes, NavLink, Outlet } from "react-router-dom"
 import Followers from "./Followers"
 import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from "./Context"
 import { useContext, useEffect } from "react"
-import { Link } from "react-router-dom"
+
 import { ImageListContext } from "./Context"
 
 import { storage } from './firebase'
@@ -30,17 +30,22 @@ function UserProfile() {
 
     return(
         <div>
-            <Link 
-            to={`followers`}
-            >Followers
-            </Link>
-            <Link
-            to={`following`}
-            >Following</Link>
-            <Link
-            to={`messages`}
-            >Messages</Link>
-            <Outlet />
+            <div className="navbar navbar-dark bg-dark">
+                <NavLink 
+                className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"
+                to={`followers`}
+                >Followers
+                </NavLink>
+                <NavLink
+                className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"
+                to={`following`}
+                >Following</NavLink>
+                <NavLink
+                className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"
+                to={`messages`}
+                >Messages</NavLink>
+            </div>
+                <Outlet />
             <img className='avatar' src={loggedInUser.avatar_url} />
             <div>
                 {posts.map((post:any) => {
@@ -50,6 +55,7 @@ function UserProfile() {
                 })}
             </div>
         </div>
+        
     )
 }
 

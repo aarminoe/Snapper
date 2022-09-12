@@ -13,7 +13,7 @@ function Header() {
         <div>
             Header
             <p>
-                <button onClick={handleLogOut}>Log Out!</button>
+                <button className="logout" onClick={handleLogOut}>Log Out!</button>
             </p>
         </div>
     )
