@@ -18,12 +18,16 @@ Rails.application.routes.draw do
     resources :posts do
       resources :post_likes
       resources :comments do
-        resources :comment_replies
+        resources :comment_likes
+        resources :comment_replies do
+          resources :comment_reply_likes
+        end
       end
     end
     resources :conversations
     resources :followers
     resources :follows
   end
+
 
 end

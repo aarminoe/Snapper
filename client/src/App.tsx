@@ -63,15 +63,23 @@ function App(){
   useEffect(() => {
     fetch('/posts')
     .then(res => res.json())
-    .then(posts => setPosts(posts.reverse()))
- 
+    .then(posts => {
+      if (posts) {
+        setPosts(posts.reverse())
+
+      }
+    }
+    )
   }, [])
 
   useEffect(() => {
     fetch('/conversations')
     .then(res => res.json())
     .then(conversations => {
-      setConversations(conversations.reverse())})
+      if (conversations) {
+        setConversations(conversations.reverse())}
+      }
+      )
   }, [])
 
 

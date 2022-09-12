@@ -10,13 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_11_153235) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_12_214929) do
+  create_table "comment_likes", force: :cascade do |t|
+    t.string "who_liked"
+    t.string "who_liked_avatar_url"
+    t.integer "comment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "comment_replies", force: :cascade do |t|
     t.string "reply"
     t.string "who_commented"
     t.string "who_commented_avatar_url"
     t.integer "comment_id"
     t.boolean "edit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "comment_reply_likes", force: :cascade do |t|
+    t.string "who_liked"
+    t.string "who_liked_avatar_url"
+    t.integer "comment_reply_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

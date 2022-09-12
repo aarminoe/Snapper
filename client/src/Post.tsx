@@ -100,7 +100,19 @@ function Post({post, url}:any) {
             setNewComment('')
         })
     }
-    console.log(post)
+    
+    function handlePostLike() {
+        fetch(`/user_post_likes`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user_id: loggedInUser.id,
+                post_id: post.id
+            })
+        })
+    }
 
     return(
         <CommentsContext.Provider value={{comments, setComments}}>
@@ -114,16 +126,17 @@ function Post({post, url}:any) {
                 : null}           
             </div>
             <img className="post-pic" src={url} alt='oops'/>
-            <div>
+            <div className="post-details">
                 <h1>
                 {post.title}
+                <button onClick={handlePostLike}>like</button>
                 {post.edit === true ? <p>Editted POST!</p> : null}
                 {edit ? <form onSubmit={handleEditPost}>
                     <input onChange={(e) => setEditTitle(e.target.value)}></input>
                     <button>Change Title</button>
                 </form> : null} 
                 </h1>
-                <img src={post.user.avatar_url} alt='oops!'></img>
+                <img className='avatar'  src={post.user.avatar_url} alt='oops!'></img>
                 <h2>{post.user.username}</h2>
                 <div>
                     Add Comment
