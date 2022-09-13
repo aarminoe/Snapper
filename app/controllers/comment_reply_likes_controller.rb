@@ -28,7 +28,7 @@ class CommentReplyLikesController < ApplicationController
     private
 
     def comment_reply_like_params 
-        params.permit(:who_liked, :who_liked_avatar_url, :comment_id)
+        params.permit(:who_liked, :who_liked_avatar_url, :comment_reply_id)
     end
 
 

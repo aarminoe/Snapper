@@ -1,3 +1,4 @@
+import { rmSync } from "fs"
 import { useContext, useState } from "react"
 import { CommentRepliesContext, LoggedInUserContext } from "./Context"
 
@@ -8,6 +9,7 @@ function  CommentReply({reply, comment, post}:any){
     const {loggedInUser} = useContext(LoggedInUserContext)
     const [isEdit, setIsEdit] = useState(false)
     const [editReplyText, setEditReplyText] = useState('')
+    const [commentReplyLikes, setCommentReplyLikes] = useState(reply.comment_reply_likes)
 
     function handleDeleteCommentReply() {
         const updatedList = commentReplies.filter((deletedReply:any) => {
@@ -48,6 +50,78 @@ function  CommentReply({reply, comment, post}:any){
         })
     }
 
+    function handleReplyLike() {
+        let isLiked = false 
+        for (let i=0; i<commentReplyLikes.length; i++) {
+            if (commentReplyLikes[i].who_liked === loggedInUser.username) {
+                isLiked = true 
+                const updatedList = commentReplyLikes.filter((like:any) => {
+                    return like.id !== commentReplyLikes[i].id
+                })
+                setCommentReplyLikes(updatedList)
+                fetch(`/users/${post.user.id}/posts/${post.id}/comments/${comment.id}/comment_replies/${reply.id}/comment_reply_likes/${commentReplyLikes[i].id}`, {
+                    method:'DELETE'
+                })
+            }
+        }
+        if (isLiked === false) {
+            fetch(`/users/${post.user.id}/posts/${post.id}/comments/${comment.id}/comment_replies/${reply.id}/comment_reply_likes`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    who_liked: loggedInUser.username,
+                    who_liked_avatar_url: loggedInUser.avatar_url,
+                    comment_reply_id: reply.id
+                })
+            })
+            .then(res => res.json())
+            .then(like => {
+                const updatedList = [...commentReplyLikes, like]
+                setCommentReplyLikes(updatedList)
+            })
+        }
+    }
+
+     // function handlePostLike() {
+    //     console.log(post)
+    //     let isLiked = false
+    //     for (let i=0;i<postLikes.length;i++) {
+    //         if (postLikes[i].who_liked === loggedInUser.username) {
+    //             isLiked = true
+    //             console.log('whoa there buddy')
+    //             const updatedList = postLikes.filter((like:any) => {
+    //                 return like.id !== postLikes[i].id
+    //             })
+    //             setPostLikes(updatedList)
+    //             fetch(`/users/${loggedInUser.id}/posts/${post.id}/post_likes/${postLikes[i].id}`, {
+    //                 method: 'DELETE'
+    //             })
+    //         }
+    //     }
+    //     if (isLiked === false) {
+    //         console.log('we doing it!')
+    //         fetch(`/users/${loggedInUser.id}/posts/${post.id}/post_likes`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({
+    //                 who_liked: post.user.username,
+    //                 who_liked_avatar_url: loggedInUser.avatar_url,
+    //                 post_id: post.id
+    //             })
+    //         })
+    //         .then(res => res.json())
+    //         .then(like => {
+    //             console.log(like)
+    //             const updatedList = [...postLikes, like]
+    //             setPostLikes(updatedList)
+    //         })
+    //     }
+    // }
+
     return(
         <div>
             <img src={reply.who_commented_avatar_url} alt='oops!'></img>
@@ -60,7 +134,6 @@ function  CommentReply({reply, comment, post}:any){
                 : null}
                 {reply.who_commented === loggedInUser.username ? 
                 <div>
-                     
                     <button onClick={() => setIsEdit((isEdit) => !isEdit)}>Edit</button>
                 </div>
                 : null}
@@ -70,8 +143,11 @@ function  CommentReply({reply, comment, post}:any){
                     <button>Add Edit</button>
                 </form>
                 : null}
+                <button onClick={handleReplyLike}>Like</button>
                 {reply.edit ? <div>Editted!</div> : null}
                 {reply.reply}
+                {commentReplyLikes.length >= 2 ? <p>{`${commentReplyLikes[commentReplyLikes.length-1].who_liked} and ${commentReplyLikes.length} others liked this`}</p> : null }
+                {commentReplyLikes.length === 1 ? <p>{`${commentReplyLikes[commentReplyLikes.length-1].who_liked} liked this`}</p> : null }
             </div>
         </div>
     )
