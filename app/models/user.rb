@@ -3,6 +3,7 @@ class User < ApplicationRecord
     has_many :posts, dependent: :destroy
     has_many :comments, through: :posts, dependent: :destroy
     has_many :comment_replies, through: :comments
+    has_many :comment_likes, through: :comments
     has_many :followers
     has_many :follows
     has_many :user_conversations

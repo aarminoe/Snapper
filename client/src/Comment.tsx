@@ -10,6 +10,7 @@ function Comment({comment, post}:any) {
     const [commentReplies, setCommentReplies] = useState([...comment.comment_replies.reverse()])
     const [isEdit, setIsEdit] = useState(false)
     const [edittedCommentText, setEdittedCommentText] = useState('')
+    const [commentLikes, setCommentLikes] = useState(comment.comment_likes)
 
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {comments, setComments} = useContext(CommentsContext)
@@ -79,6 +80,82 @@ function Comment({comment, post}:any) {
     }
 
     console.log(comment)
+    console.log(post.user.id)
+
+    function handleLikeComment() {
+        let isLiked = false 
+        for(let i=0;i<commentLikes.length;i++) {
+            if (commentLikes[i].who_liked === loggedInUser.username) {
+                isLiked = true
+                const updatedList = commentLikes.filter((like:any) => {
+                    return like.id !== commentLikes[i].id
+                })
+                setCommentLikes(updatedList)
+                fetch(`/users/${post.user.id}/posts/${comment.post_id}/comments/${comment.id}/comment_likes/${commentLikes[i].id}`, {
+                    method: 'DELETE'
+                })
+            }
+        }
+        if (isLiked === false) {
+            fetch(`/users/${post.user.id}/posts/${comment.post_id}/comments/${comment.id}/comment_likes`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    who_liked: loggedInUser.username,
+                    who_liked_avatar_url: loggedInUser.avatar_url,
+                    comment_id: comment.id
+                })
+            })
+            .then(res => res.json())
+            .then(like => {
+                console.log(like)
+                const updatedList = [...commentLikes, like]
+                setCommentLikes(updatedList)
+            })
+        }
+    }
+
+    // function handlePostLike() {
+    //     console.log(post)
+    //     let isLiked = false
+    //     for (let i=0;i<postLikes.length;i++) {
+    //         if (postLikes[i].who_liked === loggedInUser.username) {
+    //             isLiked = true
+    //             console.log('whoa there buddy')
+    //             const updatedList = postLikes.filter((like:any) => {
+    //                 return like.id !== postLikes[i].id
+    //             })
+    //             setPostLikes(updatedList)
+    //             fetch(`/users/${loggedInUser.id}/posts/${post.id}/post_likes/${postLikes[i].id}`, {
+    //                 method: 'DELETE'
+    //             })
+    //         }
+    //     }
+    //     if (isLiked === false) {
+    //         console.log('we doing it!')
+    //         fetch(`/users/${loggedInUser.id}/posts/${post.id}/post_likes`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({
+    //                 who_liked: post.user.username,
+    //                 who_liked_avatar_url: loggedInUser.avatar_url,
+    //                 post_id: post.id
+    //             })
+    //         })
+    //         .then(res => res.json())
+    //         .then(like => {
+    //             console.log(like)
+    //             const updatedList = [...postLikes, like]
+    //             setPostLikes(updatedList)
+    //         })
+    //     }
+    // }
+
+
 
     return(
         <CommentRepliesContext.Provider value={{commentReplies, setCommentReplies}}>
@@ -102,8 +179,12 @@ function Comment({comment, post}:any) {
                 <button>Add Edit</button>
             </form>
             : null}
+            
             {comment.comment}
-            <button onClick={() => setSeeReplyComment((seeReplyComment) => !seeReplyComment)}>reply</button>
+            {commentLikes.length >= 2 ? <p>{`${commentLikes[commentLikes.length-1].who_liked} and ${commentLikes.length} others liked this`}</p> : null }
+            {commentLikes.length === 1 ? <p>{`${commentLikes[commentLikes.length-1].who_liked} liked this`}</p> : null }
+            <button onClick={handleLikeComment}>Like</button>
+            <button onClick={() => setSeeReplyComment((seeReplyComment) => !seeReplyComment)}>see reply</button>
             {seeReplyComment ? 
             <div>
                 <form onSubmit={handleCommentReply}>

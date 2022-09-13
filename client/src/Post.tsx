@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL, getStorage, deleteObject } from 'firebase/storage'
 import { ImageListContext } from "./Context"
@@ -18,6 +18,7 @@ function Post({post, url}:any) {
     const {posts, setPosts} = useContext(PostsContext)
     const imageListRef = ref(storage, 'images/')
     const imageRef = ref(storage, url)
+
 
     function handleDeletePost() {
         posts.forEach((post:any) => {
@@ -141,6 +142,7 @@ function Post({post, url}:any) {
         }
     }
 
+    console.log(post)
 
     return(
         <CommentsContext.Provider value={{comments, setComments}}>

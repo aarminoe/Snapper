@@ -3,7 +3,7 @@ class PostsController < ApplicationController
 
     def index
         posts = Post.all
-        render json: posts, include: ['comments.comment_replies', 'user', 'post_likes']
+        render json: posts, include: ['comments.comment_replies', 'comments.comment_likes', 'user', 'post_likes']
     end
 
     def create
