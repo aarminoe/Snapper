@@ -12,6 +12,7 @@ function Post({post, url}:any) {
     const [comments, setComments] = useState([...post.comments.reverse()])
     const [edit, setEdit] = useState(false)
     const [editTitle, setEditTitle] = useState('')
+    const [postLikes, setPostLikes] = useState(post.post_likes)
     const {setImageList, imageList} = useContext(ImageListContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {posts, setPosts} = useContext(PostsContext)
@@ -100,19 +101,46 @@ function Post({post, url}:any) {
             setNewComment('')
         })
     }
+    console.log(post)
     
     function handlePostLike() {
-        fetch(`/user_post_likes`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                user_id: loggedInUser.id,
-                post_id: post.id
+        console.log(post)
+        let isLiked = false
+        for (let i=0;i<postLikes.length;i++) {
+            if (postLikes[i].who_liked === loggedInUser.username) {
+                isLiked = true
+                console.log('whoa there buddy')
+                const updatedList = postLikes.filter((like:any) => {
+                    return like.id !== postLikes[i].id
+                })
+                setPostLikes(updatedList)
+                fetch(`/users/${loggedInUser.id}/posts/${post.id}/post_likes/${postLikes[i].id}`, {
+                    method: 'DELETE'
+                })
+            }
+        }
+        if (isLiked === false) {
+            console.log('we doing it!')
+            fetch(`/users/${loggedInUser.id}/posts/${post.id}/post_likes`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    who_liked: post.user.username,
+                    who_liked_avatar_url: loggedInUser.avatar_url,
+                    post_id: post.id
+                })
             })
-        })
+            .then(res => res.json())
+            .then(like => {
+                console.log(like)
+                const updatedList = [...postLikes, like]
+                setPostLikes(updatedList)
+            })
+        }
     }
+
 
     return(
         <CommentsContext.Provider value={{comments, setComments}}>
@@ -130,6 +158,8 @@ function Post({post, url}:any) {
                 <h1>
                 {post.title}
                 <button onClick={handlePostLike}>like</button>
+                {postLikes.length > 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length} others liked this post`}</p> : null}
+                {postLikes.length === 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} liked this post`}</p> : null}
                 {post.edit === true ? <p>Editted POST!</p> : null}
                 {edit ? <form onSubmit={handleEditPost}>
                     <input onChange={(e) => setEditTitle(e.target.value)}></input>
