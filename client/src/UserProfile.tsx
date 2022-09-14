@@ -1,8 +1,8 @@
 // import ProfileNav from "./ProfileNav"
-import { Route, Routes, NavLink, Outlet } from "react-router-dom"
+import { Route, Routes, NavLink, Outlet, useSearchParams } from "react-router-dom"
 import Followers from "./Followers"
 import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from "./Context"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 
 import { ImageListContext } from "./Context"
 
@@ -17,6 +17,7 @@ function UserProfile() {
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {posts, setPosts} = useContext(PostsContext)
     const {conversations, setConversations} = useContext(ConversationsContext)
+    const [willEdit, setWillEdit] = useState(true)
     
 
     useEffect(() => {
@@ -47,6 +48,9 @@ function UserProfile() {
             </div>
                 <Outlet />
             <img className='avatar' src={loggedInUser.avatar_url} />
+            <button onClick={() => setWillEdit((willEdit) => !willEdit)}>
+                Edit Profile
+            </button>
             <div>
                 {posts.map((post:any) => {
                     if (post.user_id === loggedInUser.id) {

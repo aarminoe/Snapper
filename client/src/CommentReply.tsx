@@ -84,47 +84,9 @@ function  CommentReply({reply, comment, post}:any){
         }
     }
 
-     // function handlePostLike() {
-    //     console.log(post)
-    //     let isLiked = false
-    //     for (let i=0;i<postLikes.length;i++) {
-    //         if (postLikes[i].who_liked === loggedInUser.username) {
-    //             isLiked = true
-    //             console.log('whoa there buddy')
-    //             const updatedList = postLikes.filter((like:any) => {
-    //                 return like.id !== postLikes[i].id
-    //             })
-    //             setPostLikes(updatedList)
-    //             fetch(`/users/${loggedInUser.id}/posts/${post.id}/post_likes/${postLikes[i].id}`, {
-    //                 method: 'DELETE'
-    //             })
-    //         }
-    //     }
-    //     if (isLiked === false) {
-    //         console.log('we doing it!')
-    //         fetch(`/users/${loggedInUser.id}/posts/${post.id}/post_likes`, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({
-    //                 who_liked: post.user.username,
-    //                 who_liked_avatar_url: loggedInUser.avatar_url,
-    //                 post_id: post.id
-    //             })
-    //         })
-    //         .then(res => res.json())
-    //         .then(like => {
-    //             console.log(like)
-    //             const updatedList = [...postLikes, like]
-    //             setPostLikes(updatedList)
-    //         })
-    //     }
-    // }
-
     return(
         <div>
-            <img src={reply.who_commented_avatar_url} alt='oops!'></img>
+            <img src={reply.who_commented_avatar_url} className='avatar-comment' alt='oops!'></img>
             <h3>{reply.who_commented}</h3>
             <div>
                 {reply.who_commented === loggedInUser.username || post.user_id === loggedInUser.id ? 

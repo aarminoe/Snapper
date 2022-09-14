@@ -53,7 +53,7 @@ function Signup() {
     function handleSignUp(e:any) {
         e.preventDefault()
         console.log(avatar)
-        if (avatar.name !== '') {
+        if (avatar !== null) {
             console.log('Yes')
             const imageRef = ref(storage, `avatars/${avatar.name + newUser}`)
             uploadBytes(imageRef, avatar)
@@ -88,6 +88,10 @@ function Signup() {
                     })
                 })   
             })
+        }
+        else {
+            setErrorsFound(true)
+            setErrors(['Please Upload A Profile Picture'])
         }
     }
 

@@ -25,7 +25,7 @@ function Comment({comment, post}:any) {
             body: JSON.stringify({
                 reply: newReply,
                 who_commented: loggedInUser.username,
-                who_commented_avatar_url: loggedInUser.image_url,
+                who_commented_avatar_url: loggedInUser.avatar_url,
                 comment_id: comment.id
             })
         })
@@ -64,6 +64,7 @@ function Comment({comment, post}:any) {
                 }
             })
             setComments(updatedList)
+            setEdittedCommentText('')
         })
     }
 
@@ -79,7 +80,7 @@ function Comment({comment, post}:any) {
         })
     }
 
-    console.log(comment)
+    console.log(loggedInUser)
     console.log(post.user.id)
 
     function handleLikeComment() {
@@ -117,50 +118,54 @@ function Comment({comment, post}:any) {
         }
     }
 
+    console.log(comment)
    
 
 
 
     return(
         <CommentRepliesContext.Provider value={{commentReplies, setCommentReplies}}>
-            Comment
-            {comment.who_commented === loggedInUser.username || post.user_id === loggedInUser.id ? 
-            <div>
-                <button onClick={handleDeleteComment}>X</button>
-            </div>
-            : null}
-            {comment.who_commented === loggedInUser.username ? 
-            <div>
-                <button onClick={() => setIsEdit((isEdit) => !isEdit)}>Edit</button>
-            </div>
-            : null}
-            <img src={comment.who_commented_avatar_url} alt='oops!'></img>
-            <h3>{comment.who_commented}</h3>
-            {comment.edit === true ? <p>Editted Comment</p> : null}
-            {isEdit ? 
-            <form onSubmit={handleEditComment}>
-                <input onChange={(e) => setEdittedCommentText(e.target.value)}></input> 
-                <button>Add Edit</button>
-            </form>
-            : null}
-            
-            {comment.comment}
-            {commentLikes.length >= 2 ? <p>{`${commentLikes[commentLikes.length-1].who_liked} and ${commentLikes.length} others liked this`}</p> : null }
-            {commentLikes.length === 1 ? <p>{`${commentLikes[commentLikes.length-1].who_liked} liked this`}</p> : null }
-            <button onClick={handleLikeComment}>Like</button>
-            <button onClick={() => setSeeReplyComment((seeReplyComment) => !seeReplyComment)}>see reply</button>
-            {seeReplyComment ? 
-            <div>
-                <form onSubmit={handleCommentReply}>
-                    <input type='text' value={newReply} onChange={(e) => setNewReply(e.target.value)}/> 
-                    <button>reply</button>
+            <div className="card">
+                Comment
+                {comment.who_commented === loggedInUser.username || post.user_id === loggedInUser.id ? 
+                <div>
+                    <button onClick={handleDeleteComment}>X</button>
+                </div>
+                : null}
+                {comment.who_commented === loggedInUser.username ? 
+                <div>
+                    <button onClick={() => setIsEdit((isEdit) => !isEdit)}>Edit</button>
+                </div>
+                : null}
+                <img src={comment.who_commented_avatar_url} className='avatar-comment' alt='oops!'></img>
+                <h3>{comment.who_commented}</h3>
+                {comment.edit === true ? <p>Editted Comment</p> : null}
+                {isEdit ? 
+                <form onSubmit={handleEditComment}>
+                    <input value={edittedCommentText} onChange={(e) => setEdittedCommentText(e.target.value)}></input> 
+                    <button>Add Edit</button>
                 </form>
-                {commentReplies.map((reply:any) => {
-                return <CommentReply reply={reply} comment={comment} post={post}/>
-            })}
+                : null}
+                
+                {comment.comment}
+                {commentLikes.length >= 2 ? <p>{`${commentLikes[commentLikes.length-1].who_liked} and ${commentLikes.length} others liked this`}</p> : null }
+                {commentLikes.length === 1 ? <p>{`${commentLikes[commentLikes.length-1].who_liked} liked this`}</p> : null }
+                <button onClick={handleLikeComment}>Like</button>
+                <button onClick={() => setSeeReplyComment((seeReplyComment) => !seeReplyComment)}>see reply</button>
+                {seeReplyComment ? 
+                <div>
+                    <form onSubmit={handleCommentReply}>
+                        <input type='text' value={newReply} onChange={(e) => setNewReply(e.target.value)}/> 
+                        <button>reply</button>
+                    </form>
+                    {commentReplies.map((reply:any) => {
+                    return <CommentReply reply={reply} comment={comment} post={post}/>
+                })}
+                </div>
+                : null}
+                
+
             </div>
-            : null}
-            
         </CommentRepliesContext.Provider>
     )
 }

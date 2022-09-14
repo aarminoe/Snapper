@@ -13,6 +13,7 @@ function Post({post, url}:any) {
     const [edit, setEdit] = useState(false)
     const [editTitle, setEditTitle] = useState('')
     const [postLikes, setPostLikes] = useState(post.post_likes)
+    const [seeComments, setSeeComments] = useState(false)
     const {setImageList, imageList} = useContext(ImageListContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {posts, setPosts} = useContext(PostsContext)
@@ -76,6 +77,7 @@ function Post({post, url}:any) {
                     }
                 })
                 setPosts(updatedList)
+                setEditTitle('')
             })
         }
     }
@@ -91,7 +93,7 @@ function Post({post, url}:any) {
             body: JSON.stringify({
                 comment: newComment,
                 who_commented: loggedInUser.username,
-                who_commented_avatar_url: loggedInUser.image_url,
+                who_commented_avatar_url: loggedInUser.avatar_url,
                 post_id: post.id
             })
         })
@@ -164,25 +166,27 @@ function Post({post, url}:any) {
                 {postLikes.length === 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} liked this post`}</p> : null}
                 {post.edit === true ? <p>Editted POST!</p> : null}
                 {edit ? <form onSubmit={handleEditPost}>
-                    <input onChange={(e) => setEditTitle(e.target.value)}></input>
+                    <input value={editTitle} onChange={(e) => setEditTitle(e.target.value)}></input>
                     <button>Change Title</button>
                 </form> : null} 
                 </h1>
                 <img className='avatar'  src={post.user.avatar_url} alt='oops!'></img>
                 <h2>{post.user.username}</h2>
+                <button onClick={() => setSeeComments((seeComments) => !seeComments)}>See Comments</button>
+                {seeComments ? 
                 <div>
                     Add Comment
                     <form onSubmit={handleNewComment}>
                         <input type='text' value={newComment} onChange={(e) => setNewComment(e.target.value)}></input>
                         <button>Add</button>
                     </form>
-                    
-                </div>
-                <p>
+                    <p>
                     {comments.map((comment:any) => {
                         return <Comment comment={comment} post={post}/>
                     })}
-                </p>
+                    </p>    
+                </div>
+                 : null}
             </div>
         </div>
         </CommentsContext.Provider>
