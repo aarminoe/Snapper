@@ -1,12 +1,16 @@
+import { click } from "@testing-library/user-event/dist/click"
 import { rmSync } from "fs"
 import { useContext, useState } from "react"
-import { CommentRepliesContext, LoggedInUserContext } from "./Context"
+import { NavLink } from "react-router-dom"
+import { CommentRepliesContext, LoggedInUserContext, ClickedUserContext, UserListContext } from "./Context"
 
 
 function  CommentReply({reply, comment, post}:any){
 
     const {commentReplies, setCommentReplies} = useContext(CommentRepliesContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
+    const {setClickedUser} = useContext(ClickedUserContext)
+    const {userList} = useContext(UserListContext)
     const [isEdit, setIsEdit] = useState(false)
     const [editReplyText, setEditReplyText] = useState('')
     const [commentReplyLikes, setCommentReplyLikes] = useState(reply.comment_reply_likes)
@@ -84,10 +88,20 @@ function  CommentReply({reply, comment, post}:any){
         }
     }
 
+    function handleClickedUser(){
+        console.log(reply)
+        for (let i=0;i < userList.length;i++) {
+            if (userList[i].username === reply.who_commented) {
+                setClickedUser(userList[i])
+                break
+            }
+        }
+    }
+
     return(
         <div>
             <img src={reply.who_commented_avatar_url} className='avatar-comment' alt='oops!'></img>
-            <h3>{reply.who_commented}</h3>
+            <NavLink to='/other_user' onClick={handleClickedUser}>{reply.who_commented}</NavLink>
             <div>
                 {reply.who_commented === loggedInUser.username || post.user_id === loggedInUser.id ? 
                 <div>

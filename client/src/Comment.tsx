@@ -1,6 +1,7 @@
 import CommentReply from "./CommentReply"
 import React, { useContext, useState } from "react"
-import { LoggedInUserContext, CommentsContext, CommentRepliesContext } from "./Context"
+import { LoggedInUserContext, CommentsContext, CommentRepliesContext, UserListContext, ClickedUserContext } from "./Context"
+import { NavLink } from "react-router-dom"
 
 
 function Comment({comment, post}:any) {
@@ -12,6 +13,8 @@ function Comment({comment, post}:any) {
     const [edittedCommentText, setEdittedCommentText] = useState('')
     const [commentLikes, setCommentLikes] = useState(comment.comment_likes)
 
+    const {setClickedUser} = useContext(ClickedUserContext)
+    const {userList} = useContext(UserListContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {comments, setComments} = useContext(CommentsContext)
 
@@ -80,6 +83,20 @@ function Comment({comment, post}:any) {
         })
     }
 
+    function handleClickedUser(){
+        console.log('comment')
+        console.log(comment.who_commented)
+        for (let i=0;i < userList.length;i++) {
+            console.log(userList[i])
+            if (userList[i].username === comment.who_commented) {
+                setClickedUser(userList[i])
+                console.log(userList[i])
+                break
+            }
+            
+        }
+    }
+
     console.log(loggedInUser)
     console.log(post.user.id)
 
@@ -138,7 +155,7 @@ function Comment({comment, post}:any) {
                 </div>
                 : null}
                 <img src={comment.who_commented_avatar_url} className='avatar-comment' alt='oops!'></img>
-                <h3>{comment.who_commented}</h3>
+                <NavLink to='/other_user' onClick={handleClickedUser}>{comment.who_commented}</NavLink>
                 {comment.edit === true ? <p>Editted Comment</p> : null}
                 {isEdit ? 
                 <form onSubmit={handleEditComment}>

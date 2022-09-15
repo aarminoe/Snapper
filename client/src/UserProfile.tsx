@@ -18,6 +18,7 @@ function UserProfile() {
     const {posts, setPosts} = useContext(PostsContext)
     const {conversations, setConversations} = useContext(ConversationsContext)
     const [willEdit, setWillEdit] = useState(true)
+    const [avatar, setAvatar] = useState(null)
     
 
     useEffect(() => {
@@ -26,6 +27,79 @@ function UserProfile() {
         .then(posts => setLoggedInUserPosts(posts))}
         getUser()
     }, [])
+
+    function handleChangeAvatar(e:any){
+        e.preventDefault()
+        if (avatar !== null) {
+            const deletedRef = ref(storage, loggedInUser.avatar_url)
+            deleteObject(deletedRef)
+            const imageRef = ref(storage, `avatars/${avatar.name + loggedInUser.username}`)
+            console.log(imageRef)
+            uploadBytes(imageRef, avatar)
+            .then((snap) => {
+                getDownloadURL(snap.ref).then((url) => {
+                    fetch(`/users/${loggedInUser.id}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            avatar_url: url
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(updatedUser => console.log(updatedUser))
+                })
+            })
+        }
+
+        
+        // function handleSignUp(e:any) {
+        //     e.preventDefault()
+        //     console.log(avatar)
+        //     if (avatar !== null) {
+        //         console.log('Yes')
+        //         const imageRef = ref(storage, `avatars/${avatar.name + newUser}`)
+        //         uploadBytes(imageRef, avatar)
+        //         .then((snap) => {
+        //             getDownloadURL(snap.ref).then((url) => {
+        //                 fetch('/users', {
+        //                     method: 'POST',
+        //                     headers: {
+        //                         'Content-Type': 'application/json'
+        //                     },
+        //                     body: JSON.stringify({
+        //                         username: newUser,
+        //                         password: newPassword,
+        //                         password_confirmation: confirmNewPassword,
+        //                         avatar_url: url,
+        //                         bio: 'test'
+        //                     })
+        //                 })
+        //                 .then((r) => {
+        //                     if (r.ok) {
+        //                         r.json().then((data) => {
+        //                             setLoggedInUser(data)
+        //                             setErrorsFound(false)
+        //                         })
+        //                     } else {
+        //                         r.json().then((err) => {
+        //                             setErrorsFound(true)
+        //                             setErrors(err.errors)
+        //                             console.log(err.errors)
+        //                         })
+        //                     }
+        //                 })
+        //             })   
+        //         })
+        //     }
+        //     else {
+        //         setErrorsFound(true)
+        //         setErrors(['Please Upload A Profile Picture'])
+        //     }
+        // }
+    
+    }
 
 
 
@@ -47,10 +121,16 @@ function UserProfile() {
                 >Messages</NavLink>
             </div>
                 <Outlet />
-            <img className='avatar' src={loggedInUser.avatar_url} />
+            <img className='avatar' src={loggedInUser.avatar_url} alt='oops!'/>
             <button onClick={() => setWillEdit((willEdit) => !willEdit)}>
                 Edit Profile
             </button>
+            {willEdit ? 
+                <form onSubmit={handleChangeAvatar}>
+                    <input type='file' onChange={(e) => setAvatar(e.target.files[0])}/>
+                    <button>Change Avatar</button>
+                </form> 
+                : null}
             <div>
                 {posts.map((post:any) => {
                     if (post.user_id === loggedInUser.id) {

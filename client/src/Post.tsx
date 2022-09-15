@@ -2,8 +2,9 @@ import React, { useContext, useState, useEffect } from "react"
 import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL, getStorage, deleteObject } from 'firebase/storage'
 import { ImageListContext } from "./Context"
-import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext, CommentsContext } from "./Context"
+import { LoggedInUserContext, ClickedUserContext, PostsContext, CommentsContext, UserListContext } from "./Context"
 import Comment from "./Comment"
+import { NavLink } from "react-router-dom"
 
 
 function Post({post, url}:any) {
@@ -17,9 +18,12 @@ function Post({post, url}:any) {
     const {setImageList, imageList} = useContext(ImageListContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {posts, setPosts} = useContext(PostsContext)
+    const {clickedUser, setClickedUser} = useContext(ClickedUserContext)
+    const {userList} = useContext(UserListContext)
     const imageListRef = ref(storage, 'images/')
     const imageRef = ref(storage, url)
 
+    console.log(url)
 
     function handleDeletePost() {
         posts.forEach((post:any) => {
@@ -130,7 +134,7 @@ function Post({post, url}:any) {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    who_liked: post.user.username,
+                    who_liked: loggedInUser.username,
                     who_liked_avatar_url: loggedInUser.avatar_url,
                     post_id: post.id
                 })
@@ -141,6 +145,16 @@ function Post({post, url}:any) {
                 const updatedList = [...postLikes, like]
                 setPostLikes(updatedList)
             })
+        }
+    }
+
+    function handleClickedUser(){
+        console.log(post.user.username)
+        for (let i=0;i < userList.length;i++) {
+            if (userList[i].username === post.user.username) {
+                setClickedUser(userList[i])
+                break
+            }
         }
     }
 
@@ -171,7 +185,7 @@ function Post({post, url}:any) {
                 </form> : null} 
                 </h1>
                 <img className='avatar'  src={post.user.avatar_url} alt='oops!'></img>
-                <h2>{post.user.username}</h2>
+                <NavLink to={`/other_user`} onClick={handleClickedUser}>{post.user.username}</NavLink>
                 <button onClick={() => setSeeComments((seeComments) => !seeComments)}>See Comments</button>
                 {seeComments ? 
                 <div>
