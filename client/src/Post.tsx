@@ -15,6 +15,8 @@ function Post({post, url}:any) {
     const [editTitle, setEditTitle] = useState('')
     const [postLikes, setPostLikes] = useState(post.post_likes)
     const [seeComments, setSeeComments] = useState(false)
+    const [tag, setTag] = useState('')
+    const [postTags, setPostTags] = useState(post.tags)
     const {setImageList, imageList} = useContext(ImageListContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {posts, setPosts} = useContext(PostsContext)
@@ -158,7 +160,36 @@ function Post({post, url}:any) {
         }
     }
 
+    function handleAddTag(e:any) {
+        e.preventDefault()
+        fetch('/tags', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                tag_text: tag
+            })
+        })
+        .then(res => res.json())
+        .then(newTag => {
+            const updatedList = [...postTags, newTag]
+            setPostTags(updatedList)
+            fetch('/post_tags', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    post_id: post.id,
+                    tag_id: newTag.id
+                })
+            })
+        })
+    }
+    
     console.log(post)
+      
 
     return(
         <CommentsContext.Provider value={{comments, setComments}}>
@@ -171,9 +202,20 @@ function Post({post, url}:any) {
                 </div>
                 : null}           
             </div>
+            <div>
+                {postTags.slice(0,5).map((singleTag:any) => {
+                    return <p>#{singleTag.tag_text}</p>
+                })}
+            </div>
             <img className="post-pic" src={url} alt='oops'/>
             <div className="post-details">
                 <h1>
+                    {loggedInUser.id === post.user_id ? 
+                    <form onSubmit={handleAddTag}>
+                        Add Tags 
+                        <input onChange={(e) => setTag(e.target.value)}></input>
+                        <button>Add Tag</button>
+                    </form> : null}
                 {post.title}
                 <button onClick={handlePostLike}>like</button>
                 {postLikes.length > 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length} others liked this post`}</p> : null}

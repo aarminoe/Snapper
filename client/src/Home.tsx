@@ -10,11 +10,11 @@ import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from "./C
 function Home() {
 
     const [title, setTitle] = useState('')
+    
 
     const {imageUpload, setImageUpload} = useContext(ImageUploadContext)
     const {imageList, setImageList} = useContext(ImageListContext)
     const {loggedInUser, setLoggedInUser} = useContext(LoggedInUserContext)
-    const {loggedInUserPosts, setLoggedInUserPosts} = useContext(LoggedInUserPostsContext)
     const {posts, setPosts} = useContext(PostsContext)
     
  
@@ -57,7 +57,8 @@ function Home() {
         }
 
     }
-      
+
+  
 
     return(
         <div>
@@ -70,6 +71,7 @@ function Home() {
                         Set Description
                         <input type='text' value={title} onChange={(e) => setTitle(e.target.value)}></input>
                     </p>
+                
             <div className="row">       
                 {posts.map((post:any) => {
                 return <Post post={post} url={post.image_url}/>

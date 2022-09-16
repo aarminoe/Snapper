@@ -13,10 +13,16 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :tags do
+    resources :posts 
+  end
+
   resources :user_conversations
+  resources :post_tags
 
   resources :users do
     resources :posts do
+      resources :tags
       resources :post_likes
       resources :comments do
         resources :comment_likes
