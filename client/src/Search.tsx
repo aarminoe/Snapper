@@ -27,12 +27,13 @@ function Search() {
         console.log(posts)
         posts.forEach((post:any) => {
             console.log(post)
-            post.tags.forEach((tag:any) => {
-                if (tag.tag_text.toLowerCase().includes(searchTag.toLowerCase())) {
+            for (let i=0;i<post.tags.length;i++) {
+                if (post.tags[i].tag_text.toLowerCase().includes(searchTag.toLowerCase())) {
                     console.log(post)
                     updatedList.push(post)
+                    break
                 }
-            })
+            }
         })
         setPosts(updatedList)
     }

@@ -18,6 +18,8 @@ function Post({post, url}:any) {
     const [tag, setTag] = useState('')
     const [postTags, setPostTags] = useState(post.tags)
     const [tagLimitReached, setTagLimitReached] = useState(false)
+    const [tagList, setTagList] = useState(null)
+
     const {setImageList, imageList} = useContext(ImageListContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {posts, setPosts} = useContext(PostsContext)
@@ -25,6 +27,14 @@ function Post({post, url}:any) {
     const {userList} = useContext(UserListContext)
     const imageListRef = ref(storage, 'images/')
     const imageRef = ref(storage, url)
+
+
+    
+    useEffect(() => {
+        fetch('/tags')
+        .then(res => res.json())
+        .then(tags => setTagList(tags))
+    })
 
     function handleDeletePost() {
         posts.forEach((post:any) => {
@@ -153,10 +163,31 @@ function Post({post, url}:any) {
             }
         }
     }
+ 
 
     function handleAddTag(e:any) {
         e.preventDefault()
-        if (postTags.length <= 5) {
+        let isTag = false
+        let existingTag
+        for (let i=0;i<tagList.length;i++) {
+            console.log(tagList[i])
+            if (postTags.length <= 5 && tagList[i].tag_text !== tag) {
+                isTag = false
+                console.log('false')
+            }
+            else if (postTags.length <= 5 && tagList[i].tag_text === tag) {
+                isTag = true
+                existingTag = tagList[i]
+                console.log(tagList[i])
+                break
+            }
+            else {
+                setTagLimitReached(true)
+                setTag('')
+            }
+            
+        }
+        if (postTags.length <= 5 && isTag === false) {
             fetch('/tags', {
                 method: 'POST',
                 headers: {
@@ -181,12 +212,43 @@ function Post({post, url}:any) {
                         tag_id: newTag.id
                     })
                 })
+                .then(res => res.json())
+                .then(data => console.log(data))
             })
         }
+        
         else {
-            setTagLimitReached(true)
-            setTag('')
+            console.log(existingTag)
+            let foundTag 
+            let postHasTag = false
+            for (let i=0;i<tagList.length;i++) {
+                if (tagList[i] === existingTag) {
+                    foundTag = tagList[i]
+                }
+            }
+            for (let i=0;i<foundTag.posts.length;i++) {
+                if (foundTag.posts[i].title === post.title) {
+                    postHasTag = true
+                    console.log(postHasTag)
+                }
+            }
+            if (postHasTag !== true) {
+                fetch(`/post_tags`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        post_id: post.id,
+                        tag_id: existingTag.id
+                    })
+                })
+                .then(res => res.json())
+                .then(data => console.log(data))
+            }
+           
         }
+
     }
 
     return(
