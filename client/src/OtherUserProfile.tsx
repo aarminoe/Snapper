@@ -1,6 +1,7 @@
 import { click } from "@testing-library/user-event/dist/click"
 import React, { useContext, useState, useEffect } from "react"
-import { PostsContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers, ConversationsContext, LoggedInUserConversationsContext } from "./Context"
+import { NavLink } from "react-router-dom"
+import { PostsContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers, UserListContext, LoggedInUserConversationsContext } from "./Context"
 import Post from "./Post"
 
 
@@ -8,8 +9,9 @@ function OtherUserProfile() {
 
     
     const {posts} = useContext(PostsContext)
-    const {clickedUser} = useContext(ClickedUserContext)
+    const {clickedUser, setClickedUser} = useContext(ClickedUserContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
+    const {userList} = useContext(UserListContext)
     
    
     
@@ -230,6 +232,18 @@ function OtherUserProfile() {
             })
         }
     }
+
+    // function handleClickedUser(e:any){
+    //     console.log(user)
+    //     for (let i=0;i < userList.length;i++) {
+    //         if (userList[i].username === follow.who_commented) {
+    //             setClickedUser(userList[i])
+    //             break
+    //         }
+    //     }
+    // }
+
+
     
     console.log(clickedUser)
     return(
@@ -251,17 +265,31 @@ function OtherUserProfile() {
             </div>
             {seeFollowers ? <p>{usersFollowers.map((follower:any) => {
                 return(
-                    <div>
+                    <>
                         follower
-                        {follower.who_followed}
-                    </div>
+                        <NavLink onClick={() => {
+                            for (let i=0;i < userList.length;i++) {
+                                if (userList[i].username === follower.who_followed) {
+                                    setClickedUser(userList[i])
+                                    break
+                                }
+                            }
+                        }} to='/other_user'>{follower.who_followed}</NavLink>  
+                    </>
                 )
             })}</p> : null}
             {seeFollowing ? <p>{usersFollowing.map((follow:any) => {
                 return(
                     <div>
                         follower
-                        {follow.followed}
+                        <NavLink onClick={() => {
+                            for (let i=0;i < userList.length;i++) {
+                                if (userList[i].username === follow.who_followed) {
+                                    setClickedUser(userList[i])
+                                    break
+                                }
+                            }
+                        }} to='/other_user'>{follow.followed}</NavLink>        
                     </div>
                 )
             })}</p> : null}

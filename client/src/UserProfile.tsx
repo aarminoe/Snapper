@@ -52,53 +52,6 @@ function UserProfile() {
                 })
             })
         }
-
-        
-        // function handleSignUp(e:any) {
-        //     e.preventDefault()
-        //     console.log(avatar)
-        //     if (avatar !== null) {
-        //         console.log('Yes')
-        //         const imageRef = ref(storage, `avatars/${avatar.name + newUser}`)
-        //         uploadBytes(imageRef, avatar)
-        //         .then((snap) => {
-        //             getDownloadURL(snap.ref).then((url) => {
-        //                 fetch('/users', {
-        //                     method: 'POST',
-        //                     headers: {
-        //                         'Content-Type': 'application/json'
-        //                     },
-        //                     body: JSON.stringify({
-        //                         username: newUser,
-        //                         password: newPassword,
-        //                         password_confirmation: confirmNewPassword,
-        //                         avatar_url: url,
-        //                         bio: 'test'
-        //                     })
-        //                 })
-        //                 .then((r) => {
-        //                     if (r.ok) {
-        //                         r.json().then((data) => {
-        //                             setLoggedInUser(data)
-        //                             setErrorsFound(false)
-        //                         })
-        //                     } else {
-        //                         r.json().then((err) => {
-        //                             setErrorsFound(true)
-        //                             setErrors(err.errors)
-        //                             console.log(err.errors)
-        //                         })
-        //                     }
-        //                 })
-        //             })   
-        //         })
-        //     }
-        //     else {
-        //         setErrorsFound(true)
-        //         setErrors(['Please Upload A Profile Picture'])
-        //     }
-        // }
-    
     }
 
 
