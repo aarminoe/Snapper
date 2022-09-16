@@ -239,7 +239,8 @@ function Post({post, url}:any) {
                 </form> : null} 
                 </h1>
                 <img className='avatar'  src={post.user.avatar_url} alt='oops!'></img>
-                <NavLink to={`/other_user`} onClick={handleClickedUser}>{post.user.username}</NavLink>
+                {loggedInUser.username === post.user.username ? <NavLink to={`/${loggedInUser.username}`}>{post.user.username}</NavLink>:
+                <NavLink to={`/other_user`} onClick={handleClickedUser}>{post.user.username}</NavLink>}
                 <button onClick={() => setSeeComments((seeComments) => !seeComments)}>See Comments</button>
                 {seeComments ? 
                 <div>

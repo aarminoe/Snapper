@@ -267,6 +267,7 @@ function OtherUserProfile() {
                 return(
                     <>
                         follower
+                        {loggedInUser.username === follower.who_followed ? <NavLink to={`/${loggedInUser.username}`}>{follower.who_followed}</NavLink>:
                         <NavLink onClick={() => {
                             for (let i=0;i < userList.length;i++) {
                                 if (userList[i].username === follower.who_followed) {
@@ -274,7 +275,7 @@ function OtherUserProfile() {
                                     break
                                 }
                             }
-                        }} to='/other_user'>{follower.who_followed}</NavLink>  
+                        }} to='/other_user'>{follower.who_followed}</NavLink> } 
                     </>
                 )
             })}</p> : null}
@@ -282,6 +283,7 @@ function OtherUserProfile() {
                 return(
                     <div>
                         follower
+                        {loggedInUser.username === follow.who_followed ? <NavLink to={`/${loggedInUser.username}`}>{follow.followed}</NavLink>:
                         <NavLink onClick={() => {
                             for (let i=0;i < userList.length;i++) {
                                 if (userList[i].username === follow.who_followed) {
@@ -289,7 +291,7 @@ function OtherUserProfile() {
                                     break
                                 }
                             }
-                        }} to='/other_user'>{follow.followed}</NavLink>        
+                        }} to='/other_user'>{follow.followed}</NavLink> }       
                     </div>
                 )
             })}</p> : null}

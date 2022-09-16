@@ -88,7 +88,7 @@ function Comment({comment, post}:any) {
         console.log(comment.who_commented)
         for (let i=0;i < userList.length;i++) {
             console.log(userList[i])
-            if (userList[i].username === comment.who_commented) {
+            if (userList[i].username === comment.who_commented && userList[i].username !== loggedInUser.username) {
                 setClickedUser(userList[i])
                 console.log(userList[i])
                 break
@@ -155,7 +155,8 @@ function Comment({comment, post}:any) {
                 </div>
                 : null}
                 <img src={comment.who_commented_avatar_url} className='avatar-comment' alt='oops!'></img>
-                <NavLink to='/other_user' onClick={handleClickedUser}>{comment.who_commented}</NavLink>
+                {loggedInUser.username === comment.who_commented ? <NavLink to={`/${loggedInUser.username}`}>{comment.who_commented}</NavLink>:
+                <NavLink to='/other_user' onClick={handleClickedUser}>{comment.who_commented}</NavLink>}
                 {comment.edit === true ? <p>Editted Comment</p> : null}
                 {isEdit ? 
                 <form onSubmit={handleEditComment}>

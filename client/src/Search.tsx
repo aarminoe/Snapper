@@ -39,15 +39,19 @@ function Search() {
                     return (
                         <div className="card">
                             <h1>{post.title}</h1>
+                            {post.user.username === loggedInUser.username ? 
+                            <NavLink to={`/${loggedInUser.username}`}>{post.user.username}</NavLink>:
                             <NavLink to='/other_user' onClick={() => {
                                 for (let i=0;i < userList.length;i++) {
-                                    if (userList[i].username === post.user.username) {
+                                    if (userList[i].username === post.user.username && userList[i].username !== loggedInUser.username) {
                                         setClickedUser(userList[i])
                                         break
                                     }
                                 }
-                            }}>{post.user.username}</NavLink>
+                            }}>{post.user.username}</NavLink>}
+                            
                             <img className="searched-pic" src={post.image_url}/>
+                            <p>Likes({post.post_likes.length})</p>
                         </div>
                     )
                 })}

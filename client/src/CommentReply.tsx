@@ -98,10 +98,13 @@ function  CommentReply({reply, comment, post}:any){
         }
     }
 
+    console.log(reply)
+
     return(
         <div>
             <img src={reply.who_commented_avatar_url} className='avatar-comment' alt='oops!'></img>
-            <NavLink to='/other_user' onClick={handleClickedUser}>{reply.who_commented}</NavLink>
+            {loggedInUser.username === reply.who_commented ? <NavLink to={`/${loggedInUser.username}`}>{reply.who_commented}</NavLink>:
+            <NavLink to='/other_user' onClick={handleClickedUser}>{reply.who_commented}</NavLink>}
             <div>
                 {reply.who_commented === loggedInUser.username || post.user_id === loggedInUser.id ? 
                 <div>
