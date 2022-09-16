@@ -71,7 +71,7 @@ function App(){
     }
     )
   }, [])
-  console.log(loggedInUser)
+
   useEffect(() => {
     fetch('/conversations')
     .then(res => res.json())

@@ -9,16 +9,6 @@ function Followers() {
     const {userList} = useContext(UserListContext)
     const {setClickedUser} = useContext(ClickedUserContext)
 
-    function handleClickedUser(e:any){
-        console.log(e.target.value)
-        // for (let i=0;i < userList.length;i++) {
-        //     if (userList[i].username === follower.who_followed) {
-        //         setClickedUser(userList[i])
-        //         break
-        //     }
-        // }
-    }
-
     return(
         <div className="user-tab">
             follower
@@ -26,7 +16,14 @@ function Followers() {
                 return(
                     <div>
                         Follower here
-                        <NavLink to='/other_user' onClick={handleClickedUser}>{follower.who_followed}</NavLink>
+                        <NavLink to='/other_user' onClick={() => {
+                            for (let i=0;i < userList.length;i++) {
+                                if (userList[i].username === follower.who_followed) {
+                                    setClickedUser(userList[i])
+                                    break
+                                }
+                            }
+                        }}>{follower.who_followed}</NavLink>
                         
                     </div>
                 )

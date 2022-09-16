@@ -26,8 +26,6 @@ function Post({post, url}:any) {
     const imageListRef = ref(storage, 'images/')
     const imageRef = ref(storage, url)
 
-    console.log(url)
-
     function handleDeletePost() {
         posts.forEach((post:any) => {
             if (post.image_url === url && post.user_id === loggedInUser.id) {
@@ -89,7 +87,6 @@ function Post({post, url}:any) {
         }
     }
 
-
     function handleNewComment(e:any){
         e.preventDefault()
         fetch(`/users/${loggedInUser.id}/posts/${post.id}/comments`, {
@@ -111,15 +108,12 @@ function Post({post, url}:any) {
             setNewComment('')
         })
     }
-    console.log(post)
     
     function handlePostLike() {
-        console.log(post)
         let isLiked = false
         for (let i=0;i<postLikes.length;i++) {
             if (postLikes[i].who_liked === loggedInUser.username) {
                 isLiked = true
-                console.log('whoa there buddy')
                 const updatedList = postLikes.filter((like:any) => {
                     return like.id !== postLikes[i].id
                 })
@@ -130,7 +124,6 @@ function Post({post, url}:any) {
             }
         }
         if (isLiked === false) {
-            console.log('we doing it!')
             fetch(`/users/${loggedInUser.id}/posts/${post.id}/post_likes`, {
                 method: 'POST',
                 headers: {
@@ -152,7 +145,6 @@ function Post({post, url}:any) {
     }
 
     function handleClickedUser(){
-        console.log(post.user.username)
         for (let i=0;i < userList.length;i++) {
             if (userList[i].username === post.user.username) {
                 setClickedUser(userList[i])
@@ -195,9 +187,6 @@ function Post({post, url}:any) {
             setTag('')
         }
     }
-    
-    console.log(post)
-      
 
     return(
         <CommentsContext.Provider value={{comments, setComments}}>
