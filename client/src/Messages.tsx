@@ -38,6 +38,7 @@ function Messages() {
                             <p>{conversation.messages.map((message:any) => {
                                 return(
                                     <p>
+                                        <p>{message.date}</p>
                                         {message.message}
                                     </p>
                                 )

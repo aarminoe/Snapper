@@ -23,6 +23,7 @@ function OtherUserProfile() {
     const [following, setFollowing] = useState(false)
     const [loggedInUserConversations, setLoggedInUserConversations] = useState(loggedInUser.conversations)
     const [seeFollowing, setSeeFollowing] = useState(false)
+    const [date, setDate] = useState('')
 
 
     
@@ -142,7 +143,7 @@ function OtherUserProfile() {
 
     function sendMessage(e:any) {
         e.preventDefault()
-        console.log(loggedInUser.conversations)
+        setDate(new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(Date.now()));
         let hasConversation = false
         for (let i=0;i<loggedInUser.conversations.length;i++) {
             console.log(loggedInUser.conversations[i])
@@ -158,7 +159,8 @@ function OtherUserProfile() {
                         message: newMessageText,
                         who_messaged: loggedInUser.username,
                         who_messaged_avatar_url: loggedInUser.image_url,
-                        conversation_id: loggedInUser.conversations[i].id
+                        conversation_id: loggedInUser.conversations[i].id,
+                        date: date
                     })
                 })
                 .then(res => res.json())

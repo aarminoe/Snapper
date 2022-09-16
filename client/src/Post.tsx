@@ -89,6 +89,7 @@ function Post({post, url}:any) {
 
     function handleNewComment(e:any){
         e.preventDefault()
+        
         fetch(`/users/${loggedInUser.id}/posts/${post.id}/comments`, {
             method: 'POST',
             headers: {

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { UserListContext, SearchedUserContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers, LoggedInUserConversationsContext, PostsContext } from "./Context"
 import { Link, NavLink } from "react-router-dom"
 import { click } from "@testing-library/user-event/dist/click"
@@ -6,22 +6,55 @@ import { click } from "@testing-library/user-event/dist/click"
 
 function Search() {
 
+    const [tagList, setTagList] = useState(null)
+    const [searchTag, setSearchTag] = useState('')
+
     const {searchText, setSearchText} = useContext(SearchedUserContext)
     const {userList} = useContext(UserListContext)
     const {setClickedUser} = useContext(ClickedUserContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
-    const {posts} = useContext(PostsContext)
+    const {posts, setPosts} = useContext(PostsContext)
 
     
-    console.log(posts)
+    useEffect(() => {
+        fetch('/tags')
+        .then(res => res.json())
+        .then(tags => setTagList(tags))
+    })
 
+    function handleTagPosts() {
+        let updatedList:any = []
+        console.log(posts)
+        posts.forEach((post:any) => {
+            console.log(post)
+            post.tags.forEach((tag:any) => {
+                if (tag.tag_text.toLowerCase().includes(searchTag.toLowerCase())) {
+                    console.log(post)
+                    updatedList.push(post)
+                }
+            })
+        })
+        setPosts(updatedList)
+    }
 
     return(
         
         <div>
             <form>
+                Search By User: 
                 <input type='text' onChange={(e) => setSearchText(e.target.value)}></input>
             </form>
+            <div>
+                Search By Tag:
+                <input onChange={(e) => {
+                    setSearchTag(e.target.value)
+                    if (e.target.value.length < 1) {
+                        fetch('/posts')
+                        .then(res => res.json())
+                        .then(postList => setPosts(postList.reverse()))
+                    }
+                }}></input>
+            </div>
             {searchText.length > 0 ? <div>{userList.map((user:any) => {
                 if (user.username.toLowerCase().includes(searchText.toLowerCase()) && user.username !== loggedInUser.username) {
                     return(
@@ -34,6 +67,19 @@ function Search() {
                     )
                 }
             })}</div>:null}
+            {searchTag.length > 0 ? <div className="search">
+                {searchTag.length > 0 ? <div>{tagList.map((tag:any) => {
+                    if (tag.tag_text.toLowerCase().includes(searchTag.toLowerCase())) {
+                        return(
+                            <div className="search-input" onClick={handleTagPosts}>
+                                #{tag.tag_text}
+                            
+                            </div>
+                        )
+                    }
+                })}</div>:null}
+
+            </div>:null}
             <div className="container">
                 {posts.map((post:any) => {
                     return (

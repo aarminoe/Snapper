@@ -32,6 +32,6 @@ class CommentRepliesController < ApplicationController
     private
 
     def comment_reply_params 
-        params.permit(:reply, :who_commented, :who_commented_avatar_url, :comment_id)
+        params.permit(:reply, :who_commented, :who_commented_avatar_url, :comment_id, :date)
     end
 end

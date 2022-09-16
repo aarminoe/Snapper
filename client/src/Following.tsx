@@ -9,18 +9,6 @@ function Following() {
     const {setClickedUser} = useContext(ClickedUserContext)
     const {userList} = useContext(UserListContext)
 
-    console.log(loggedInUser)
-
-    // function handleClickedUser(){
-    //     console.log(reply)
-    //     for (let i=0;i < userList.length;i++) {
-    //         if (userList[i].username === reply.who_commented) {
-    //             setClickedUser(userList[i])
-    //             break
-    //         }
-    //     }
-    // }
-
     return(
         <div>
             {loggedInUser.follows.map((follow:any) => {

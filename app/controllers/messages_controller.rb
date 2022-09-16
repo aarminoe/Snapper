@@ -12,7 +12,7 @@ class MessagesController < ApplicationController
     private
 
     def message_params 
-        params.permit(:message, :who_messaged, :who_messaged_avatar_url, :conversation_id)
+        params.permit(:message, :who_messaged, :who_messaged_avatar_url, :conversation_id, :date)
     end
 end
 

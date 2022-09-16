@@ -32,6 +32,6 @@ class CommentsController < ApplicationController
     private
 
     def comment_params
-        params.permit(:comment, :who_commented, :who_commented_avatar_url, :post_id, :edit)
+        params.permit(:comment, :who_commented, :who_commented_avatar_url, :post_id, :edit, :date)
     end
 end

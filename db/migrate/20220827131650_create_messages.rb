@@ -5,6 +5,7 @@ class CreateMessages < ActiveRecord::Migration[7.0]
       t.string :who_messaged 
       t.string :who_messaged_avatar_url
       t.integer :conversation_id
+      t.string :date
       t.timestamps
     end
   end

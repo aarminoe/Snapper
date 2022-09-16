@@ -25,6 +25,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_16_002238) do
     t.string "who_commented_avatar_url"
     t.integer "comment_id"
     t.boolean "edit"
+    t.string "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -43,6 +44,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_16_002238) do
     t.string "who_commented_avatar_url"
     t.integer "post_id"
     t.boolean "edit"
+    t.string "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -77,6 +79,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_16_002238) do
     t.string "who_replied"
     t.string "who_replied_avatar_url"
     t.integer "message_id"
+    t.string "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -86,6 +89,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_16_002238) do
     t.string "who_messaged"
     t.string "who_messaged_avatar_url"
     t.integer "conversation_id"
+    t.string "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -110,6 +114,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_16_002238) do
     t.string "image_url"
     t.integer "user_id"
     t.boolean "edit"
+    t.string "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

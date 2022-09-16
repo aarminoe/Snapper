@@ -19,6 +19,7 @@ function Comment({comment, post}:any) {
     const {comments, setComments} = useContext(CommentsContext)
 
     function handleCommentReply(e:any) {
+        
         e.preventDefault()
         fetch(`/users/${loggedInUser.id}/posts/${comment.post_id}/comments/${comment.id}/comment_replies`, {
             method: 'POST',

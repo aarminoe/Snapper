@@ -125,6 +125,7 @@ function  CommentReply({reply, comment, post}:any){
                 <button onClick={handleReplyLike}>Like</button>
                 {reply.edit ? <div>Editted!</div> : null}
                 {reply.reply}
+                <p>{reply.date}</p>
                 {commentReplyLikes.length >= 2 ? <p>{`${commentReplyLikes[commentReplyLikes.length-1].who_liked} and ${commentReplyLikes.length} others liked this`}</p> : null }
                 {commentReplyLikes.length === 1 ? <p>{`${commentReplyLikes[commentReplyLikes.length-1].who_liked} liked this`}</p> : null }
             </div>

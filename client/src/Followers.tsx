@@ -13,6 +13,7 @@ function Followers() {
         <div className="user-tab">
             follower
             {loggedInUser.followers.map((follower:any) => {
+                console.log(follower)
                 return(
                     <div>
                         Follower here
