@@ -17,6 +17,7 @@ function Post({post, url}:any) {
     const [seeComments, setSeeComments] = useState(false)
     const [tag, setTag] = useState('')
     const [postTags, setPostTags] = useState(post.tags)
+    const [tagLimitReached, setTagLimitReached] = useState(false)
     const {setImageList, imageList} = useContext(ImageListContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {posts, setPosts} = useContext(PostsContext)
@@ -162,30 +163,37 @@ function Post({post, url}:any) {
 
     function handleAddTag(e:any) {
         e.preventDefault()
-        fetch('/tags', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                tag_text: tag
-            })
-        })
-        .then(res => res.json())
-        .then(newTag => {
-            const updatedList = [...postTags, newTag]
-            setPostTags(updatedList)
-            fetch('/post_tags', {
+        if (postTags.length <= 5) {
+            fetch('/tags', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    post_id: post.id,
-                    tag_id: newTag.id
+                    tag_text: tag
                 })
             })
-        })
+            .then(res => res.json())
+            .then(newTag => {
+                const updatedList = [...postTags, newTag]
+                setPostTags(updatedList)
+                setTag('')
+                fetch('/post_tags', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        post_id: post.id,
+                        tag_id: newTag.id
+                    })
+                })
+            })
+        }
+        else {
+            setTagLimitReached(true)
+            setTag('')
+        }
     }
     
     console.log(post)
@@ -211,11 +219,15 @@ function Post({post, url}:any) {
             <div className="post-details">
                 <h1>
                     {loggedInUser.id === post.user_id ? 
-                    <form onSubmit={handleAddTag}>
-                        Add Tags 
-                        <input onChange={(e) => setTag(e.target.value)}></input>
-                        <button>Add Tag</button>
-                    </form> : null}
+                    <div>
+                        <form onSubmit={handleAddTag}>
+                            Add Tags 
+                            <input value={tag} onChange={(e) => setTag(e.target.value)}></input>
+                            <button>Add Tag</button>
+                        </form> 
+                        {tagLimitReached ? <p className="text-danger">Tag Limit Reached</p> :null}
+                    </div>
+                    : null}
                 {post.title}
                 <button onClick={handlePostLike}>like</button>
                 {postLikes.length > 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length} others liked this post`}</p> : null}
