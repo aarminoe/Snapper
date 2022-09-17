@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react"
 import { UserListContext, SearchedUserContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers, LoggedInUserConversationsContext, PostsContext } from "./Context"
 import { Link, NavLink } from "react-router-dom"
-import { click } from "@testing-library/user-event/dist/click"
+
 
 
 function Search() {

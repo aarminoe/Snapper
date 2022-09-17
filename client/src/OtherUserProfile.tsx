@@ -1,4 +1,4 @@
-import { click } from "@testing-library/user-event/dist/click"
+
 import React, { useContext, useState, useEffect } from "react"
 import { NavLink } from "react-router-dom"
 import { PostsContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers, UserListContext, LoggedInUserConversationsContext } from "./Context"
