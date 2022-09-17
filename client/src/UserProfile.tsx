@@ -73,7 +73,6 @@ function UserProfile() {
                 to={`messages`}
                 >Messages</NavLink>
             </div>
-                <Outlet />
             <img className='avatar' src={loggedInUser.avatar_url} alt='oops!'/>
             <button onClick={() => setWillEdit((willEdit) => !willEdit)}>
                 Edit Profile
@@ -84,6 +83,7 @@ function UserProfile() {
                     <button>Change Avatar</button>
                 </form> 
                 : null}
+                <Outlet />
             <div>
                 {posts.map((post:any) => {
                     if (post.user_id === loggedInUser.id) {

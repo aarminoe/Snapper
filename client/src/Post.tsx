@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react"
 import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL, getStorage, deleteObject } from 'firebase/storage'
 import { ImageListContext } from "./Context"
-import { LoggedInUserContext, ClickedUserContext, PostsContext, CommentsContext, UserListContext } from "./Context"
+import { LoggedInUserContext, ClickedUserContext, PostsContext, CommentsContext, UserListContext, TagListContext } from "./Context"
 import Comment from "./Comment"
 import { NavLink } from "react-router-dom"
 
@@ -18,23 +18,21 @@ function Post({post, url}:any) {
     const [tag, setTag] = useState('')
     const [postTags, setPostTags] = useState(post.tags)
     const [tagLimitReached, setTagLimitReached] = useState(false)
-    const [tagList, setTagList] = useState(null)
+
 
     const {setImageList, imageList} = useContext(ImageListContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {posts, setPosts} = useContext(PostsContext)
     const {clickedUser, setClickedUser} = useContext(ClickedUserContext)
     const {userList} = useContext(UserListContext)
+    const {tagList} =useContext(TagListContext)
+    
     const imageListRef = ref(storage, 'images/')
     const imageRef = ref(storage, url)
 
 
     
-    useEffect(() => {
-        fetch('/tags')
-        .then(res => res.json())
-        .then(tags => setTagList(tags))
-    })
+    
 
     function handleDeletePost() {
         posts.forEach((post:any) => {

@@ -1,7 +1,7 @@
 
 import './index.css'
 import React, { useState, useEffect, ReactNode} from 'react'
-import { ConversationsContext, ImageListContext, ImageUploadContext, LoggedInUserContext, LoggedInUserPostsContext, PostsContext, UserListContext, SearchedUserContext, ClickedUserContext, LoggedInUserConversationsContext } from './Context'
+import { ConversationsContext, ImageListContext, ImageUploadContext, LoggedInUserContext, LoggedInUserPostsContext, PostsContext, UserListContext, SearchedUserContext, ClickedUserContext, LoggedInUserConversationsContext, TagListContext } from './Context'
 import { Route, Routes } from "react-router-dom"
 import Home from './Home';
 import NavBar from './NavBar';
@@ -31,6 +31,7 @@ function App(){
   const [conversations, setConversations] = useState(null)
   const [searchText, setSearchText] = useState('')
   const [clickedUser, setClickedUser] = useState(null)
+  const [tagList, setTagList] = useState(null)
   
   
 
@@ -73,6 +74,12 @@ function App(){
   }, [])
 
   useEffect(() => {
+    fetch('/tags')
+    .then(res => res.json())
+    .then(tags => setTagList(tags))
+}, [])
+
+  useEffect(() => {
     fetch('/conversations')
     .then(res => res.json())
     .then(conversations => {
@@ -91,6 +98,7 @@ function App(){
         <UserListContext.Provider value={{userList, setUserList}}>
           <SearchedUserContext.Provider value={{searchText, setSearchText}}>
             <ClickedUserContext.Provider value={{clickedUser, setClickedUser}}>
+              <TagListContext.Provider value={{tagList, setTagList}}>
       <div className="container-fluid">
         {loggedInUser? 
         <div>
@@ -146,6 +154,7 @@ function App(){
         </div>
         }
       </div>
+              </TagListContext.Provider>
             </ClickedUserContext.Provider>
           </SearchedUserContext.Provider>
         </UserListContext.Provider>

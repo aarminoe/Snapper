@@ -98,7 +98,7 @@ function  CommentReply({reply, comment, post}:any){
         }
     }
 
-    console.log(reply)
+    
 
     return(
         <div>

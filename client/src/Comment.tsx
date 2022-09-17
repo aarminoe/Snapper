@@ -98,9 +98,6 @@ function Comment({comment, post}:any) {
         }
     }
 
-    console.log(loggedInUser)
-    console.log(post.user.id)
-
     function handleLikeComment() {
         let isLiked = false 
         for(let i=0;i<commentLikes.length;i++) {
@@ -135,12 +132,7 @@ function Comment({comment, post}:any) {
             })
         }
     }
-
-    console.log(comment)
    
-
-
-
     return(
         <CommentRepliesContext.Provider value={{commentReplies, setCommentReplies}}>
             <div className="card">
