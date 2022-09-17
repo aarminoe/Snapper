@@ -10,12 +10,33 @@ import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from "./C
 function Home() {
 
     const [title, setTitle] = useState('')
-    
+    const [homePosts,setHomePosts] = useState(null)
+    const [seeFriendsPosts, setSeeFriendsPosts] = useState(false)
 
     const {imageUpload, setImageUpload} = useContext(ImageUploadContext)
     const {imageList, setImageList} = useContext(ImageListContext)
-    const {loggedInUser, setLoggedInUser} = useContext(LoggedInUserContext)
+    const {loggedInUser} = useContext(LoggedInUserContext)
     const {posts, setPosts} = useContext(PostsContext)
+
+    console.log(loggedInUser.follows )
+
+    useEffect(() => {
+        let homePostList:any = []
+        fetch('/posts')
+        .then(res => res.json())
+        .then(postList => {
+            for (let i=0;i<postList.length;i++) {
+                for (let j=0;j<loggedInUser.follows.length;j++) {
+                    if (postList[i].user.username === loggedInUser.follows[j].followed) {
+                        console.log('got one')
+                        homePostList.push(postList[i])
+                    }
+                }
+            }
+            
+        })
+        setHomePosts(homePostList.reverse())
+    },[])
     
  
 
@@ -71,11 +92,15 @@ function Home() {
                         Set Description
                         <input type='text' value={title} onChange={(e) => setTitle(e.target.value)}></input>
                     </p>
+                    {seeFriendsPosts ? <button onClick={() => setSeeFriendsPosts((seeFriendsPosts) => !seeFriendsPosts)}>See All Posts</button> :
+                    <button onClick={() => setSeeFriendsPosts((seeFriendsPosts) => !seeFriendsPosts)}>See Friends Posts</button> }
                 
             <div className="row">       
-                {posts.map((post:any) => {
+                {seeFriendsPosts ? homePosts.map((post:any) => {
                 return <Post post={post} url={post.image_url}/>
-                })}    
+                }): posts.map((post:any) => {
+                return <Post post={post} url={post.image_url}/>
+                }) }  
             </div>      
         </div>
         
