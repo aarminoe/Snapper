@@ -33,6 +33,8 @@ function OtherUserProfile() {
     //     return false
     // }
 
+    console.log(loggedInUser)
+    
     useEffect(() => {
         fetch(`/users/${loggedInUser.id}/follows`)
         .then(res => res.json())
@@ -63,7 +65,7 @@ function OtherUserProfile() {
                         },
                         body: JSON.stringify({
                             who_followed: loggedInUser.username,
-                            who_followed_avatar_url: loggedInUser.image_url,
+                            who_followed_avatar_url: loggedInUser.avatar_url,
                             user_id: clickedUser.id
                         })
                     })
@@ -112,7 +114,7 @@ function OtherUserProfile() {
                             },
                             body: JSON.stringify({
                                 who_followed: loggedInUser.username,
-                                who_followed_avatar_url: loggedInUser.image_url,
+                                who_followed_avatar_url: loggedInUser.avatar_url,
                                 user_id: clickedUser.id
                             })
                         })
@@ -158,7 +160,7 @@ function OtherUserProfile() {
                     body: JSON.stringify({
                         message: newMessageText,
                         who_messaged: loggedInUser.username,
-                        who_messaged_avatar_url: loggedInUser.image_url,
+                        who_messaged_avatar_url: loggedInUser.avatar_url,
                         conversation_id: loggedInUser.conversations[i].id,
                         date: date
                     })
@@ -179,7 +181,7 @@ function OtherUserProfile() {
                 },
                 body: JSON.stringify({
                     sender: loggedInUser.username, 
-                    sender_avatar_url: loggedInUser.image_url,
+                    sender_avatar_url: loggedInUser.avatar_url,
                     receiver: clickedUser.username,
                     receiver_avatar_url: clickedUser.image_url
                 })
@@ -221,7 +223,7 @@ function OtherUserProfile() {
                         body: JSON.stringify({
                             message: newMessageText,
                             who_messaged: loggedInUser.username,
-                            who_messaged_avatar_url: loggedInUser.image_url,
+                            who_messaged_avatar_url: loggedInUser.avatar_url,
                             conversation_id: conversation.id
                         })
                     })
