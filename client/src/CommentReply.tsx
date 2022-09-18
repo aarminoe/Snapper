@@ -4,6 +4,38 @@ import { useContext, useState } from "react"
 import { NavLink } from "react-router-dom"
 import { CommentRepliesContext, LoggedInUserContext, ClickedUserContext, UserListContext } from "./Context"
 
+interface ReplyProps{
+    comment:string;
+    comment_likes:any;
+    comment_replies:any;
+    date?:string;
+    edit?:boolean;
+    id:number;
+    post_id:number;
+    who_commented:string;
+    who_commented_avatar_url:string
+}
+
+interface CommentProps {
+    id:number;
+    edit? : boolean;
+    comment_replies: any;
+    date:any;
+    post_id:number
+    who_commented: string;
+    who_commented_avatar_url: string;
+    comment_likes:any;
+    comment:any;
+}
+
+interface LikeProps {
+    comment: CommentProps;
+    comment_id:number;
+    id:number;
+    who_liked:string;
+    who_liked_avatar_url:string
+}
+
 
 function  CommentReply({reply, comment, post}:any){
 
@@ -16,7 +48,7 @@ function  CommentReply({reply, comment, post}:any){
     const [commentReplyLikes, setCommentReplyLikes] = useState(reply.comment_reply_likes)
 
     function handleDeleteCommentReply() {
-        const updatedList = commentReplies.filter((deletedReply:any) => {
+        const updatedList = commentReplies.filter((deletedReply:ReplyProps) => {
             return deletedReply !== reply
         })
         setCommentReplies(updatedList)
@@ -25,7 +57,7 @@ function  CommentReply({reply, comment, post}:any){
         })
     }
     
-    function handleEditReply(e:any) {
+    function handleEditReply(e: { preventDefault: () => void; }) {
         e.preventDefault()
         fetch(`/users/${loggedInUser.id}/posts/${comment.post_id}/comments/${comment.id}/comment_replies/${reply.id}`, {
             method: 'PATCH',
@@ -39,7 +71,7 @@ function  CommentReply({reply, comment, post}:any){
         })
         .then(res => res.json())
         .then(edittedReply => {
-            const updatedList = commentReplies.map((reply:any) => {
+            const updatedList = commentReplies.map((reply:ReplyProps) => {
                 if (reply.id === edittedReply.id) {
                     return {
                         ...reply,
@@ -59,7 +91,7 @@ function  CommentReply({reply, comment, post}:any){
         for (let i=0; i<commentReplyLikes.length; i++) {
             if (commentReplyLikes[i].who_liked === loggedInUser.username) {
                 isLiked = true 
-                const updatedList = commentReplyLikes.filter((like:any) => {
+                const updatedList = commentReplyLikes.filter((like:LikeProps) => {
                     return like.id !== commentReplyLikes[i].id
                 })
                 setCommentReplyLikes(updatedList)

@@ -1,10 +1,21 @@
-import React, { useContext, useState, useEffect} from "react"
+import React, { useContext, useState, useEffect, SetStateAction} from "react"
 import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
 import { ImageListContext, ImageUploadContext } from './Context'
 import Post from "./Post"
 import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from "./Context"
 
+interface PostProps {
+    comments: any;
+    edit:boolean;
+    id:number;
+    image_url:string;
+    post_likes:any;
+    tags:any;
+    title:string;
+    user:any;
+    user_id:number
+}
 
 
 function Home() {
@@ -16,12 +27,10 @@ function Home() {
     const {imageUpload, setImageUpload} = useContext(ImageUploadContext)
     const {imageList, setImageList} = useContext(ImageListContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
-    const {posts, setPosts} = useContext(PostsContext)
-
-    console.log(loggedInUser.follows )
+    const {posts, setPosts}= useContext(PostsContext)
 
     useEffect(() => {
-        let homePostList:any = []
+        let homePostList:PostProps[] = []
         fetch('/posts')
         .then(res => res.json())
         .then(postList => {
@@ -35,12 +44,13 @@ function Home() {
             }
             
         })
+        console.log(homePostList)
         setHomePosts(homePostList.reverse())
     },[])
     
  
 
-    function uploadImage(e:any) {
+    function uploadImage(e: { preventDefault: () => void }) {
         e.preventDefault()
         console.log(imageUpload)
         if (imageUpload.name !== '') {
@@ -79,6 +89,8 @@ function Home() {
 
     }
 
+    console.log(homePosts)
+
     
 
     return(
@@ -96,9 +108,9 @@ function Home() {
                     <button onClick={() => setSeeFriendsPosts((seeFriendsPosts) => !seeFriendsPosts)}>See Friends Posts</button> }
                 
             <div className="row">       
-                {seeFriendsPosts ? homePosts.map((post:any) => {
+                {seeFriendsPosts ? homePosts.map((post:PostProps) => {
                 return <Post post={post} url={post.image_url}/>
-                }): posts.map((post:any) => {
+                }): posts.map((post:PostProps) => {
                 return <Post post={post} url={post.image_url}/>
                 }) }  
             </div>      

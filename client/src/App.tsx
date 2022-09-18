@@ -17,6 +17,26 @@ import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
 import Login from './Login';
 import OtherUserProfile from './OtherUserProfile';
 
+interface LoggedInUserProps {
+  id: number;
+  username: string;
+  avatar_url: string;
+  bio: string;
+}
+
+interface PostProps {
+  comments: any;
+  edit:boolean;
+  id:number;
+  image_url:string;
+  post_likes:any;
+  tags:any;
+  title:string;
+  user:any;
+  user_id:number
+}
+
+
 
 function App(){
 
@@ -24,16 +44,14 @@ function App(){
 
   const [imageUpload, setImageUpload] = useState<any>({name: ''})
   const [imageList, setImageList] = useState<string[]>([])    
-  const [loggedInUser, setLoggedInUser] = useState(null)
+  const [loggedInUser, setLoggedInUser] = useState<LoggedInUserProps>(null)
   const [userList, setUserList] = useState([])
   const [loggedInUserPosts, setLoggedInUserPosts] = useState([])
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState<any>([])
   const [conversations, setConversations] = useState(null)
   const [searchText, setSearchText] = useState('')
   const [clickedUser, setClickedUser] = useState(null)
   const [tagList, setTagList] = useState(null)
-  
-  
 
   useEffect(() => {
     fetch('/users')
@@ -88,9 +106,6 @@ function App(){
       }
       )
   }, [])
-
-  const timestamp = Date.now();
-  console.log(new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(timestamp));
 
   return (
     <LoggedInUserContext.Provider value={{loggedInUser, setLoggedInUser}}>

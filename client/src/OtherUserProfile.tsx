@@ -1,7 +1,7 @@
 
 import React, { useContext, useState, useEffect } from "react"
 import { NavLink } from "react-router-dom"
-import { PostsContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers, UserListContext, LoggedInUserConversationsContext } from "./Context"
+import { PostsContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers, UserListContext, LoggedInUserConversationsContext, ConversationMessagesContext } from "./Context"
 import Post from "./Post"
 
 
@@ -12,6 +12,7 @@ function OtherUserProfile() {
     const {clickedUser, setClickedUser} = useContext(ClickedUserContext)
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {userList} = useContext(UserListContext)
+   
     
    
     

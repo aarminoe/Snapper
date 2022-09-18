@@ -3,6 +3,53 @@ import React, { useContext, useState } from "react"
 import { LoggedInUserContext, CommentsContext, CommentRepliesContext, UserListContext, ClickedUserContext } from "./Context"
 import { NavLink } from "react-router-dom"
 
+interface CommentProps {
+    id:number;
+    edit? : boolean;
+    comment_replies: any;
+    date:any;
+    post_id:number
+    who_commented: string;
+    who_commented_avatar_url: string;
+    comment_likes:any;
+    comment:any;
+}
+
+interface PostProps {
+    id: number;
+    edit?: boolean;
+    image_url: string;
+    title: string;
+    user_id: number
+    date? :string;
+    comments:any;
+    post_likes:any;
+    tags:any;
+    user:any;
+}
+
+type Props = CommentProps & PostProps
+
+interface LikeProps {
+    comment: CommentProps;
+    comment_id:number;
+    id:number;
+    who_liked:string;
+    who_liked_avatar_url:string
+}
+
+interface ReplyProps{
+    comment:string;
+    comment_likes:any;
+    comment_replies:any;
+    date?:string;
+    edit?:boolean;
+    id:number;
+    post_id:number;
+    who_commented:string;
+    who_commented_avatar_url:string
+}
+
 
 function Comment({comment, post}:any) {
 
@@ -18,8 +65,10 @@ function Comment({comment, post}:any) {
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {comments, setComments} = useContext(CommentsContext)
 
-    function handleCommentReply(e:any) {
-        
+    console.log(comment)
+    console.log(post)
+
+    function handleCommentReply(e: { preventDefault: () => void }) {
         e.preventDefault()
         fetch(`/users/${loggedInUser.id}/posts/${comment.post_id}/comments/${comment.id}/comment_replies`, {
             method: 'POST',
@@ -42,7 +91,7 @@ function Comment({comment, post}:any) {
         })
     }
 
-    function handleEditComment(e:any) {
+    function handleEditComment(e: { preventDefault: () => void }) {
         e.preventDefault()
         fetch(`/users/${loggedInUser.id}/posts/${comment.post_id}/comments/${comment.id}`, {
             method: 'PATCH',
@@ -75,7 +124,8 @@ function Comment({comment, post}:any) {
     function handleDeleteComment() {
         console.log(comments)
         console.log(comment)
-        const updatedList = comments.filter((deletedComment:any) => {
+        const updatedList = comments.filter((deletedComment:CommentProps) => {
+            console.log(deletedComment)
             return deletedComment !== comment
         })
         setComments(updatedList)
@@ -103,7 +153,7 @@ function Comment({comment, post}:any) {
         for(let i=0;i<commentLikes.length;i++) {
             if (commentLikes[i].who_liked === loggedInUser.username) {
                 isLiked = true
-                const updatedList = commentLikes.filter((like:any) => {
+                const updatedList = commentLikes.filter((like:LikeProps) => {
                     return like.id !== commentLikes[i].id
                 })
                 setCommentLikes(updatedList)
@@ -133,6 +183,7 @@ function Comment({comment, post}:any) {
         }
     }
    
+    console.log(commentReplies)
     return(
         <CommentRepliesContext.Provider value={{commentReplies, setCommentReplies}}>
             <div className="card">
@@ -169,7 +220,7 @@ function Comment({comment, post}:any) {
                         <input type='text' value={newReply} onChange={(e) => setNewReply(e.target.value)}/> 
                         <button>reply</button>
                     </form>
-                    {commentReplies.map((reply:any) => {
+                    {commentReplies.map((reply:ReplyProps) => {
                     return <CommentReply reply={reply} comment={comment} post={post}/>
                 })}
                 </div>

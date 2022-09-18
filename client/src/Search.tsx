@@ -20,7 +20,7 @@ function Search() {
         fetch('/tags')
         .then(res => res.json())
         .then(tags => setTagList(tags))
-    })
+    }, [])
 
     function handleTagPosts() {
         let updatedList:any = []

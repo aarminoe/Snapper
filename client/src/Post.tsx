@@ -6,6 +6,33 @@ import { LoggedInUserContext, ClickedUserContext, PostsContext, CommentsContext,
 import Comment from "./Comment"
 import { NavLink } from "react-router-dom"
 
+interface CommentProps {
+    id:number;
+    edit? : boolean;
+    comment_replies: any;
+    date:any;
+    post_id:number
+    who_commented: string;
+    who_commented_avatar_url: string;
+    comment_likes:any;
+    comment:any;
+}
+
+interface PostProps {
+    id: number;
+    edit?: boolean;
+    image_url: string;
+    title: string;
+    user_id: number
+    date? :string;
+    comments:any;
+    post_likes:any;
+    tags:any;
+    user:any;
+}
+
+
+
 
 function Post({post, url}:any) {
 
@@ -35,7 +62,7 @@ function Post({post, url}:any) {
     
 
     function handleDeletePost() {
-        posts.forEach((post:any) => {
+        posts.forEach((post:PostProps) => {
             if (post.image_url === url && post.user_id === loggedInUser.id) {
                 listAll(imageListRef)
                 .then((resp) => resp.items.forEach((item) => {
@@ -63,7 +90,7 @@ function Post({post, url}:any) {
         })  
     }
 
-    function handleEditPost(e:any) {
+    function handleEditPost(e: { preventDefault: () => void }) {
         e.preventDefault()
         if (post.image_url === url && post.user_id === loggedInUser.id) {
             fetch(`/users/${loggedInUser.id}/posts/${post.id}`, {
@@ -95,7 +122,7 @@ function Post({post, url}:any) {
         }
     }
 
-    function handleNewComment(e:any){
+    function handleNewComment(e: { preventDefault: () => void }){
         e.preventDefault()
         
         fetch(`/users/${loggedInUser.id}/posts/${post.id}/comments`, {
@@ -163,7 +190,7 @@ function Post({post, url}:any) {
     }
  
 
-    function handleAddTag(e:any) {
+    function handleAddTag(e: { preventDefault: () => void }) {
         e.preventDefault()
         let isTag = false
         let existingTag
@@ -300,7 +327,7 @@ function Post({post, url}:any) {
                         <button>Add</button>
                     </form>
                     <p>
-                    {comments.map((comment:any) => {
+                    {comments.map((comment:CommentProps) => {
                         return <Comment comment={comment} post={post}/>
                     })}
                     </p>    
