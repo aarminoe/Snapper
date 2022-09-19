@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import { NavLink } from "react-router-dom"
 import { LoggedInUserContext } from "./Context"
-
+import { AiFillHome, AiOutlineSearch } from 'react-icons/ai'
 
 function NavBar() {
 
@@ -11,7 +11,7 @@ function NavBar() {
             <NavLink
             className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"
             to='/'
-            >Home</NavLink>
+            ><AiFillHome /></NavLink>
             <NavLink 
             className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"
             to={`/${loggedInUser.username}`}
@@ -19,7 +19,7 @@ function NavBar() {
             <NavLink
             className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"
             to='/search'
-            >Search</NavLink>
+            ><AiOutlineSearch/></NavLink>
         </div>
     )
 }

@@ -30,12 +30,14 @@ html {
 }
 
 .logout {
-
+  margin-left: 1125px;
+  margin-top: -60px;
+  position: absolute;
 }
 
 
 body {
-  font-family: "Open Sans", Arial, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   min-height: 100vh;
   background-color: #fafafa;
   color: #262626;
@@ -71,7 +73,6 @@ img {
   color: rgb(255, 255, 255);
 }
 
-
 .search {
   margin-top: 5px;
   width: 300px;
@@ -94,8 +95,6 @@ img {
   color: black;
 }
 
-
-
 .search-input:hover {
   background-color: lightgray;
 }
@@ -109,4 +108,71 @@ img {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+.app-title{
+  margin-top: 20px;
+  font-size: 40px;
+  font-style: bold;
+  font-weight: 1000;
+  margin-left: 20px;
+}
+
+.header {
+  background-color: rgb(210, 210, 210);
+  position: relative;
+  border-radius: 10px;
+}
+
+.like-btn {
+  transition: all .3s;
+  border-radius: 10px;
+}
+
+.like-btn:hover {
+  color: white;
+  background-color: green;
+}
+
+.delete-post-btn {
+  transition: all .3s;
+}
+
+.delete-post-btn:hover {
+  color: white;
+  background-color: red;
+}
+
+.edit-post-btn {
+  transition: all .3s;
+}
+
+.edit-post-btn:hover {
+  background-color: black;
+  color: white;
+}
+
+.card {
+  transition: all .3s;
+}
+
+.card:hover {
+  background-color:  rgb(239, 239, 239);
+}
+
+.username-link {
+  color: black;
+  font-size: 40px;
+  transition: all .3s;
+}
+
+.username-link:hover {
+  color: green
+}
+
+.tags-post {
+  display: flex;
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: -20px;
 }

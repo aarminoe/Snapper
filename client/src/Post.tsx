@@ -5,6 +5,8 @@ import { ImageListContext } from "./Context"
 import { LoggedInUserContext, ClickedUserContext, PostsContext, CommentsContext, UserListContext, TagListContext } from "./Context"
 import Comment from "./Comment"
 import { NavLink } from "react-router-dom"
+import { AiFillLike, AiFillEdit, AiFillTag } from 'react-icons/ai'
+
 
 interface CommentProps {
     id:number;
@@ -53,7 +55,6 @@ function Post({post, url}:any) {
     const {clickedUser, setClickedUser} = useContext(ClickedUserContext)
     const {userList} = useContext(UserListContext)
     const {tagList} =useContext(TagListContext)
-    
     const imageListRef = ref(storage, 'images/')
     const imageRef = ref(storage, url)
 
@@ -83,7 +84,6 @@ function Post({post, url}:any) {
                         })
                         deleteObject(imageRef)
                     })
-                    
                 }            
             ))   
             }
@@ -123,8 +123,7 @@ function Post({post, url}:any) {
     }
 
     function handleNewComment(e: { preventDefault: () => void }){
-        e.preventDefault()
-        
+        e.preventDefault() 
         fetch(`/users/${loggedInUser.id}/posts/${post.id}/comments`, {
             method: 'POST',
             headers: {
@@ -210,7 +209,6 @@ function Post({post, url}:any) {
                 setTagLimitReached(true)
                 setTag('')
             }
-            
         }
         if (postTags.length <= 5 && isTag === false) {
             fetch('/tags', {
@@ -240,8 +238,7 @@ function Post({post, url}:any) {
                 .then(res => res.json())
                 .then(data => console.log(data))
             })
-        }
-        
+        }     
         else {
             console.log(existingTag)
             let foundTag 
@@ -270,10 +267,8 @@ function Post({post, url}:any) {
                 })
                 .then(res => res.json())
                 .then(data => console.log(data))
-            }
-           
+            }  
         }
-
     }
 
     return(
@@ -282,12 +277,12 @@ function Post({post, url}:any) {
             <div>
                 {post.user_id === loggedInUser.id ? 
                 <div>
-                    <button onClick={handleDeletePost}>X</button> 
-                    <button onClick={() => setEdit((edit) => !edit)}>Edit</button>
+                    <button className="delete-post-btn" onClick={handleDeletePost}>X</button> 
+                    <button className="edit-post-btn" onClick={() => setEdit((edit) => !edit)}><AiFillEdit/></button>
                 </div>
                 : null}           
             </div>
-            <div>
+            <div className="tags-post">
                 {postTags.slice(0,5).map((singleTag:any) => {
                     return <p>#{singleTag.tag_text}</p>
                 })}
@@ -297,16 +292,15 @@ function Post({post, url}:any) {
                 <h1>
                     {loggedInUser.id === post.user_id ? 
                     <div>
-                        <form onSubmit={handleAddTag}>
-                            Add Tags 
+                        <form onSubmit={handleAddTag}> 
                             <input value={tag} onChange={(e) => setTag(e.target.value)}></input>
-                            <button>Add Tag</button>
+                            <button><AiFillTag/></button>
                         </form> 
                         {tagLimitReached ? <p className="text-danger">Tag Limit Reached</p> :null}
                     </div>
                     : null}
+                <button className="like-btn" onClick={handlePostLike}><AiFillLike /></button>
                 {post.title}
-                <button onClick={handlePostLike}>like</button>
                 {postLikes.length > 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length} others liked this post`}</p> : null}
                 {postLikes.length === 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} liked this post`}</p> : null}
                 {post.edit === true ? <p>Editted POST!</p> : null}
@@ -316,8 +310,8 @@ function Post({post, url}:any) {
                 </form> : null} 
                 </h1>
                 <img className='avatar'  src={post.user.avatar_url} alt='oops!'></img>
-                {loggedInUser.username === post.user.username ? <NavLink to={`/${loggedInUser.username}`}>{post.user.username}</NavLink>:
-                <NavLink to={`/other_user`} onClick={handleClickedUser}>{post.user.username}</NavLink>}
+                {loggedInUser.username === post.user.username ? <NavLink className='username-link' to={`/${loggedInUser.username}`}>{post.user.username}</NavLink>:
+                <NavLink className='username-link' to={`/other_user`} onClick={handleClickedUser}>{post.user.username}</NavLink>}
                 <button onClick={() => setSeeComments((seeComments) => !seeComments)}>See Comments</button>
                 {seeComments ? 
                 <div>

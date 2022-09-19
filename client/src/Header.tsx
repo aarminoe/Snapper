@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-
+import { BiLogOut } from 'react-icons/bi'
 
 function Header() {
     function handleLogOut() {
@@ -10,10 +10,10 @@ function Header() {
     }
 
     return(
-        <div>
-            Header
+        <div className="header">
+            <p className="app-title">Snapper</p>
             <p>
-                <button className="logout" onClick={handleLogOut}>Log Out!</button>
+                <button className="logout" onClick={handleLogOut}><BiLogOut/></button>
             </p>
         </div>
     )

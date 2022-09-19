@@ -3,7 +3,7 @@ import { Route, Routes, NavLink, Outlet, useSearchParams } from "react-router-do
 import Followers from "./Followers"
 import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext, LoggedInUserConversationsContext } from "./Context"
 import { useContext, useEffect, useState } from "react"
-
+import { AiFillMail } from 'react-icons/ai'
 import { ImageListContext } from "./Context"
 
 import { storage } from './firebase'
@@ -94,7 +94,7 @@ function UserProfile() {
                 <NavLink
                 className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"
                 to={`messages`}
-                >Messages</NavLink>
+                ><AiFillMail /></NavLink>
             </div>
             <img className='avatar' src={loggedInUser.avatar_url} alt='oops!'/>
             <button onClick={() => setWillEdit((willEdit) => !willEdit)}>

@@ -275,7 +275,7 @@ function OtherUserProfile() {
                 <button onClick={() => setSeeFollowers((seeFollowers) => !seeFollowers)}>Followers ({usersFollowers.length})</button>
                 <button onClick={() => setSeeFollowing((seeFollowing) => !seeFollowing)}>Following ({usersFollowing.length})</button>
                 <div>
-                    {following ? <button onClick={handleFollowUser}>Following!</button> 
+                    {following ? <button onClick={handleFollowUser}>Unfollow</button> 
                     : <button onClick={handleFollowUser}>Follow</button>}
                 </div>
             </div>
