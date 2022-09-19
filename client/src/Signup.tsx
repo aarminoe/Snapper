@@ -15,42 +15,8 @@ function Signup() {
     const [errorsFound, setErrorsFound] = useState(false)
     const [errors, setErrors] = useState(null)
     const [avatar, setAvatar] = useState(null) 
-    
-    
 
-    // function handleSignUp(e:any) {
-    //     e.preventDefault()
-    //     console.log(avatar)
-    //     fetch('/users', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //             username: newUser,
-    //             password: newPassword,
-    //             password_confirmation: confirmNewPassword,
-    //             avatar_url: 'test',
-    //             bio: 'test'
-    //         })
-    //     })
-    //     .then((r) => {
-    //         if (r.ok) {
-    //             r.json().then((data) => {
-    //                 setLoggedInUser(data)
-    //                 setErrorsFound(false)
-    //             })
-    //         } else {
-    //             r.json().then((err) => {
-    //                 setErrorsFound(true)
-    //                 setErrors(err.errors)
-    //                 console.log(err.errors)
-    //             })
-    //         }
-    //     })
-    // }
-
-    function handleSignUp(e:any) {
+    function handleSignUp(e: { preventDefault: () => void }) {
         e.preventDefault()
         console.log(avatar)
         if (avatar !== null) {

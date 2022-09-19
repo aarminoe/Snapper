@@ -3,6 +3,19 @@ import { UserListContext, SearchedUserContext, ClickedUserContext, LoggedInUserC
 import { Link, NavLink } from "react-router-dom"
 
 
+interface PostProps {
+    comments: any;
+    edit:boolean;
+    id:number;
+    image_url:string;
+    post_likes:any;
+    tags:any;
+    title:string;
+    user:any;
+    user_id:number
+}
+
+
 
 function Search() {
 
@@ -23,9 +36,9 @@ function Search() {
     }, [])
 
     function handleTagPosts() {
-        let updatedList:any = []
+        let updatedList:PostProps[] = []
         console.log(posts)
-        posts.forEach((post:any) => {
+        posts.forEach((post:PostProps) => {
             console.log(post)
             for (let i=0;i<post.tags.length;i++) {
                 if (post.tags[i].tag_text.toLowerCase().includes(searchTag.toLowerCase())) {
@@ -82,7 +95,7 @@ function Search() {
 
             </div>:null}
             <div className="container">
-                {posts.map((post:any) => {
+                {posts.map((post:PostProps) => {
                     return (
                         <div className="card">
                             <h1>{post.title}</h1>

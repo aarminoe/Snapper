@@ -3,6 +3,12 @@ import { NavLink } from "react-router-dom"
 import { LoggedInUserContext, ClickedUserContext, UserListContext } from "./Context"
 
 
+interface FollowerProps {
+    who_followed:string;
+    who_followed_avatar_url:string;
+    user_id:number
+}
+
 function Followers() {
 
     const {loggedInUser} = useContext(LoggedInUserContext)
@@ -12,7 +18,7 @@ function Followers() {
     return(
         <div className="user-tab">
             follower
-            {loggedInUser.followers.map((follower:any) => {
+            {loggedInUser.followers.map((follower:FollowerProps) => {
                 console.log(follower)
                 return(
                     <div>

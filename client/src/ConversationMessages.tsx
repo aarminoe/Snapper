@@ -2,6 +2,15 @@ import { useContext, useState } from "react"
 import Message from "./Message"
 import { LoggedInUserContext } from "./Context"
 
+interface MessageProps {
+    conversation_id: number;
+    date?:string;
+    id:number;
+    message:string;
+    who_messaged:string;
+    who_messaged_avatar_url:string
+}
+
 function ConversationMessages({conversation}: any) {
 
     const {loggedInUser} = useContext(LoggedInUserContext)
@@ -9,6 +18,8 @@ function ConversationMessages({conversation}: any) {
     const [conversationMessageList, setConversationMessageList] = useState(conversation.messages)
     const [messageText, setMessageText] = useState('')
     const [seeMessages, setSeeMessages] = useState(false)
+
+    console.log(conversation.messages)
 
     return(
         <div className="card">
@@ -31,10 +42,10 @@ function ConversationMessages({conversation}: any) {
                             </div>
                             {seeMessages ? 
                             <div>
-                                <p>{conversationMessageList.map((message:any) => {
+                                <p>{conversationMessageList.map((message:MessageProps) => {
                                     return <Message message={message} conversation={conversation} />
                                 })}</p>
-                                <form onSubmit={(e:any) => {
+                                <form onSubmit={(e) => {
                                     e.preventDefault()
                                     fetch(`/conversations/${conversation.id}/messages`, {
                                         method: 'POST',
@@ -64,7 +75,7 @@ function ConversationMessages({conversation}: any) {
                                 <img className="avatar-comment" src={conversationMessageList[conversationMessageList.length -1].who_messaged_avatar_url} alt='oops'/>
                                 <h5>{conversationMessageList[conversationMessageList.length -1].who_messaged}</h5>
                                 {conversationMessageList[conversationMessageList.length -1].message}
-                                <form onSubmit={(e:any) => {
+                                <form onSubmit={(e) => {
                                     e.preventDefault()
                                     fetch(`/conversations/${conversation.id}/messages`, {
                                         method: 'POST',

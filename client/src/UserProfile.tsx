@@ -11,6 +11,20 @@ import { ref, uploadBytes, listAll, getDownloadURL, getStorage, deleteObject } f
 import Post from "./Post"
 import { ConversationsContext } from "./Context"
 
+
+interface PostProps {
+    comments: any;
+    edit:boolean;
+    id:number;
+    image_url:string;
+    post_likes:any;
+    tags:any;
+    title:string;
+    user:any;
+    user_id:number
+}
+
+
 function UserProfile() {
 
     const {loggedInUserPosts, setLoggedInUserPosts} = useContext(LoggedInUserPostsContext)
@@ -28,7 +42,7 @@ function UserProfile() {
         getUser()
     }, [])
 
-    function handleChangeAvatar(e:any){
+    function handleChangeAvatar(e: { preventDefault: () => void }){
         e.preventDefault()
         if (avatar !== null) {
             const deletedRef = ref(storage, loggedInUser.avatar_url)
@@ -85,7 +99,7 @@ function UserProfile() {
                 : null}
                 <Outlet />
             <div>
-                {posts.map((post:any) => {
+                {posts.map((post:PostProps) => {
                     if (post.user_id === loggedInUser.id) {
                         return <Post url={post.image_url} post={post}/>
                     }         

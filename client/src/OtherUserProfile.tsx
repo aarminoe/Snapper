@@ -4,6 +4,17 @@ import { NavLink } from "react-router-dom"
 import { PostsContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers, UserListContext, LoggedInUserConversationsContext, ConversationMessagesContext } from "./Context"
 import Post from "./Post"
 
+interface PostProps {
+    comments: any;
+    edit:boolean;
+    id:number;
+    image_url:string;
+    post_likes:any;
+    tags:any;
+    title:string;
+    user:any;
+    user_id:number
+}
 
 function OtherUserProfile() {
 
@@ -144,7 +155,7 @@ function OtherUserProfile() {
         }
     }
 
-    function sendMessage(e:any) {
+    function sendMessage(e: { preventDefault: () => void }) {
         e.preventDefault()
         setDate(new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(Date.now()));
         let hasConversation = false
@@ -301,7 +312,7 @@ function OtherUserProfile() {
                 )
             })}</p> : null}
             <div>
-                {posts.map((post:any) => {
+                {posts.map((post:PostProps) => {
                     if (post.user_id === clickedUser.id) {
                         return (
                         <ClickedUserFollowers.Provider value={{usersFollowers, setUsersFollowers}}>

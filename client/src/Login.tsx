@@ -13,7 +13,7 @@ function Login() {
 
 
 
-    function handleLogin(e:any) {
+    function handleLogin(e: { preventDefault: () => void }) {
         e.preventDefault()
         fetch('/login', {
             method: 'POST',
