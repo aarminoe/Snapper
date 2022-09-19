@@ -101,11 +101,10 @@ function App(){
     fetch('/conversations')
     .then(res => res.json())
     .then(conversations => {
-      if (conversations) {
         setConversations(conversations.reverse())}
-      }
       )
   }, [])
+  
 
   return (
     <LoggedInUserContext.Provider value={{loggedInUser, setLoggedInUser}}>
@@ -146,10 +145,7 @@ function App(){
                       <Route
                       path={`messages`}
                       element={<Messages />}/>          
-                </Route>
-                {/* <Route path={`/${loggedInUser.username}/messages`}
-                  element={<Messages />}/> */}
-                  
+                </Route>          
                 <Route path='/search' element={
                   <Search />
                 }>

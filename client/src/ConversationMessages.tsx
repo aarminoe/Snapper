@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Message from "./Message"
 import { LoggedInUserContext } from "./Context"
 
@@ -19,7 +19,9 @@ function ConversationMessages({conversation}: any) {
     const [messageText, setMessageText] = useState('')
     const [seeMessages, setSeeMessages] = useState(false)
 
-    console.log(conversation.messages)
+    
+
+    console.log(conversation)
 
     return(
         <div className="card">

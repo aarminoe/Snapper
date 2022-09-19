@@ -1,7 +1,7 @@
 // import ProfileNav from "./ProfileNav"
 import { Route, Routes, NavLink, Outlet, useSearchParams } from "react-router-dom"
 import Followers from "./Followers"
-import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from "./Context"
+import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext, LoggedInUserConversationsContext } from "./Context"
 import { useContext, useEffect, useState } from "react"
 
 import { ImageListContext } from "./Context"
@@ -25,6 +25,7 @@ interface PostProps {
 }
 
 
+
 function UserProfile() {
 
     const {loggedInUserPosts, setLoggedInUserPosts} = useContext(LoggedInUserPostsContext)
@@ -33,7 +34,15 @@ function UserProfile() {
     const {conversations, setConversations} = useContext(ConversationsContext)
     const [willEdit, setWillEdit] = useState(true)
     const [avatar, setAvatar] = useState(null)
+    const [loggedInUserConversations, setLoggedInUserConversations] = useState(loggedInUser.conversations)
     
+    console.log(loggedInUser)
+
+    useEffect(() => {
+        fetch(`/users/${loggedInUser.id}/conversations`)
+        .then(res => res.json())
+        .then(userConversations => setLoggedInUserConversations(userConversations))
+    }, [])
 
     useEffect(() => {
         const getUser = async() => {fetch(`/users/${loggedInUser.id}/posts`)
@@ -71,7 +80,7 @@ function UserProfile() {
 
 
     return(
-        <div>
+        <LoggedInUserConversationsContext.Provider value={{loggedInUserConversations, setLoggedInUserConversations}}>
             <div className="navbar navbar-dark bg-dark">
                 <NavLink 
                 className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"
@@ -105,7 +114,7 @@ function UserProfile() {
                     }         
                 })}
             </div>
-        </div>
+            </LoggedInUserConversationsContext.Provider>
         
     )
 }

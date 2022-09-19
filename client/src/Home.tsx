@@ -29,6 +29,8 @@ function Home() {
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {posts, setPosts}= useContext(PostsContext)
 
+    
+
     useEffect(() => {
         let homePostList:PostProps[] = []
         fetch('/posts')
@@ -47,8 +49,6 @@ function Home() {
         console.log(homePostList)
         setHomePosts(homePostList.reverse())
     },[])
-    
- 
 
     function uploadImage(e: { preventDefault: () => void }) {
         e.preventDefault()
@@ -88,10 +88,6 @@ function Home() {
         }
 
     }
-
-    console.log(homePosts)
-
-    
 
     return(
         <div>

@@ -9,14 +9,17 @@ function Messages() {
 
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {conversations, setConversations} = useContext(ConversationsContext)
-    const [loggedInUserConversations, setLoggedInUserConversations] = useState(loggedInUser.conversations)
+    const {loggedInUserConversations} = useContext(LoggedInUserConversationsContext)
     const [messageText, setMessageText] = useState('')
     const [seeMessages, setSeeMessages] = useState(false)
     const [conversationMessages, setConversationMessages] = useState(null)
 
+    
+
+    console.log(loggedInUser.conversations)
 
     return(
-        <LoggedInUserConversationsContext.Provider value={{loggedInUserConversations, setLoggedInUserConversations}}>
+        
         <div>
             messages
             <div>
@@ -28,7 +31,7 @@ function Messages() {
 
             </div>
         </div>
-        </LoggedInUserConversationsContext.Provider>
+        
     )
 }
 
