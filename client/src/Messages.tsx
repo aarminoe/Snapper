@@ -21,7 +21,6 @@ function Messages() {
     return(
         
         <div>
-            messages
             <div>
                 {loggedInUserConversations.map((conversation:any) => {
                     return(

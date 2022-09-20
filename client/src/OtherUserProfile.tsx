@@ -1,4 +1,5 @@
 
+
 import React, { useContext, useState, useEffect } from "react"
 import { NavLink } from "react-router-dom"
 import { PostsContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers, UserListContext, LoggedInUserConversationsContext, ConversationMessagesContext } from "./Context"
@@ -45,7 +46,7 @@ function OtherUserProfile() {
     //     return false
     // }
 
-    console.log(loggedInUser)
+    console.log(clickedUser)
     
     useEffect(() => {
         fetch(`/users/${loggedInUser.id}/follows`)
@@ -93,7 +94,7 @@ function OtherUserProfile() {
                         },
                         body: JSON.stringify({
                             followed: clickedUser.username,
-                            followed_avatar_url: clickedUser.image_url,
+                            followed_avatar_url: clickedUser.avatar_url,
                             user_id: loggedInUser.id
                         })
                     })

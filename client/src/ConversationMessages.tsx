@@ -28,10 +28,12 @@ function ConversationMessages({conversation}: any) {
                             <div>
                                 {conversation.sender === loggedInUser.username ? 
                                 <p>
+                                    {conversation.receiver_avatar_url}
                                     {conversation.receiver} 
                                 </p>
                                 : 
                                 <p>
+                                    {conversation.sender_avatar_url}
                                     {conversation.sender}
                                 </p>
                                 }
