@@ -29,12 +29,16 @@ function ConversationMessages({conversation}: any) {
                                 {conversation.sender === loggedInUser.username ? 
                                 <p>
                                     <img className="conversation-avatar" src={conversation.receiver_avatar_url}/>
-                                    {conversation.receiver} 
+                                    <p className="conversation-user">
+                                        {conversation.receiver} 
+                                    </p>
                                 </p>
                                 : 
                                 <p>
                                     <img className="conversation-avatar" src={conversation.sender_avatar_url}/>
-                                    {conversation.sender}
+                                    <p className="conversation-user">
+                                        {conversation.sender}
+                                    </p>
                                 </p>
                                 }
                                 <p>

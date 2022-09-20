@@ -206,6 +206,8 @@ img {
   border-radius: 10px;
   transition: all .3s;
   margin-bottom: 20px;
+  width: 70px;
+  margin-left: 20px;
 }
 
 .see-posts-btn:hover {
@@ -402,4 +404,19 @@ img {
 .post-header-profile {
   font-size: 80px;
   font-style: italic;
+}
+
+.conversation-avatar {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.conversation-user {
+  position: absolute;
+  margin-top: -80px;
+  margin-left: 120px;
+  font-size: 40px;
 }

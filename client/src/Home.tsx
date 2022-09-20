@@ -5,6 +5,8 @@ import { ImageListContext, ImageUploadContext } from './Context'
 import Post from "./Post"
 import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from "./Context"
 import { AiOutlineUpload } from 'react-icons/ai'
+import { FaUserFriends } from 'react-icons/fa'
+import { HiUserGroup } from 'react-icons/hi'
 
 interface PostProps {
     comments: any;
@@ -110,8 +112,8 @@ function Home() {
                         Description:
                         <input type='text' value={title} onChange={(e) => setTitle(e.target.value)}></input>
                     </p>
-                    {seeFriendsPosts ? <button className="see-posts-btn" onClick={() => setSeeFriendsPosts((seeFriendsPosts) => !seeFriendsPosts)}>See All Posts</button> :
-                    <button className="see-posts-btn" onClick={() => setSeeFriendsPosts((seeFriendsPosts) => !seeFriendsPosts)}>See Friends Posts</button> }
+                    {seeFriendsPosts ? <button className="see-posts-btn" onClick={() => setSeeFriendsPosts((seeFriendsPosts) => !seeFriendsPosts)}><FaUserFriends/></button> :
+                    <button className="see-posts-btn" onClick={() => setSeeFriendsPosts((seeFriendsPosts) => !seeFriendsPosts)}><HiUserGroup/></button> }
                 
             <div className="row">       
                 {seeFriendsPosts ? homePosts.map((post:PostProps) => {
