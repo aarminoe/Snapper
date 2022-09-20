@@ -22,6 +22,10 @@ interface LoggedInUserProps {
   username: string;
   avatar_url: string;
   bio: string;
+  conversations:any;
+  followers: any;
+  follows:any
+  posts:any
 }
 
 interface PostProps {
@@ -44,7 +48,7 @@ function App(){
 
   const [imageUpload, setImageUpload] = useState<any>({name: ''})
   const [imageList, setImageList] = useState<string[]>([])    
-  const [loggedInUser, setLoggedInUser] = useState<LoggedInUserProps>(null)
+  const [loggedInUser, setLoggedInUser] = useState<LoggedInUserProps | null>(null)
   const [userList, setUserList] = useState([])
   const [loggedInUserPosts, setLoggedInUserPosts] = useState([])
   const [posts, setPosts] = useState<any>([])

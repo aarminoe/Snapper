@@ -15,7 +15,7 @@ function ConversationMessages({conversation}: any) {
 
     const {loggedInUser} = useContext(LoggedInUserContext)
 
-    const [conversationMessageList, setConversationMessageList] = useState(conversation.messages)
+    const [conversationMessageList, setConversationMessageList] = useState<MessageProps[]>(conversation.messages)
     const [messageText, setMessageText] = useState('')
     const [seeMessages, setSeeMessages] = useState(false)
 
@@ -28,12 +28,12 @@ function ConversationMessages({conversation}: any) {
                             <div>
                                 {conversation.sender === loggedInUser.username ? 
                                 <p>
-                                    {conversation.receiver_avatar_url}
+                                    <img className="conversation-avatar" src={conversation.receiver_avatar_url}/>
                                     {conversation.receiver} 
                                 </p>
                                 : 
                                 <p>
-                                    {conversation.sender_avatar_url}
+                                    <img className="conversation-avatar" src={conversation.sender_avatar_url}/>
                                     {conversation.sender}
                                 </p>
                                 }

@@ -17,6 +17,16 @@ interface PostProps {
     user:any;
     user_id:number
 }
+interface LoggedInUserProps {
+    id: number;
+    username: string;
+    avatar_url: string;
+    bio: string;
+    conversations:any[];
+    followers: any[];
+    follows:any[]
+    posts:any[]
+  }
 
 
 function Home() {
@@ -30,7 +40,7 @@ function Home() {
     const {loggedInUser} = useContext(LoggedInUserContext)
     const {posts, setPosts}= useContext(PostsContext)
 
-    
+    console.log(loggedInUser)
 
     useEffect(() => {
         let homePostList:PostProps[] = []

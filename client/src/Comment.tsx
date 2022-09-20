@@ -189,7 +189,6 @@ function Comment({comment, post}:any) {
     return(
         <CommentRepliesContext.Provider value={{commentReplies, setCommentReplies}}>
             <div className="card">
-                Comment
                 <div className="comment-buttons">
                     {comment.who_commented === loggedInUser.username || post.user_id === loggedInUser.id ? 
                     <div>
@@ -205,7 +204,7 @@ function Comment({comment, post}:any) {
                 </div>
                     <img src={comment.who_commented_avatar_url} className='avatar-comment' alt='oops!'></img>
                 {loggedInUser.username === comment.who_commented ? <NavLink className='comment-user' to={`/${loggedInUser.username}`}>{comment.who_commented}</NavLink>:
-                <NavLink to='/other_user' onClick={handleClickedUser}>{comment.who_commented}</NavLink>}
+                <NavLink className='comment-user' to='/other_user' onClick={handleClickedUser}>{comment.who_commented}</NavLink>}
                 {comment.edit === true ? <p>Editted</p> : null}
                 {isEdit ? 
                 <form onSubmit={handleEditComment}>
@@ -213,8 +212,11 @@ function Comment({comment, post}:any) {
                     <button>Add Edit</button>
                 </form>
                 : null}
-                
-                {comment.comment}
+                <p className="comment-text-box">
+                    <p className="card">
+                        <p className="comment-text">{comment.comment}</p>
+                    </p>
+                </p>
                 <p className="liked-this">
                     {commentLikes.length >= 2 ? <p>{`${commentLikes[commentLikes.length-1].who_liked} and ${commentLikes.length} others liked this`}</p> : null }
                     {commentLikes.length === 1 ? <p>{`${commentLikes[commentLikes.length-1].who_liked} liked this`}</p> : null }

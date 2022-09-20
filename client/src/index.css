@@ -31,6 +31,7 @@ html {
   border-radius: 50%;
   margin-left: 10px;
   margin-top: 10px;
+  
 }
 
 .logout {
@@ -213,8 +214,8 @@ img {
 .comment-like-btn {
   width: 32px;
   height: 30px;
-  position: absolute;
-  margin-left: 58px;
+ 
+  margin-left: px;
 }
 
 .comment-like-btn:hover {
@@ -239,7 +240,7 @@ img {
 .comment-edit:hover {
   background-color: black;
   color: white;
-  position: absolute;
+
 }
 
 .comment-delete {
@@ -258,8 +259,9 @@ img {
 .liked-this {
   color: rgb(114, 174, 253);
   font-size: 20px;
-  margin-top: 5px;
-  margin-left: 10px;
+  margin-left: 50px;
+
+  margin-top: -20px;
 }
 
 .avatar-post {
@@ -325,4 +327,32 @@ img {
   position: absolute;
   margin-top: -50px;
   margin-left: 70px;
+}
+
+.comment-user-reply {
+  position: absolute;
+  margin-top: 52px;
+  margin-left: 68px;
+}
+
+.comment-user {
+  position: absolute;
+  margin-top: 52px;
+  margin-left: 70px;
+}
+
+.comment-reply {
+  margin-left: 30px;
+  width: 800px;
+}
+
+.comment-text-box {
+  width: 1050px;
+  margin-left: 40px;
+  margin-top: 20px;
+}
+
+.comment-text {
+  margin-left: 10px;
+  margin-top: 10px;
 }

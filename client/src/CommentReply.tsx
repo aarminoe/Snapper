@@ -134,13 +134,8 @@ function  CommentReply({reply, comment, post}:any){
     
 
     return(
-        <div className="card">
-            <div className="comment-reply">
-                <img src={reply.who_commented_avatar_url} className='avatar-comment' alt='oops!'></img>
-                {loggedInUser.username === reply.who_commented ? <NavLink to={`/${loggedInUser.username}`}>{reply.who_commented}</NavLink>:
-                <NavLink to='/other_user' onClick={handleClickedUser}>{reply.who_commented}</NavLink>}
-                <div>
-                    <div>
+        <div className="comment-reply">
+            <div className="card">
                         <div className="comment-buttons">
                             {reply.who_commented === loggedInUser.username || post.user_id === loggedInUser.id ? 
                             <div>
@@ -160,6 +155,11 @@ function  CommentReply({reply, comment, post}:any){
                             : null}
                             <button className="comment-like-btn" onClick={handleReplyLike}><AiFillLike/></button>
                         </div>
+                <img src={reply.who_commented_avatar_url} className='avatar-comment' alt='oops!'></img>
+                {loggedInUser.username === reply.who_commented ? <NavLink className='comment-user-reply' to={`/${loggedInUser.username}`}>{reply.who_commented}</NavLink>:
+                <NavLink className='comment-user-reply' to='/other_user' onClick={handleClickedUser}>{reply.who_commented}</NavLink>}
+                <div>
+                    <div>
 
                     </div>
                     {reply.edit ? <div>Editted!</div> : null}
