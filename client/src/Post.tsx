@@ -309,9 +309,9 @@ function Post({post, url}:any) {
                     {postLikes.length === 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} liked this post`}</p> : null}
                 </p>
                 {post.edit === true ? <p>Editted</p> : null}
-                {edit ? <form onSubmit={handleEditPost}>
+                {edit ? <form className="post-edit-bar" onSubmit={handleEditPost}>
                     <input value={editTitle} onChange={(e) => setEditTitle(e.target.value)}></input>
-                    <button>Change Title</button>
+                    <button>Edit</button>
                 </form> : null} 
                 </h1>
                 <button className="see-comments" onClick={() => setSeeComments((seeComments) => !seeComments)}>See Comments</button>
