@@ -16,25 +16,27 @@ function Followers() {
     const {setClickedUser} = useContext(ClickedUserContext)
 
     return(
-        <div className="user-tab">
-            follower
-            {loggedInUser.followers.map((follower:FollowerProps) => {
-                console.log(follower)
-                return(
-                    <div>
-                        Follower here
-                        <NavLink to='/other_user' onClick={() => {
-                            for (let i=0;i < userList.length;i++) {
-                                if (userList[i].username === follower.who_followed) {
-                                    setClickedUser(userList[i])
-                                    break
+        <div className="card">
+            <div className="user-tab">
+                follower
+                {loggedInUser.followers.map((follower:FollowerProps) => {
+                    console.log(follower)
+                    return(
+                        <div>
+                            Follower here
+                            <NavLink to='/other_user' onClick={() => {
+                                for (let i=0;i < userList.length;i++) {
+                                    if (userList[i].username === follower.who_followed) {
+                                        setClickedUser(userList[i])
+                                        break
+                                    }
                                 }
-                            }
-                        }}>{follower.who_followed}</NavLink>
-                        
-                    </div>
-                )
-            })}
+                            }}>{follower.who_followed}</NavLink>
+                            
+                        </div>
+                    )
+                })}
+            </div>
         </div>
     )
 }

@@ -281,10 +281,13 @@ function Post({post, url}:any) {
                     <button className="edit-post-btn" onClick={() => setEdit((edit) => !edit)}><AiFillEdit/></button>
                 </div>
                 : null}           
+                <img className='avatar-post'  src={post.user.avatar_url} alt='oops!'></img>
+                {loggedInUser.username === post.user.username ? <NavLink className='username-link' to={`/${loggedInUser.username}`}>{post.user.username}</NavLink>:
+                <NavLink className='username-link' to={`/other_user`} onClick={handleClickedUser}>{post.user.username}</NavLink>}
             </div>
             <div className="tags-post">
                 {postTags.slice(0,5).map((singleTag:any) => {
-                    return <p>#{singleTag.tag_text}</p>
+                    return <p className="tag-post">#{singleTag.tag_text}</p>
                 })}
             </div>
             <img className="post-pic" src={url} alt='oops'/>
@@ -301,24 +304,23 @@ function Post({post, url}:any) {
                     : null}
                 <button className="like-btn" onClick={handlePostLike}><AiFillLike /></button>
                 {post.title}
-                {postLikes.length > 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length} others liked this post`}</p> : null}
-                {postLikes.length === 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} liked this post`}</p> : null}
-                {post.edit === true ? <p>Editted POST!</p> : null}
+                <p className="liked-this">
+                    {postLikes.length > 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length} others liked this post`}</p> : null}
+                    {postLikes.length === 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} liked this post`}</p> : null}
+                </p>
+                {post.edit === true ? <p>Editted</p> : null}
                 {edit ? <form onSubmit={handleEditPost}>
                     <input value={editTitle} onChange={(e) => setEditTitle(e.target.value)}></input>
                     <button>Change Title</button>
                 </form> : null} 
                 </h1>
-                <img className='avatar'  src={post.user.avatar_url} alt='oops!'></img>
-                {loggedInUser.username === post.user.username ? <NavLink className='username-link' to={`/${loggedInUser.username}`}>{post.user.username}</NavLink>:
-                <NavLink className='username-link' to={`/other_user`} onClick={handleClickedUser}>{post.user.username}</NavLink>}
-                <button onClick={() => setSeeComments((seeComments) => !seeComments)}>See Comments</button>
+                <button className="see-comments" onClick={() => setSeeComments((seeComments) => !seeComments)}>See Comments</button>
                 {seeComments ? 
                 <div>
                     Add Comment
                     <form onSubmit={handleNewComment}>
                         <input type='text' value={newComment} onChange={(e) => setNewComment(e.target.value)}></input>
-                        <button>Add</button>
+                        <button className='add-comment-btn'>Add</button>
                     </form>
                     <p>
                     {comments.map((comment:CommentProps) => {

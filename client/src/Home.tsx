@@ -4,6 +4,7 @@ import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
 import { ImageListContext, ImageUploadContext } from './Context'
 import Post from "./Post"
 import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from "./Context"
+import { AiOutlineUpload } from 'react-icons/ai'
 
 interface PostProps {
     comments: any;
@@ -91,17 +92,16 @@ function Home() {
 
     return(
         <div>
-            Home
                 <form>
                     <input type='file' onChange={(e) => setImageUpload(e.target.files[0])}/>
-                    <button onClick={uploadImage}>upload</button>
+                    <button className="upload-btn" onClick={uploadImage}><AiOutlineUpload /></button>
                 </form>
                     <p>
-                        Set Description
+                        Description:
                         <input type='text' value={title} onChange={(e) => setTitle(e.target.value)}></input>
                     </p>
-                    {seeFriendsPosts ? <button onClick={() => setSeeFriendsPosts((seeFriendsPosts) => !seeFriendsPosts)}>See All Posts</button> :
-                    <button onClick={() => setSeeFriendsPosts((seeFriendsPosts) => !seeFriendsPosts)}>See Friends Posts</button> }
+                    {seeFriendsPosts ? <button className="see-posts-btn" onClick={() => setSeeFriendsPosts((seeFriendsPosts) => !seeFriendsPosts)}>See All Posts</button> :
+                    <button className="see-posts-btn" onClick={() => setSeeFriendsPosts((seeFriendsPosts) => !seeFriendsPosts)}>See Friends Posts</button> }
                 
             <div className="row">       
                 {seeFriendsPosts ? homePosts.map((post:PostProps) => {

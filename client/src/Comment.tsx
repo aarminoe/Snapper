@@ -2,6 +2,8 @@ import CommentReply from "./CommentReply"
 import React, { useContext, useState } from "react"
 import { LoggedInUserContext, CommentsContext, CommentRepliesContext, UserListContext, ClickedUserContext } from "./Context"
 import { NavLink } from "react-router-dom"
+import { AiFillEdit, AiFillLike } from 'react-icons/ai'
+import { BiCommentAdd } from 'react-icons/bi'
 
 interface CommentProps {
     id:number;
@@ -188,20 +190,23 @@ function Comment({comment, post}:any) {
         <CommentRepliesContext.Provider value={{commentReplies, setCommentReplies}}>
             <div className="card">
                 Comment
-                {comment.who_commented === loggedInUser.username || post.user_id === loggedInUser.id ? 
-                <div>
-                    <button onClick={handleDeleteComment}>X</button>
+                <div className="comment-buttons">
+                    {comment.who_commented === loggedInUser.username || post.user_id === loggedInUser.id ? 
+                    <div>
+                        <button className="comment-delete" onClick={handleDeleteComment}>X</button>
+                    </div>
+                    : null}
+                    {comment.who_commented === loggedInUser.username ? 
+                    <div>
+                        <button className="comment-edit" onClick={() => setIsEdit((isEdit) => !isEdit)}><AiFillEdit/></button>
+                    </div>
+                    : null}
+                    <button className="comment-like-btn" onClick={handleLikeComment}><AiFillLike/></button>
                 </div>
-                : null}
-                {comment.who_commented === loggedInUser.username ? 
-                <div>
-                    <button onClick={() => setIsEdit((isEdit) => !isEdit)}>Edit</button>
-                </div>
-                : null}
-                <img src={comment.who_commented_avatar_url} className='avatar-comment' alt='oops!'></img>
-                {loggedInUser.username === comment.who_commented ? <NavLink to={`/${loggedInUser.username}`}>{comment.who_commented}</NavLink>:
+                    <img src={comment.who_commented_avatar_url} className='avatar-comment' alt='oops!'></img>
+                {loggedInUser.username === comment.who_commented ? <NavLink className='comment-user' to={`/${loggedInUser.username}`}>{comment.who_commented}</NavLink>:
                 <NavLink to='/other_user' onClick={handleClickedUser}>{comment.who_commented}</NavLink>}
-                {comment.edit === true ? <p>Editted Comment</p> : null}
+                {comment.edit === true ? <p>Editted</p> : null}
                 {isEdit ? 
                 <form onSubmit={handleEditComment}>
                     <input value={edittedCommentText} onChange={(e) => setEdittedCommentText(e.target.value)}></input> 
@@ -210,15 +215,16 @@ function Comment({comment, post}:any) {
                 : null}
                 
                 {comment.comment}
-                {commentLikes.length >= 2 ? <p>{`${commentLikes[commentLikes.length-1].who_liked} and ${commentLikes.length} others liked this`}</p> : null }
-                {commentLikes.length === 1 ? <p>{`${commentLikes[commentLikes.length-1].who_liked} liked this`}</p> : null }
-                <button onClick={handleLikeComment}>Like</button>
-                <button onClick={() => setSeeReplyComment((seeReplyComment) => !seeReplyComment)}>see reply</button>
+                <p className="liked-this">
+                    {commentLikes.length >= 2 ? <p>{`${commentLikes[commentLikes.length-1].who_liked} and ${commentLikes.length} others liked this`}</p> : null }
+                    {commentLikes.length === 1 ? <p>{`${commentLikes[commentLikes.length-1].who_liked} liked this`}</p> : null }
+                </p>
+                <button className="comment-reply-btn" onClick={() => setSeeReplyComment((seeReplyComment) => !seeReplyComment)}>See replies</button>
                 {seeReplyComment ? 
                 <div>
                     <form onSubmit={handleCommentReply}>
                         <input type='text' value={newReply} onChange={(e) => setNewReply(e.target.value)}/> 
-                        <button>reply</button>
+                        <button><BiCommentAdd/></button>
                     </form>
                     {commentReplies.map((reply:ReplyProps) => {
                     return <CommentReply reply={reply} comment={comment} post={post}/>

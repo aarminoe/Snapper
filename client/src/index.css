@@ -21,18 +21,28 @@ html {
   width: 200px;
   height: 200px;
   border-radius: 50%;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .avatar-comment {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  margin-left: 10px;
+  margin-top: 10px;
 }
 
 .logout {
   margin-left: 1125px;
   margin-top: -60px;
   position: absolute;
+  transition: all .3s;
+}
+
+.logout:hover {
+  color: white;
+  background-color: red;
 }
 
 
@@ -164,6 +174,9 @@ img {
   color: black;
   font-size: 40px;
   transition: all .3s;
+  position: absolute;
+  margin-top: -80px;
+  margin-left: 120px;
 }
 
 .username-link:hover {
@@ -175,4 +188,123 @@ img {
   margin-left: 10px;
   margin-top: 10px;
   margin-bottom: -20px;
+}
+
+.upload-btn {
+  transition: all .3s;
+}
+
+.upload-btn:hover {
+  color: white;
+  background-color: rgb(114, 174, 253);
+}
+
+.see-posts-btn {
+  border-radius: 10px;
+  transition: all .3s;
+  margin-bottom: 20px;
+}
+
+.see-posts-btn:hover {
+  background-color: rgb(114, 174, 253);
+  color: white;
+}
+
+.comment-like-btn {
+  width: 32px;
+  height: 30px;
+  position: absolute;
+  margin-left: 58px;
+}
+
+.comment-like-btn:hover {
+  color: white;
+  background-color: green;
+}
+
+.comment-reply-btn {
+  width: 150px;
+  transition: all .3s;
+}
+
+.comment-reply-btn:hover {
+  background-color: rgb(114, 174, 253);
+  color: white;
+}
+
+.comment-edit {
+  transition: all .3s;
+}
+
+.comment-edit:hover {
+  background-color: black;
+  color: white;
+  position: absolute;
+}
+
+.comment-delete {
+  transition: all .3s;
+}
+
+.comment-delete:hover {
+  color: white;
+  background-color: red;
+}
+
+.comment-buttons {
+  display: flex;
+}
+
+.liked-this {
+  color: rgb(114, 174, 253);
+  font-size: 20px;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.avatar-post {
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+  margin-top: 20px;
+}
+
+.see-comments {
+  transition: all .3s;
+  margin-bottom: 20px;
+}
+
+.see-comments:hover {
+  background-color: rgb(114, 174, 253);
+  color: white;
+}
+
+.add-comment-btn {
+  transition: all .3s;
+}
+
+.add-comment-btn:hover {
+  color: white;
+  background-color: green;
+}
+
+.username-profile {
+  position: absolute;
+  font-size: 40px;
+  margin-top: -140px;
+  margin-left: 230px;
+}
+
+.tags-search {
+  display: flex;
+}
+
+.tag {
+  margin-left: 5px;
+  margin-bottom: -5px;
+  margin-top: -15px;
+}
+
+.tag-post {
+  margin-left: 5px;
 }

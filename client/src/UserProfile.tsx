@@ -97,15 +97,7 @@ function UserProfile() {
                 ><AiFillMail /></NavLink>
             </div>
             <img className='avatar' src={loggedInUser.avatar_url} alt='oops!'/>
-            <button onClick={() => setWillEdit((willEdit) => !willEdit)}>
-                Edit Profile
-            </button>
-            {willEdit ? 
-                <form onSubmit={handleChangeAvatar}>
-                    <input type='file' onChange={(e) => setAvatar(e.target.files[0])}/>
-                    <button>Change Avatar</button>
-                </form> 
-                : null}
+            <p className="username-profile">{loggedInUser.username}</p>
                 <Outlet />
             <div>
                 {posts.map((post:PostProps) => {

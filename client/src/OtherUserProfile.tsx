@@ -248,24 +248,12 @@ function OtherUserProfile() {
             })
         }
     }
-
-    // function handleClickedUser(e:any){
-    //     console.log(user)
-    //     for (let i=0;i < userList.length;i++) {
-    //         if (userList[i].username === follow.who_commented) {
-    //             setClickedUser(userList[i])
-    //             break
-    //         }
-    //     }
-    // }
-
-
-    
-    console.log(clickedUser)
+   
     return(
         <LoggedInUserConversationsContext.Provider value={{loggedInUserConversations, setLoggedInUserConversations}}>
         <div>
-            {clickedUser.username}
+            <img className="avatar" src={clickedUser.avatar_url}></img>
+            <p className="username-profile">{clickedUser.username}</p>
             <button onClick={() => {setNewMessageClick((newMessageClick) => !newMessageClick)}}>Message!</button>
             {newMessageClick ? <form onSubmit={sendMessage}>
                 <input type='text' value={newMessageText} onChange={(e) => setNewMessageText(e.target.value)}/>

@@ -3,6 +3,7 @@ import { rmSync } from "fs"
 import { useContext, useState } from "react"
 import { NavLink } from "react-router-dom"
 import { CommentRepliesContext, LoggedInUserContext, ClickedUserContext, UserListContext } from "./Context"
+import { AiFillEdit, AiFillLike } from 'react-icons/ai'
 
 interface ReplyProps{
     comment:string;
@@ -133,33 +134,40 @@ function  CommentReply({reply, comment, post}:any){
     
 
     return(
-        <div>
-            <img src={reply.who_commented_avatar_url} className='avatar-comment' alt='oops!'></img>
-            {loggedInUser.username === reply.who_commented ? <NavLink to={`/${loggedInUser.username}`}>{reply.who_commented}</NavLink>:
-            <NavLink to='/other_user' onClick={handleClickedUser}>{reply.who_commented}</NavLink>}
-            <div>
-                {reply.who_commented === loggedInUser.username || post.user_id === loggedInUser.id ? 
+        <div className="card">
+            <div className="comment-reply">
+                <img src={reply.who_commented_avatar_url} className='avatar-comment' alt='oops!'></img>
+                {loggedInUser.username === reply.who_commented ? <NavLink to={`/${loggedInUser.username}`}>{reply.who_commented}</NavLink>:
+                <NavLink to='/other_user' onClick={handleClickedUser}>{reply.who_commented}</NavLink>}
                 <div>
-                    <button onClick={handleDeleteCommentReply}>X</button> 
+                    <div>
+                        <div className="comment-buttons">
+                            {reply.who_commented === loggedInUser.username || post.user_id === loggedInUser.id ? 
+                            <div>
+                                <button className="comment-delete" onClick={handleDeleteCommentReply}>X</button> 
+                            </div>
+                            : null}
+                            {reply.who_commented === loggedInUser.username ? 
+                            <div>
+                                <button className="comment-edit" onClick={() => setIsEdit((isEdit) => !isEdit)}><AiFillEdit/></button>
+                            </div>
+                            : null}
+                            {isEdit ? 
+                            <form onSubmit={handleEditReply}>
+                                <input onChange={(e) => setEditReplyText(e.target.value)}></input>
+                                <button>Add Edit</button>
+                            </form>
+                            : null}
+                            <button className="comment-like-btn" onClick={handleReplyLike}><AiFillLike/></button>
+                        </div>
+
+                    </div>
+                    {reply.edit ? <div>Editted!</div> : null}
+                    {reply.reply}
+                    <p>{reply.date}</p>
+                    {commentReplyLikes.length >= 2 ? <p>{`${commentReplyLikes[commentReplyLikes.length-1].who_liked} and ${commentReplyLikes.length} others liked this`}</p> : null }
+                    {commentReplyLikes.length === 1 ? <p>{`${commentReplyLikes[commentReplyLikes.length-1].who_liked} liked this`}</p> : null }
                 </div>
-                : null}
-                {reply.who_commented === loggedInUser.username ? 
-                <div>
-                    <button onClick={() => setIsEdit((isEdit) => !isEdit)}>Edit</button>
-                </div>
-                : null}
-                {isEdit ? 
-                <form onSubmit={handleEditReply}>
-                    <input onChange={(e) => setEditReplyText(e.target.value)}></input>
-                    <button>Add Edit</button>
-                </form>
-                : null}
-                <button onClick={handleReplyLike}>Like</button>
-                {reply.edit ? <div>Editted!</div> : null}
-                {reply.reply}
-                <p>{reply.date}</p>
-                {commentReplyLikes.length >= 2 ? <p>{`${commentReplyLikes[commentReplyLikes.length-1].who_liked} and ${commentReplyLikes.length} others liked this`}</p> : null }
-                {commentReplyLikes.length === 1 ? <p>{`${commentReplyLikes[commentReplyLikes.length-1].who_liked} liked this`}</p> : null }
             </div>
         </div>
     )
