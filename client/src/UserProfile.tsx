@@ -100,6 +100,7 @@ function UserProfile() {
             <p className="username-profile">{loggedInUser.username}</p>
                 <Outlet />
             <div>
+                <p className="post-header-profile">Posts</p>
                 {posts.map((post:PostProps) => {
                     if (post.user_id === loggedInUser.id) {
                         return <Post url={post.image_url} post={post}/>

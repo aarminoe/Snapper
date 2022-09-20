@@ -1,5 +1,4 @@
 
-
 import React, { useContext, useState, useEffect } from "react"
 import { NavLink } from "react-router-dom"
 import { PostsContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers, UserListContext, LoggedInUserConversationsContext, ConversationMessagesContext } from "./Context"
@@ -37,17 +36,9 @@ function OtherUserProfile() {
     const [loggedInUserConversations, setLoggedInUserConversations] = useState(loggedInUser.conversations)
     const [seeFollowing, setSeeFollowing] = useState(false)
     const [date, setDate] = useState('')
-
-
     
-    // window.onbeforeunload = (e) => {
-    //     console.log('no')
-    //     e.preventDefault()
-    //     return false
-    // }
 
     console.log(clickedUser)
-    
     useEffect(() => {
         fetch(`/users/${loggedInUser.id}/follows`)
         .then(res => res.json())
@@ -143,7 +134,7 @@ function OtherUserProfile() {
                             },
                             body: JSON.stringify({
                                 followed: clickedUser.username,
-                                followed_avatar_url: clickedUser.image_url,
+                                followed_avatar_url: clickedUser.avatar_url,
                                 user_id: loggedInUser.id
                             })
                         })
@@ -196,7 +187,7 @@ function OtherUserProfile() {
                     sender: loggedInUser.username, 
                     sender_avatar_url: loggedInUser.avatar_url,
                     receiver: clickedUser.username,
-                    receiver_avatar_url: clickedUser.image_url
+                    receiver_avatar_url: clickedUser.avatar_url
                 })
             })
             .then(res => res.json())
@@ -301,6 +292,7 @@ function OtherUserProfile() {
                 )
             })}</p> : null}
             <div>
+                <p className="post-header-profile">Posts</p>
                 {posts.map((post:PostProps) => {
                     if (post.user_id === clickedUser.id) {
                         return (

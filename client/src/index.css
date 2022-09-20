@@ -138,6 +138,8 @@ img {
 .like-btn {
   transition: all .3s;
   border-radius: 10px;
+  margin-bottom: 20px;
+  margin-right: 10px;
 }
 
 .like-btn:hover {
@@ -260,7 +262,6 @@ img {
   color: rgb(114, 174, 253);
   font-size: 20px;
   margin-left: 50px;
-
   margin-top: -20px;
 }
 
@@ -299,6 +300,8 @@ img {
 
 .tags-search {
   display: flex;
+  margin-top: -10px;
+  margin-bottom: 10px;
 }
 
 .tag {
@@ -318,6 +321,7 @@ img {
 .follow-avatar {
   border-radius: 50%;
   width: 50px;
+  height: 50px;
   margin-bottom: 10px;
   margin-top: 10px;
   margin-left: 10px;
@@ -355,4 +359,47 @@ img {
 .comment-text {
   margin-left: 10px;
   margin-top: 10px;
+}
+
+.search-title-post {
+  font-size: larger;
+  margin-bottom: 30px;
+}
+
+.comment-reply-box {
+  width: 700px;
+  margin-left: 40px;
+  margin-top: 20px;
+}
+
+.comment-reply-text {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.reply-liked-this {
+  color: rgb(114, 174, 253);
+  margin-left: 50px;
+  margin-top: -20px;
+}
+
+.liked-this {
+  color: rgb(114, 174, 253);
+  font-size: 20px;
+  margin-left: 50px;
+  margin-top: -20px;
+}
+
+.comment-add {
+  transition: all .3s;
+}
+
+.comment-add:hover {
+  color: white;
+  background-color: green;
+}
+
+.post-header-profile {
+  font-size: 80px;
+  font-style: italic;
 }

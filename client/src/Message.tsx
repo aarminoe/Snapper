@@ -8,7 +8,7 @@ function Message({message, conversation}: any) {
         <div>
             <div className="card">
                 <img className="avatar-comment" src={message.who_messaged_avatar_url} alt='oops'></img>
-                <h5>{message.who_messaged}</h5>
+                <h5 className="who-messaged">{message.who_messaged}</h5>
                 <p>
                     {message.message}
                 </p>

@@ -96,10 +96,9 @@ function Search() {
             </div>:null}
             <div className="container">
                 {posts.map((post:PostProps) => {
-                    console.log(post)
                     return (
                         <div className="card">
-                            <h1>{post.title}</h1>
+                            <h1 className="search-title-post">{post.title}</h1>
                             <div className="tags-search">
                                 {post.tags ? post.tags.map((tag:any) => {
                                     return (<p className="tag">#{tag.tag_text}</p>)

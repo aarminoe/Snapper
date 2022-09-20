@@ -160,13 +160,19 @@ function  CommentReply({reply, comment, post}:any){
                 <NavLink className='comment-user-reply' to='/other_user' onClick={handleClickedUser}>{reply.who_commented}</NavLink>}
                 <div>
                     <div>
-
+                        {reply.edit ? <div>Editted!</div> : null}
                     </div>
-                    {reply.edit ? <div>Editted!</div> : null}
-                    {reply.reply}
+                    <p className="comment-reply-box">
+                        <p className="card">
+                            <p className="comment-reply-text">
+                            {reply.reply}
+                            </p>
+                        </p>
+                    </p> 
                     <p>{reply.date}</p>
-                    {commentReplyLikes.length >= 2 ? <p>{`${commentReplyLikes[commentReplyLikes.length-1].who_liked} and ${commentReplyLikes.length} others liked this`}</p> : null }
-                    {commentReplyLikes.length === 1 ? <p>{`${commentReplyLikes[commentReplyLikes.length-1].who_liked} liked this`}</p> : null }
+                    {commentReplyLikes.length > 2 ? <p className="reply-liked-this">{`${commentReplyLikes[commentReplyLikes.length-1].who_liked} and ${commentReplyLikes.length} others liked this`}</p> : null }
+                    {commentReplyLikes.length === 2 ? <p className="reply-liked-this">{`${commentReplyLikes[commentReplyLikes.length-1].who_liked} and ${commentReplyLikes.length-1} other liked this`}</p> : null }
+                    {commentReplyLikes.length === 1 ? <p className="reply-liked-this">{`${commentReplyLikes[commentReplyLikes.length-1].who_liked} liked this`}</p> : null }
                 </div>
             </div>
         </div>

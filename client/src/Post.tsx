@@ -305,7 +305,8 @@ function Post({post, url}:any) {
                 <button className="like-btn" onClick={handlePostLike}><AiFillLike /></button>
                 {post.title}
                 <p className="liked-this">
-                    {postLikes.length > 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length} others liked this post`}</p> : null}
+                    {postLikes.length > 2 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length} others liked this post`}</p> : null}
+                    {postLikes.length === 2 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length -1} other liked this post`}</p> : null}
                     {postLikes.length === 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} liked this post`}</p> : null}
                 </p>
                 {post.edit === true ? <p>Editted</p> : null}

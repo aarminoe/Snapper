@@ -218,7 +218,8 @@ function Comment({comment, post}:any) {
                     </p>
                 </p>
                 <p className="liked-this">
-                    {commentLikes.length >= 2 ? <p>{`${commentLikes[commentLikes.length-1].who_liked} and ${commentLikes.length} others liked this`}</p> : null }
+                    {commentLikes.length > 2 ? <p>{`${commentLikes[commentLikes.length-1].who_liked} and ${commentLikes.length} others liked this`}</p> : null }
+                    {commentLikes.length === 2 ? <p>{`${commentLikes[commentLikes.length-1].who_liked} and ${commentLikes.length -1} other liked this`}</p> : null }
                     {commentLikes.length === 1 ? <p>{`${commentLikes[commentLikes.length-1].who_liked} liked this`}</p> : null }
                 </p>
                 <button className="comment-reply-btn" onClick={() => setSeeReplyComment((seeReplyComment) => !seeReplyComment)}>See replies</button>
@@ -226,7 +227,7 @@ function Comment({comment, post}:any) {
                 <div>
                     <form onSubmit={handleCommentReply}>
                         <input type='text' value={newReply} onChange={(e) => setNewReply(e.target.value)}/> 
-                        <button><BiCommentAdd/></button>
+                        <button className="comment-add"><BiCommentAdd/></button>
                     </form>
                     {commentReplies.map((reply:ReplyProps) => {
                     return <CommentReply reply={reply} comment={comment} post={post}/>
