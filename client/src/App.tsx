@@ -5,7 +5,7 @@ import { ConversationsContext, ImageListContext, ImageUploadContext, LoggedInUse
 import { Route, Routes } from "react-router-dom"
 import Home from './Home';
 import NavBar from './NavBar';
-import Header from './Header';
+
 import Signup from './Signup';
 import UserProfile from './UserProfile';
 import Search from './Search';
@@ -16,6 +16,7 @@ import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
 import Login from './Login';
 import OtherUserProfile from './OtherUserProfile';
+
 
 interface LoggedInUserProps {
   id: number;
@@ -121,7 +122,6 @@ function App(){
         {loggedInUser? 
         <div>
           <header>
-            <Header />
             <NavBar />
           </header>
           <ImageListContext.Provider value={{imageList, setImageList}}>

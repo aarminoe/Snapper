@@ -2,15 +2,18 @@ html {
   font-family: 'Courier New', Courier, monospace;
 }
 
-
+.post-btns {
+  position: absolute;
+}
 
 .post-pic {
   width: 400px;
   height: 400px;
   border-radius: 10px;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  margin-left: 10px;
+  margin-top: -250px;
+  margin-left: 550px;
+  position: absolute;
+  border: line;
 }
 
 .post-details {
@@ -50,7 +53,7 @@ html {
 body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   min-height: 100vh;
-  background-color: #fafafa;
+  background-color: rgb(205, 226, 254);;
   color: #262626;
   padding-bottom: 3rem; 
 }
@@ -175,7 +178,7 @@ img {
 
 .username-link {
   color: black;
-  font-size: 40px;
+  font-size: 30px;
   transition: all .3s;
   position: absolute;
   margin-top: -80px;
@@ -191,6 +194,14 @@ img {
   margin-left: 10px;
   margin-top: 10px;
   margin-bottom: -20px;
+  position: absolute;
+}
+
+.tag-input {
+  position: absolute;
+  margin-top: -140px;
+  margin-left: -30px;
+
 }
 
 .upload-btn {
@@ -420,3 +431,8 @@ img {
   margin-left: 120px;
   font-size: 40px;
 }
+
+.user-routes {
+  margin-bottom: 500px;
+}
+

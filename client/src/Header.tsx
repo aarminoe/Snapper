@@ -1,5 +1,6 @@
 import React, { useContext } from "react"
 import { BiLogOut } from 'react-icons/bi'
+import { Button,Typography } from '@mui/material'
 
 function Header() {
     function handleLogOut() {

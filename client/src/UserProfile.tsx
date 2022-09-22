@@ -10,6 +10,7 @@ import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL, getStorage, deleteObject } from 'firebase/storage'
 import Post from "./Post"
 import { ConversationsContext } from "./Context"
+import { AppBar, Toolbar, IconButton, Typography } from "@mui/material"
 
 
 interface PostProps {
@@ -77,37 +78,73 @@ function UserProfile() {
         }
     }
 
+    // <AppBar >
+    //         <Toolbar>
+    //             <Typography variant='h6' sx={{flexGrow: 1}}>Snapper</Typography>
+    //             <IconButton>
+    //                 <NavLink
+    //                 className="navbar-toggler" 
+    //                 to='/'
+    //                 ><AiFillHome /></NavLink>
+    //             </IconButton>
+    //             <IconButton>
+    //                 <NavLink 
+    //                 className="navbar-toggler"
+    //                 to={`/${loggedInUser.username}`}
+    //                 >{loggedInUser.username}</NavLink>
+    //             </IconButton>
+    //             <IconButton>
+    //                 <NavLink
+    //                 className="navbar-toggler"
+    //                 to='/search'
+    //                 ><AiOutlineSearch/></NavLink>
+    //             </IconButton>
+    //             <IconButton onClick={handleLogOut}><BiLogOut/>     
+    //             </IconButton>
+    //         </Toolbar>
+    //     </AppBar>
 
 
     return(
         <LoggedInUserConversationsContext.Provider value={{loggedInUserConversations, setLoggedInUserConversations}}>
-            <div className="navbar navbar-dark bg-dark">
-                <NavLink 
-                className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"
-                to={`followers`}
-                >Followers
-                </NavLink>
-                <NavLink
-                className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"
-                to={`following`}
-                >Following</NavLink>
-                <NavLink
-                className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"
-                to={`messages`}
-                ><AiFillMail /></NavLink>
-            </div>
-            <img className='avatar' src={loggedInUser.avatar_url} alt='oops!'/>
-            <p className="username-profile">{loggedInUser.username}</p>
-                <Outlet />
-            <div>
-                <p className="post-header-profile">Posts</p>
-                {posts.map((post:PostProps) => {
-                    if (post.user_id === loggedInUser.id) {
-                        return <Post url={post.image_url} post={post}/>
-                    }         
-                })}
-            </div>
-            </LoggedInUserConversationsContext.Provider>
+            <AppBar position="relative">
+                <Toolbar>
+               
+                    <Typography variant='h6' sx={{flexGrow: 1}}></Typography>
+                        <IconButton>
+                            <NavLink 
+                            className="navbar-toggler"
+                            to={`followers`}
+                            >Followers
+                            </NavLink>        
+                        </IconButton>
+                        <IconButton>
+                            <NavLink
+                            className="navbar-toggler"
+                            to={`following`}
+                            >Following</NavLink>
+                        </IconButton>
+                        <IconButton>
+                            <NavLink
+                            className="navbar-toggler"
+                            to={`messages`}
+                            ><AiFillMail /></NavLink>
+                        </IconButton>
+              
+                </Toolbar>
+            </AppBar>
+                        <Outlet />
+                    <img className='avatar' src={loggedInUser.avatar_url} alt='oops!'/>
+                    <p className="username-profile">{loggedInUser.username}</p>
+                    <div>
+                        <Typography>Posts</Typography>
+                        {posts.map((post:PostProps) => {
+                            if (post.user_id === loggedInUser.id) {
+                                return <Post url={post.image_url} post={post}/>
+                            }         
+                        })}
+                    </div>
+        </LoggedInUserConversationsContext.Provider>
         
     )
 }

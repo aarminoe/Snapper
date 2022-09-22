@@ -7,6 +7,7 @@ import { LoggedInUserContext, LoggedInUserPostsContext, PostsContext } from "./C
 import { AiOutlineUpload } from 'react-icons/ai'
 import { FaUserFriends } from 'react-icons/fa'
 import { HiUserGroup } from 'react-icons/hi'
+import { Button,Input, Card, Typography } from '@mui/material'
 
 interface PostProps {
     comments: any;
@@ -104,18 +105,22 @@ function Home() {
 
     return(
         <div>
+            <Card>
                 <form>
                     <input type='file' onChange={(e) => setImageUpload(e.target.files[0])}/>
-                    <button className="upload-btn" onClick={uploadImage}><AiOutlineUpload /></button>
+                    <Button className="upload-btn" onClick={uploadImage}><AiOutlineUpload /></Button>
                 </form>
                     <p>
-                        Description:
-                        <input type='text' value={title} onChange={(e) => setTitle(e.target.value)}></input>
+                        <Typography  variant='h6'>
+                            Description:
+                        <Input type='text' value={title} onChange={(e) => setTitle(e.target.value)}></Input>
+                        </Typography>
                     </p>
+            </Card>
                     {seeFriendsPosts ? <button className="see-posts-btn" onClick={() => setSeeFriendsPosts((seeFriendsPosts) => !seeFriendsPosts)}><FaUserFriends/></button> :
                     <button className="see-posts-btn" onClick={() => setSeeFriendsPosts((seeFriendsPosts) => !seeFriendsPosts)}><HiUserGroup/></button> }
                 
-            <div className="row">       
+            <div className="post-card">       
                 {seeFriendsPosts ? homePosts.map((post:PostProps) => {
                 return <Post post={post} url={post.image_url}/>
                 }): posts.map((post:PostProps) => {

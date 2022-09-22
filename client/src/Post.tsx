@@ -6,7 +6,7 @@ import { LoggedInUserContext, ClickedUserContext, PostsContext, CommentsContext,
 import Comment from "./Comment"
 import { NavLink } from "react-router-dom"
 import { AiFillLike, AiFillEdit, AiFillTag } from 'react-icons/ai'
-
+import { Button,Box, Card, CardContent } from '@mui/material'
 
 interface CommentProps {
     id:number;
@@ -273,65 +273,81 @@ function Post({post, url}:any) {
 
     return(
         <CommentsContext.Provider value={{comments, setComments}}>
-        <div className="card">
-            <div>
-                {post.user_id === loggedInUser.id ? 
-                <div>
-                    <button className="delete-post-btn" onClick={handleDeletePost}>X</button> 
-                    <button className="edit-post-btn" onClick={() => setEdit((edit) => !edit)}><AiFillEdit/></button>
-                </div>
-                : null}           
-                <img className='avatar-post'  src={post.user.avatar_url} alt='oops!'></img>
-                {loggedInUser.username === post.user.username ? <NavLink className='username-link' to={`/${loggedInUser.username}`}>{post.user.username}</NavLink>:
-                <NavLink className='username-link' to={`/other_user`} onClick={handleClickedUser}>{post.user.username}</NavLink>}
+            <div style={{ padding:30 }}>
+                <Card>
+                    <CardContent>
+                        {post.user_id === loggedInUser.id ? 
+                        <div className="post-btns">
+                            <Button className="delete-post-btn" onClick={handleDeletePost}>X</Button> 
+                            <Button className="edit-post-btn" onClick={() => setEdit((edit) => !edit)}><AiFillEdit/></Button>
+                        </div>
+                        : null}  
+                        <CardContent>
+                            <img className='avatar-post'  src={post.user.avatar_url} alt='oops!'></img>
+                        </CardContent>         
+                        {loggedInUser.username === post.user.username ? 
+                        <CardContent>
+                            <NavLink className='username-link' to={`/${loggedInUser.username}`}>{post.user.username}</NavLink>
+                        </CardContent>
+                        :
+                        <CardContent>
+                            <NavLink className='username-link' to={`/other_user`} onClick={handleClickedUser}>{post.user.username}</NavLink>
+                        </CardContent>
+                        }
+                    </CardContent>
+                    <CardContent className="tags-post">
+                        {postTags.slice(0,5).map((singleTag:any) => {
+                            return <p className="tag-post">#{singleTag.tag_text}</p>
+                        })}
+                    </CardContent>
+                    <CardContent>
+                        <>
+                            <img className="post-pic" src={url} alt='oops'/>
+                        </>
+                    </CardContent>
+                    <CardContent className="post-details">
+                        <CardContent>
+                            {loggedInUser.id === post.user_id ? 
+                            <CardContent>
+                                <form className="tag-input" onSubmit={handleAddTag}> 
+                                    <input value={tag} onChange={(e) => setTag(e.target.value)}></input>
+                                    <Button type="submit"><AiFillTag/></Button>
+                                </form> 
+                                {tagLimitReached ? <p className="text-danger">Tag Limit Reached</p> :null}
+                            </CardContent>
+                            : null}
+                        <Button variant='outlined' className="like-btn" onClick={handlePostLike}><AiFillLike /></Button>
+                        {post.title}
+                        <CardContent className="liked-this">
+                            {postLikes.length > 2 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length} others liked this post`}</p> : null}
+                            {postLikes.length === 2 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length -1} other liked this post`}</p> : null}
+                            {postLikes.length === 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} liked this post`}</p> : null}
+                        </CardContent>
+                        {post.edit === true ? <p className="editted-message">Editted</p> : null}
+                        {edit ? <form className="post-edit-bar" onSubmit={handleEditPost}>
+                            <input value={editTitle} onChange={(e) => setEditTitle(e.target.value)}></input>
+                            <Button type='submit'>Edit</Button>
+                        </form> : null} 
+                        </CardContent>
+                        <Button className="see-comments" onClick={() => setSeeComments((seeComments) => !seeComments)}>See Comments</Button>
+                        {seeComments ? 
+                        <CardContent>
+                            Add Comment
+                            <form onSubmit={handleNewComment}>
+                                <input type='text' value={newComment} onChange={(e) => setNewComment(e.target.value)}></input>
+                                <Button className='add-comment-btn'>Add</Button>
+                            </form>
+                            <p>
+                            {comments.map((comment:CommentProps) => {
+                                return <Comment comment={comment} post={post}/>
+                            })}
+                            </p>    
+                        </CardContent>
+                        : null}
+                    </CardContent>
+                </Card>
+
             </div>
-            <div className="tags-post">
-                {postTags.slice(0,5).map((singleTag:any) => {
-                    return <p className="tag-post">#{singleTag.tag_text}</p>
-                })}
-            </div>
-            <img className="post-pic" src={url} alt='oops'/>
-            <div className="post-details">
-                <h1>
-                    {loggedInUser.id === post.user_id ? 
-                    <div>
-                        <form onSubmit={handleAddTag}> 
-                            <input value={tag} onChange={(e) => setTag(e.target.value)}></input>
-                            <button><AiFillTag/></button>
-                        </form> 
-                        {tagLimitReached ? <p className="text-danger">Tag Limit Reached</p> :null}
-                    </div>
-                    : null}
-                <button className="like-btn" onClick={handlePostLike}><AiFillLike /></button>
-                {post.title}
-                <p className="liked-this">
-                    {postLikes.length > 2 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length} others liked this post`}</p> : null}
-                    {postLikes.length === 2 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length -1} other liked this post`}</p> : null}
-                    {postLikes.length === 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} liked this post`}</p> : null}
-                </p>
-                {post.edit === true ? <p>Editted</p> : null}
-                {edit ? <form className="post-edit-bar" onSubmit={handleEditPost}>
-                    <input value={editTitle} onChange={(e) => setEditTitle(e.target.value)}></input>
-                    <button>Edit</button>
-                </form> : null} 
-                </h1>
-                <button className="see-comments" onClick={() => setSeeComments((seeComments) => !seeComments)}>See Comments</button>
-                {seeComments ? 
-                <div>
-                    Add Comment
-                    <form onSubmit={handleNewComment}>
-                        <input type='text' value={newComment} onChange={(e) => setNewComment(e.target.value)}></input>
-                        <button className='add-comment-btn'>Add</button>
-                    </form>
-                    <p>
-                    {comments.map((comment:CommentProps) => {
-                        return <Comment comment={comment} post={post}/>
-                    })}
-                    </p>    
-                </div>
-                 : null}
-            </div>
-        </div>
         </CommentsContext.Provider>
     )
 }

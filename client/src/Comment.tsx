@@ -4,6 +4,7 @@ import { LoggedInUserContext, CommentsContext, CommentRepliesContext, UserListCo
 import { NavLink } from "react-router-dom"
 import { AiFillEdit, AiFillLike } from 'react-icons/ai'
 import { BiCommentAdd } from 'react-icons/bi'
+import { Button,Typography, Card } from '@mui/material'
 
 interface CommentProps {
     id:number;
@@ -188,7 +189,7 @@ function Comment({comment, post}:any) {
     console.log(commentReplies)
     return(
         <CommentRepliesContext.Provider value={{commentReplies, setCommentReplies}}>
-            <div className="card">
+            <Card>
                 <div className="comment-buttons">
                     {comment.who_commented === loggedInUser.username || post.user_id === loggedInUser.id ? 
                     <div>
@@ -236,7 +237,7 @@ function Comment({comment, post}:any) {
                 : null}
                 
 
-            </div>
+            </Card>
         </CommentRepliesContext.Provider>
     )
 }

@@ -4,6 +4,7 @@ import { useContext, useState } from "react"
 import { NavLink } from "react-router-dom"
 import { CommentRepliesContext, LoggedInUserContext, ClickedUserContext, UserListContext } from "./Context"
 import { AiFillEdit, AiFillLike } from 'react-icons/ai'
+import { Button,Typography, Card } from '@mui/material'
 
 interface ReplyProps{
     comment:string;
