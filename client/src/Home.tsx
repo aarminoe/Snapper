@@ -117,8 +117,8 @@ function Home() {
                         </Typography>
                     </p>
             </Card>
-                    {seeFriendsPosts ? <button className="see-posts-btn" onClick={() => setSeeFriendsPosts((seeFriendsPosts) => !seeFriendsPosts)}><FaUserFriends/></button> :
-                    <button className="see-posts-btn" onClick={() => setSeeFriendsPosts((seeFriendsPosts) => !seeFriendsPosts)}><HiUserGroup/></button> }
+                    {seeFriendsPosts ? <Button className="see-posts-btn" onClick={() => setSeeFriendsPosts((seeFriendsPosts) => !seeFriendsPosts)}><FaUserFriends/></Button> :
+                    <Button className="see-posts-btn" onClick={() => setSeeFriendsPosts((seeFriendsPosts) => !seeFriendsPosts)}><HiUserGroup/></Button> }
                 
             <div className="post-card">       
                 {seeFriendsPosts ? homePosts.map((post:PostProps) => {

@@ -6,7 +6,7 @@ import { LoggedInUserContext, ClickedUserContext, PostsContext, CommentsContext,
 import Comment from "./Comment"
 import { NavLink } from "react-router-dom"
 import { AiFillLike, AiFillEdit, AiFillTag } from 'react-icons/ai'
-import { Button,Box, Card, CardContent } from '@mui/material'
+import { Button,Box, Card, CardContent, Typography } from '@mui/material'
 
 interface CommentProps {
     id:number;
@@ -277,10 +277,10 @@ function Post({post, url}:any) {
                 <Card>
                     <CardContent>
                         {post.user_id === loggedInUser.id ? 
-                        <div className="post-btns">
-                            <Button className="delete-post-btn" onClick={handleDeletePost}>X</Button> 
-                            <Button className="edit-post-btn" onClick={() => setEdit((edit) => !edit)}><AiFillEdit/></Button>
-                        </div>
+                        <Card className="post-btns">
+                            <Button color='error' className="delete-post-btn" onClick={handleDeletePost}>X</Button> 
+                            <Button color='info' className="edit-post-btn" onClick={() => setEdit((edit) => !edit)}><AiFillEdit/></Button>
+                        </Card>
                         : null}  
                         <CardContent>
                             <img className='avatar-post'  src={post.user.avatar_url} alt='oops!'></img>
@@ -316,14 +316,26 @@ function Post({post, url}:any) {
                                 {tagLimitReached ? <p className="text-danger">Tag Limit Reached</p> :null}
                             </CardContent>
                             : null}
-                        <Button variant='outlined' className="like-btn" onClick={handlePostLike}><AiFillLike /></Button>
-                        {post.title}
+                            <Card>
+                                
+                            </Card>
+                        <div className="like-and-title">
+                            <Card className="like-post-card">
+                                <Button color='success' className="like-btn" onClick={handlePostLike}><AiFillLike /></Button>
+
+                            </Card>
+                        <Typography variant="h3">
+                            <p className="post-title">
+                                {post.title}
+                            </p>
+                        </Typography>
+                        </div>
                         <CardContent className="liked-this">
                             {postLikes.length > 2 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length} others liked this post`}</p> : null}
                             {postLikes.length === 2 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length -1} other liked this post`}</p> : null}
                             {postLikes.length === 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} liked this post`}</p> : null}
                         </CardContent>
-                        {post.edit === true ? <p className="editted-message">Editted</p> : null}
+                        {post.edit === true ? <p className="editted">Editted</p> : null}
                         {edit ? <form className="post-edit-bar" onSubmit={handleEditPost}>
                             <input value={editTitle} onChange={(e) => setEditTitle(e.target.value)}></input>
                             <Button type='submit'>Edit</Button>
@@ -335,7 +347,7 @@ function Post({post, url}:any) {
                             Add Comment
                             <form onSubmit={handleNewComment}>
                                 <input type='text' value={newComment} onChange={(e) => setNewComment(e.target.value)}></input>
-                                <Button className='add-comment-btn'>Add</Button>
+                                <Button type='submit' className='add-comment-btn'>Add</Button>
                             </form>
                             <p>
                             {comments.map((comment:CommentProps) => {

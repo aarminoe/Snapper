@@ -140,21 +140,21 @@ function  CommentReply({reply, comment, post}:any){
                         <div className="comment-buttons">
                             {reply.who_commented === loggedInUser.username || post.user_id === loggedInUser.id ? 
                             <div>
-                                <button className="comment-delete" onClick={handleDeleteCommentReply}>X</button> 
+                                <Button className="comment-delete" onClick={handleDeleteCommentReply}>X</Button> 
                             </div>
                             : null}
                             {reply.who_commented === loggedInUser.username ? 
                             <div>
-                                <button className="comment-edit" onClick={() => setIsEdit((isEdit) => !isEdit)}><AiFillEdit/></button>
+                                <Button className="comment-edit" onClick={() => setIsEdit((isEdit) => !isEdit)}><AiFillEdit/></Button>
                             </div>
                             : null}
                             {isEdit ? 
                             <form onSubmit={handleEditReply}>
-                                <input onChange={(e) => setEditReplyText(e.target.value)}></input>
-                                <button>Add Edit</button>
+                                <input className='reply-edit' onChange={(e) => setEditReplyText(e.target.value)}></input>
+                                <Button type='submit'>Add Edit</Button>
                             </form>
                             : null}
-                            <button className="comment-like-btn" onClick={handleReplyLike}><AiFillLike/></button>
+                            <Button className="comment-like-btn" onClick={handleReplyLike}><AiFillLike/></Button>
                         </div>
                 <img src={reply.who_commented_avatar_url} className='avatar-comment' alt='oops!'></img>
                 {loggedInUser.username === reply.who_commented ? <NavLink className='comment-user-reply' to={`/${loggedInUser.username}`}>{reply.who_commented}</NavLink>:
