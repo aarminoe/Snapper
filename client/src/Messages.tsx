@@ -13,16 +13,16 @@ function Messages() {
     const [messageText, setMessageText] = useState('')
     const [seeMessages, setSeeMessages] = useState(false)
     const [conversationMessages, setConversationMessages] = useState(null)
-
+    
     
 
-    console.log(loggedInUser.conversations)
+    console.log(loggedInUserConversations)
 
     return(
         
         <div>
             <div>
-                {loggedInUser.conversations.map((conversation:any) => {
+                {loggedInUserConversations.map((conversation:any) => {
                     console.log(conversation)
                     return(
                         <ConversationMessages conversation={conversation}/>

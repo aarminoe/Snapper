@@ -40,9 +40,17 @@ function UserProfile() {
     console.log(loggedInUser)
 
     useEffect(() => {
-        fetch(`/users/${loggedInUser.id}/conversations`)
+        fetch(`/conversations`)
         .then(res => res.json())
-        .then(userConversations => setLoggedInUserConversations(userConversations))
+        .then(userConversations => {
+            let usersOwnConversations = []
+            for (let i=0;i<userConversations.length;i++) {
+                if (userConversations[i].sender === loggedInUser.username || userConversations[i].receiver === loggedInUser.username) {
+                    usersOwnConversations.push(userConversations[i])
+                }
+            }
+            setLoggedInUserConversations(usersOwnConversations)
+        })
     }, [])
 
     useEffect(() => {
