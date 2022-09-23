@@ -22,7 +22,8 @@ function Messages() {
         
         <div>
             <div>
-                {loggedInUserConversations.map((conversation:any) => {
+                {loggedInUser.conversations.map((conversation:any) => {
+                    console.log(conversation)
                     return(
                         <ConversationMessages conversation={conversation}/>
                     )

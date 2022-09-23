@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import Message from "./Message"
 import { LoggedInUserContext } from "./Context"
+import { Button,Box, Card, CardContent, Typography } from '@mui/material'
 
 interface MessageProps {
     conversation_id: number;
@@ -12,9 +13,9 @@ interface MessageProps {
 }
 
 function ConversationMessages({conversation}: any) {
-
+    
     const {loggedInUser} = useContext(LoggedInUserContext)
-
+    
     const [conversationMessageList, setConversationMessageList] = useState<MessageProps[]>(conversation.messages)
     const [messageText, setMessageText] = useState('')
     const [seeMessages, setSeeMessages] = useState(false)
@@ -42,10 +43,10 @@ function ConversationMessages({conversation}: any) {
                                 </p>
                                 }
                                 <p>
-                                    <button onClick={() => {  
+                                    <Button onClick={() => {  
                                         console.log(conversationMessageList)
                                         setSeeMessages((seeMessages) => !seeMessages)}
-                                        }>Expand Messages</button>
+                                        }>Expand Messages</Button>
                                 </p>
                             </div>
                             {seeMessages ? 
@@ -75,7 +76,7 @@ function ConversationMessages({conversation}: any) {
                                     })
                                 }}>
                                     <input value={messageText} onChange={(e) => setMessageText(e.target.value)}></input>
-                                    <button>Reply</button>
+                                    <Button type='submit'>Reply</Button>
                                 </form>
                             </div>
                             : 
@@ -105,7 +106,7 @@ function ConversationMessages({conversation}: any) {
                                     })
                                 }}>
                                     <input value={messageText} onChange={(e) => setMessageText(e.target.value)}></input>
-                                    <button>Reply</button>
+                                    <Button type='submit'>Reply</Button>
                                 </form>
                             </div>}
                         </div>
