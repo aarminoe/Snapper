@@ -254,48 +254,65 @@ function OtherUserProfile() {
                     <Button type='submit'>Send</Button>
                 </form>: null}
                 <div>
-                    <Button onClick={() => setSeeFollowers((seeFollowers) => !seeFollowers)}>Followers ({usersFollowers.length})</Button>
-                    <Button onClick={() => setSeeFollowing((seeFollowing) => !seeFollowing)}>Following ({usersFollowing.length})</Button>
+                    <Button onClick={() =>{ 
+                        setUsersFollowers(clickedUser.followers)
+                        setSeeFollowers((seeFollowers) => !seeFollowers)
+                        setSeeFollowing(false)
+                        }}>Followers ({usersFollowers.length})</Button>
+                    <Button onClick={() => {
+                        setUsersFollowing(clickedUser.follows)
+                        setSeeFollowing((seeFollowing) => !seeFollowing)
+                        setSeeFollowers(false)
+                        }}>Following ({usersFollowing.length})</Button>
                     <div>
                         {following ? <Button onClick={handleFollowUser}>Unfollow</Button> 
                         : <Button onClick={handleFollowUser}>Follow</Button>}
                     </div>
                 </div>
             </Card>
-            {seeFollowers ? <p>{usersFollowers.map((follower:any) => {
+            {seeFollowers ? <Card>{usersFollowers.map((follower:any) => {
                 return(
-                    <>
-                        follower
-                        {loggedInUser.username === follower.who_followed ? <NavLink to={`/${loggedInUser.username}`}>{follower.who_followed}</NavLink>:
-                        <NavLink onClick={() => {
+                    <div>
+                        <img className="follow-avatar" src={follower.who_followed_avatar_url} alt='oops!'/>
+                        {loggedInUser.username === follower.who_followed ? <NavLink className='follow-username' to={`/${loggedInUser.username}`}>{follower.who_followed}</NavLink>:
+                        <NavLink className='follow-username' onClick={() => {
                             for (let i=0;i < userList.length;i++) {
                                 if (userList[i].username === follower.who_followed) {
+                                    console.log(userList[i])
+                                    setSeeFollowers(false)
                                     setClickedUser(userList[i])
+                                    setUsersFollowers(clickedUser.followers)
                                     break
                                 }
                             }
                         }} to='/other_user'>{follower.who_followed}</NavLink> } 
-                    </>
+                    </div>
                 )
-            })}</p> : null}
-            {seeFollowing ? <p>{usersFollowing.map((follow:any) => {
+            })}</Card> : null}
+            {seeFollowing ? <Card>{usersFollowing.map((follow:any) => {
                 return(
                     <div>
-                        follower
-                        {loggedInUser.username === follow.who_followed ? <NavLink to={`/${loggedInUser.username}`}>{follow.followed}</NavLink>:
-                        <NavLink onClick={() => {
+                        <img className="follow-avatar" src={follow.followed_avatar_url} alt='oops!' />
+                        {loggedInUser.username === follow.who_followed ? <NavLink className='follow-username' to={`/${loggedInUser.username}`}>{follow.followed}</NavLink>:
+                        <div>
+                            
+                            <NavLink onClick={() => {
                             for (let i=0;i < userList.length;i++) {
-                                if (userList[i].username === follow.who_followed) {
+                                console.log(follow)
+                                if (userList[i].username === follow.followed) {
+                                    setSeeFollowing(false)
                                     setClickedUser(userList[i])
+                                    setUsersFollowing(clickedUser.follows)
                                     break
                                 }
                             }
-                        }} to='/other_user'>{follow.followed}</NavLink> }       
+                        }} className='follow-username' to='/other_user'>{follow.followed}</NavLink>
+                        </div>    
+                         }       
                     </div>
                 )
-            })}</p> : null}
+            })}</Card> : null}
             <div>
-                <p className="post-header-profile">Posts</p>
                 {posts.map((post:PostProps) => {
                     if (post.user_id === clickedUser.id) {
                         return (
