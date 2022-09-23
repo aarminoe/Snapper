@@ -75,15 +75,16 @@ function ConversationMessages({conversation}: any) {
                                         setConversationMessageList(updatedList)
                                     })
                                 }}>
-                                    <input value={messageText} onChange={(e) => setMessageText(e.target.value)}></input>
+                                    <input className="reply-input" value={messageText} onChange={(e) => setMessageText(e.target.value)}></input>
                                     <Button type='submit'>Reply</Button>
                                 </form>
                             </div>
                             : 
                             <div className="card">
                                 <img className="avatar-comment" src={conversationMessageList[conversationMessageList.length -1].who_messaged_avatar_url} alt='oops'/>
-                                <h5>{conversationMessageList[conversationMessageList.length -1].who_messaged}</h5>
-                                {conversationMessageList[conversationMessageList.length -1].message}
+                                <h5 className="who-messaged">{conversationMessageList[conversationMessageList.length -1].who_messaged}</h5>
+                                <p className="message-message">{conversationMessageList[conversationMessageList.length -1].message}</p>
+                                
                                 <form onSubmit={(e) => {
                                     e.preventDefault()
                                     fetch(`/conversations/${conversation.id}/messages`, {
@@ -105,7 +106,7 @@ function ConversationMessages({conversation}: any) {
                                         setConversationMessageList(updatedList)
                                     })
                                 }}>
-                                    <input value={messageText} onChange={(e) => setMessageText(e.target.value)}></input>
+                                    <input className="reply-input" value={messageText} onChange={(e) => setMessageText(e.target.value)}></input>
                                     <Button type='submit'>Reply</Button>
                                 </form>
                             </div>}
