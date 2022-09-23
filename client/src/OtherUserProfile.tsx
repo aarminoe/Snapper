@@ -3,6 +3,7 @@ import React, { useContext, useState, useEffect } from "react"
 import { NavLink } from "react-router-dom"
 import { PostsContext, ClickedUserContext, LoggedInUserContext, ClickedUserFollowers, UserListContext, LoggedInUserConversationsContext, ConversationMessagesContext } from "./Context"
 import Post from "./Post"
+import { Button,Box, Card, CardContent, Typography } from '@mui/material'
 
 interface PostProps {
     comments: any;
@@ -244,21 +245,23 @@ function OtherUserProfile() {
     return(
         <LoggedInUserConversationsContext.Provider value={{loggedInUserConversations, setLoggedInUserConversations}}>
         <div>
-            <img className="avatar" src={clickedUser.avatar_url}></img>
-            <p className="username-profile">{clickedUser.username}</p>
-            <button onClick={() => {setNewMessageClick((newMessageClick) => !newMessageClick)}}>Message!</button>
-            {newMessageClick ? <form onSubmit={sendMessage}>
-                <input type='text' value={newMessageText} onChange={(e) => setNewMessageText(e.target.value)}/>
-                <button>Send</button>
-            </form>: null}
-            <div>
-                <button onClick={() => setSeeFollowers((seeFollowers) => !seeFollowers)}>Followers ({usersFollowers.length})</button>
-                <button onClick={() => setSeeFollowing((seeFollowing) => !seeFollowing)}>Following ({usersFollowing.length})</button>
+            <Card>
+                <img className="avatar" src={clickedUser.avatar_url}></img>
+                <p className="username-profile">{clickedUser.username}</p>
+                <Button onClick={() => {setNewMessageClick((newMessageClick) => !newMessageClick)}}>Message!</Button>
+                {newMessageClick ? <form onSubmit={sendMessage}>
+                    <input type='text' value={newMessageText} onChange={(e) => setNewMessageText(e.target.value)}/>
+                    <Button type='submit'>Send</Button>
+                </form>: null}
                 <div>
-                    {following ? <button onClick={handleFollowUser}>Unfollow</button> 
-                    : <button onClick={handleFollowUser}>Follow</button>}
+                    <Button onClick={() => setSeeFollowers((seeFollowers) => !seeFollowers)}>Followers ({usersFollowers.length})</Button>
+                    <Button onClick={() => setSeeFollowing((seeFollowing) => !seeFollowing)}>Following ({usersFollowing.length})</Button>
+                    <div>
+                        {following ? <Button onClick={handleFollowUser}>Unfollow</Button> 
+                        : <Button onClick={handleFollowUser}>Follow</Button>}
+                    </div>
                 </div>
-            </div>
+            </Card>
             {seeFollowers ? <p>{usersFollowers.map((follower:any) => {
                 return(
                     <>

@@ -137,7 +137,6 @@ function UserProfile() {
                     <img className='avatar' src={loggedInUser.avatar_url} alt='oops!'/>
                     <p className="username-profile">{loggedInUser.username}</p>
                     <div>
-                        <Typography>Posts</Typography>
                         {posts.map((post:PostProps) => {
                             if (post.user_id === loggedInUser.id) {
                                 return <Post url={post.image_url} post={post}/>
