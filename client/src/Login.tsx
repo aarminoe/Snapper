@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { LoggedInUserContext } from './Context'
+import { Button,Card, Input, CardContent, Typography } from '@mui/material'
 
 
 function Login() {
@@ -41,18 +42,21 @@ function Login() {
     }
 
     return(
+    <CardContent>
+        <Typography variant='h1'>Welcome to Snapper!</Typography>
         <form onSubmit={handleLogin}>
             <h1>User:
-                <input onChange={(e) => setUser(e.target.value)}></input>
+                <Input onChange={(e) => setUser(e.target.value)}></Input>
             </h1>
             <h1>
                 Password:
-                <input type='password' onChange={(e) => setPassword(e.target.value)}></input>
+                <Input type='password' onChange={(e) => setPassword(e.target.value)}></Input>
             </h1>
 
-            <button>Log In</button>
+            <Button type='submit'>Log In</Button>
             {userNotFound ? <p className='text-danger'>User/Password Not Found</p> : null}
         </form>
+    </CardContent>
     )
 }
 

@@ -16,7 +16,7 @@ import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
 import Login from './Login';
 import OtherUserProfile from './OtherUserProfile';
-
+import { Button,Card, CardContent, Typography } from '@mui/material'
 
 interface LoggedInUserProps {
   id: number;
@@ -162,11 +162,12 @@ function App(){
             </Routes> 
           </ImageListContext.Provider>
         </div> :
-        <div>
+        <Card>
           <Login />
-          or
+          <Typography variant='h5' className='dont-have-account'>Don't have an Account? Sign up Below!</Typography>
+          
           <Signup />
-        </div>
+        </Card>
         }
       </div>
               </TagListContext.Provider>

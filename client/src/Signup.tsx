@@ -3,6 +3,7 @@ import Login from './Login'
 import { LoggedInUserContext } from "./Context"
 import { storage } from './firebase'
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
+import { Button,Input, CardContent, Typography } from '@mui/material'
 
 
 function Signup() {
@@ -62,30 +63,31 @@ function Signup() {
     }
 
     return(
-        <div>
+        <CardContent>
             <form onSubmit={handleSignUp}>
             <h1>User:
-                <input onChange={(e) => setNewUser(e.target.value)}></input>
+                <Input onChange={(e) => setNewUser(e.target.value)}></Input>
             </h1>
             <h1>
                 Password:
-                <input type='password' onChange={(e) => setNewPassword(e.target.value)}></input>
+                <Input type='password' onChange={(e) => setNewPassword(e.target.value)}></Input>
             </h1>
             <h1>
                 Confirm Password:
-                <input type='password' onChange={(e) => setConfirmNewPassword(e.target.value)}></input>
+                <Input type='password' onChange={(e) => setConfirmNewPassword(e.target.value)}></Input>
             </h1>
-            <h1>
+            <h4>
                 <form>
+                    Profile Picture: 
                     <input type='file' onChange={(e) => setAvatar(e.target.files[0])}/>
                 </form>
-            </h1>
-            <button>Sign Up!</button>
+            </h4>
+            <Button type='submit'>Sign Up!</Button>
             {errorsFound ? errors.map((error:string) => {
                 return <p className="text-danger">{error}</p>
             }): null}
         </form>
-        </div>
+        </CardContent>
     )
 }
 
