@@ -331,7 +331,7 @@ function Post({post, url}:any) {
                         </Typography>
                         </div>
                         <CardContent className="liked-this">
-                            {postLikes.length > 2 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length} others liked this post`}</p> : null}
+                            {postLikes.length > 2 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length -1} others liked this post`}</p> : null}
                             {postLikes.length === 2 ? <p>{`${postLikes[postLikes.length -1].who_liked} and ${postLikes.length -1} other liked this post`}</p> : null}
                             {postLikes.length === 1 ? <p>{`${postLikes[postLikes.length -1].who_liked} liked this post`}</p> : null}
                         </CardContent>
